@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent"
+	android:padding="10dp"
+	>
+	<GridView 
+	    android:id="@+id/choose_photos_grid"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent"
+		android:numColumns="auto_fit" 
+		android:verticalSpacing="10dp"
+		android:horizontalSpacing="10dp" 
+		android:stretchMode="columnWidth" 
+		android:gravity="center"
+		/>
+	<TextView
+	    android:id="@+id/choose_photos_empty"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent"	    
+		android:text="No Photos found. Take some!"	    
+		android:visibility="gone"
+		android:textColor="#FFF"
+		android:padding="30dp"
+		android:gravity="center"
+	    />
+</FrameLayout>
