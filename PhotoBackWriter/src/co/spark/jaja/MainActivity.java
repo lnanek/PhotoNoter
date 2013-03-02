@@ -1,6 +1,7 @@
 package co.spark.jaja;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,8 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import co.spark.jajasdk.*;
+import co.spark.jajasdk.ConnectionStartedException;
+import co.spark.jajasdk.JajaControlConnection;
+import co.spark.jajasdk.JajaControlListener;
 
 
 public class MainActivity extends Activity {
@@ -38,7 +42,18 @@ public class MainActivity extends Activity {
 		final Button runButton = (Button) findViewById(R.id.run_button);
 		final Button stopButton = (Button) findViewById(R.id.stop_button);
 		final TextView tv = (TextView) findViewById(R.id.text_view);
+		
 		surface = (DrawingSurface) findViewById(R.id.drawing_surface);
+		
+		if ( null != PhotoBackWriterApp.pickedImageId ) {
+			String imagePath = MediaStoreUtil.getImageFilePath(this, PhotoBackWriterApp.pickedImageId);
+			final ImageView photo = (ImageView) findViewById(R.id.photo);
+			
+			Bitmap bitmap = ImageUtility.getBitmapFromLocalPath(imagePath, 1);
+			
+			photo.setImageBitmap(bitmap);
+		}
+		
 		Button clearButton = (Button) findViewById(R.id.clear_button);
 		
 		surface.setRadius(0);

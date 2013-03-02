@@ -104,7 +104,7 @@ public class DrawingSurface extends View {
 		if (bitmap == null) {
 
 			bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(),
-					android.graphics.Bitmap.Config.RGB_565);
+					android.graphics.Bitmap.Config.ARGB_8888);
 		}
 		synchronized (bitmap) {
 
@@ -157,8 +157,8 @@ public class DrawingSurface extends View {
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas)// метод OnDraw вызвается Андроидом
-										// тогда, когда нужно отрисовать данный
+	protected void onDraw(Canvas canvas)// пїЅпїЅпїЅпїЅпїЅ OnDraw пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+										// пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 										// View
 	{
 
@@ -172,11 +172,11 @@ public class DrawingSurface extends View {
 				synchronized (bitmap) {
 					canvas.drawBitmap(bitmap, new Matrix(), paint);
 				}
-			invalidate();// invalidate() нужен для того, чтобы оповестить
+			invalidate();// invalidate() пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 							// Android,
-							// что нужно выполнить метод OnDraw снова, без него
+							// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ OnDraw пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 							// View
-							// не будет перериcовываться.
+							// пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅcпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 		}
 	}
 

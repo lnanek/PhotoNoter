@@ -186,6 +186,8 @@ public class PickPhotoActivity extends Activity {
                 @Override
                 public void onClick(final View v) {
 
+                	PhotoBackWriterApp.pickedImageId = imageId;
+                	
                     Intent i = new Intent(PickPhotoActivity.this, MainActivity.class);
                     startActivity(i);
                 }
