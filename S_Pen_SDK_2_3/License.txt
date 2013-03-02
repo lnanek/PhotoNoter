@@ -1,0 +1,193 @@
+API LICENSE AGREEMENT 
+BETWEEN  
+Samsung Electronics Co., Ltd. ("SAMSUNG") AND You (the "Licensee")
+ 
+
+Definitions
+
+"Affiliate" shall mean any corporation or other entity that controls, is controlled by, or is under common control with a party (a corporation or other entity shall be deemed to control another if it owns or controls more than fifty percent (50%) of the voting stock or other ownership interest of the corporation or entity). 
+
+"Application" means a software program developed by Licensee for specific use with the SAMSUNG products in compliance with the Documentation and the program requirements and under Licensee¡¯s own trademark and/or brand, including, in respect of such software programs, all bug fixes, enhancements, modifications, new releases, new versions, revisions, supplements, updates and upgrades.
+
+"Authorized Users" means Licensee¡¯s employees or other authorized contractors who have written and binding agreements with Licensee to protect the unauthorized use and disclosure of SAMSUNG¡¯s and other third party Confidential Information (to the extent they will have access to such Confidential Information).
+
+"Confidential Information" has the meaning given in Clause 5.1.
+
+"Documentation" means any technical specifications and other specifications or documentation that SAMSUNG may make available or provide to Licensee relating to or for use in connection with the SDK. 
+
+"Open Source Software" means any software or software component, module or package that contains, or is derived in any manner (in whole or in part) from, any software that is distributed as free software, open source software or similar licensing or distribution models, including, without limitation, software licensed or distributed under any of the following licenses or distribution models, or licenses or distribution models similar to any of the following: (a) GNU¡¯s General Public License (GPL) or Lesser/Library GPL (LGPL); (b) the Artistic License (e.g., PERL); (c) the Mozilla Public License; (d) the Netscape Public License; (e) the Sun Community Source License (SCSL); (f) the Sun Industry Standards License (SISL); (g) the BSD License; and (h) the Apache License.
+
+"Published API(s)" means the documented Application Programming Interface(s) contained in the SDK.
+
+"SDK" means the APIs, applications, Documentation, data, files, libraries, materials, IDE (Integrated Development Environment), sample code, software (source code and object code), simulators and tools provided or made available to Licensee by SAMSUNG pursuant to this Agreement for use in connection with the development of Applications, including any Updates that SAMSUNG may provide or make available.
+
+"Term" means the term of this Agreement as specified in Clause 1.
+
+"Updates" means, in respect of the SDK or any part of the SDK, bug fixes, enhancements, modifications, new releases, new versions, supplements, updates or, upgrades.
+
+
+1. Term
+
+The term of this Agreement commences on 2011 , 2011 and continues effective until terminated by Licensee or SAMSUNG in accordance with Clause 9 ("Term").
+
+2. Grant of SDK License and Restrictions
+
+2.1 Subject to the provisions of this Agreement, SAMSUNG hereby grants Licensee a limited, non-exclusive, personal, revocable, non-sub licensable and non-transferable license during the Term to:
+
+(a) install a reasonable number of copies of the SDK on computers that Licensee own or control, for use internally by Licensee or Authorized Users solely for the purpose of developing or testing Applications; and
+
+(b) make a reasonable number of copies of the Documentation and distribute such copies to Authorized Users for use internally and solely for the purpose of developing or testing Applications. 
+
+2.2 Licensee acknowledges and agrees that SAMSUNG reserves the right to approve or reject any Application at its sole discretion. 
+
+2.3 Licensee must ensure that the SAMSUNG copyright disclaimers and other proprietary notices that appear in the SDK and Documentation are retained and reproduced in full in all copies of the SDK and Documentation that Licensee makes as permitted under this Agreement.
+
+2.4 Licensee must not sell, redistribute, rent, lease, lend or sublicense all or any part of the SDK, or enable or allow others to do such things except to the extent expressly permitted under this Agreement. Except to the extent permitted by licensing terms in respect of Open Source Software components or sample code included with the SDK, Licensee must not copy (except as expressly permitted under this Agreement), modify, adapt, redistribute, decompile, reverse engineer, disassemble, or create derivative works of the SDK or any part thereof, or enable or allow others to do such things. The foregoing restrictions apply except as prohibited by applicable law and only to the extent of such prohibition. 
+
+2.5 Licensee must not exploit the SDK in any unauthorized way, including but not limited to, by way of trespass or burdening network capacity. Any attempt to do so constitutes a violation of the rights of SAMSUNG and licensors of the SDK. 
+
+2.6 Licensee acknowledges that Licensee may be subject to prosecution and liable for damages if Licensee breaches any of the restrictions in this Agreement. 
+
+2.7 Except for the limited license granted to Licensee in this Agreement, all rights, title, and interest in and to the SDK and any Updates that are made available to Licensee under this Agreement remain, at all times, the sole and exclusive property of SAMSUNG. Licensee agrees to cooperate with SAMSUNG to maintain SAMSUNG's ownership of the SDK, and Licensee agrees to promptly provide notice of any claims or threatened claims relating to the SDK. Apart from the license rights expressly set out in this Agreement, SAMSUNG does not grant to Licensee and Licensee does not receive, whether by implication, estoppel or otherwise, any ownership right, title or interest nor any security interest or other interest in any intellectual property rights relating to the SDK, nor in any copy of any part of the foregoing, nor any other licenses, immunity or rights, express or implied. 
+
+2.8 Nothing in this Agreement grants Licensee any right to use any of SAMSUNG¡¯s trademarks, trade names, copyrights, service marks, logos, domain names, patents, trade secrets, other brand features distinctive to SAMSUNG or other intellectual property, which remain, at all times, the sole and exclusive property of SAMSUNG. 
+
+2.9 SAMSUNG may, at any time without notice, extend, enhance, or otherwise modify the SDK. If SAMSUNG makes available Updates, such Updates will be governed by this Agreement (unless a separate license is provided with the Update, in which case the terms of that license will govern the Update). Licensee acknowledge that SAMSUNG has no obligation, whether express or implied, to announce or make available any Updates . Where an Update is made available, such Update may have APIs, features, services and/or functionality that are different from those found in the SDK licensed under this Agreement.
+
+2.10 From time to time during the Term, SAMSUNG may provide Licensee with test versions of the SDK. Licensee acknowledge and agree that Licensee must not rely on such test versions to perform in the same manner as a final-release commercial-grade product and Licensee must not use such test versions with data that is not sufficiently backed up on a regular basis. 
+
+2.11 SAMSUNG has no obligation to provide any maintenance, technical or other support in respect of the SDK.
+3. Conditions and Requirements 
+
+3.1 General Conditions and Requirements
+
+Licensee acknowledges and agrees that the Applications must comply with the conditions and requirements set out below, as modified by SAMSUNG from time to time:
+
+(a) Applications must comply with Documentation provided by SAMSUNG.
+
+
+
+(b) Licensee must ensure that Applications only use Published APIs in the manner that SAMSUNG expressly prescribes by and do not use or call any unpublished or private APIs except as authorized otherwise by Samsung in advance.
+
+
+
+(c) An Application may write data on a device only to the Application's designated container area, except as otherwise specified by SAMSUNG.
+
+(d) Applications must comply with all applicable laws and regulations (including the laws and regulations of any jurisdiction in which the Applications are offered or made available) and Samsung¡¯s internal policies and regulations. In addition, in respect of any Application that uses location-based APIs or that collect, transmit, maintain, process, share, disclose or otherwise use personal information or location or other data relating to a user ("User Information Handling"), Licensee must comply, and the Application must be compliant, with all applicable privacy and data collection laws and regulations with respect to such User Information Handling. Licensee must not design or market Applications for the purpose of violating any legal rights of any person (including but not limited to privacy rights).
+
+(e) Without limiting Licensee¡¯s obligations under paragraph (f), Licensee must ensure that any Application that offers location-based services or functionality notifies and obtains consent from an individual before the individual¡¯s location data is collected, transmitted or otherwise used by the Application.
+
+(f) Applications that use location-based APIs for real-time route guidance, MUST NOT BE USED FOR ANY EMERGENCY OR LIFE SAVING PURPOSES DUE TO ITS INACCURACY and Licensee must have an end user license agreement in relation to such Applications that includes the following notice: "REAL TIME LOCATION DATA ACCESSED VIA THIS APPLICATION MAY BE INACCURATE OR INCOMPLETE. LICENSEE¡¯S USE OF THIS APPLICATION IS AT ITS SOLE RISK." 
+
+(g) Applications must not disable, override or otherwise interfere with any SAMSUNG-implemented system including, but not limited to, those that are intended to notify a user that the user's location data is being collected, transmitted, maintained, processed or used, or intended to obtain consent for such use. Applications may not provide services for which the user's consent has been denied or withdrawn.
+
+(h) Licensee must ensure that any content embodied in the Applications are wholly-owned by Licensee or that Licensee are licensed to use such content on a fully paid-up basis or are otherwise permitted to use such content in a manner that will not require the payment of any fees, royalties or other amounts by SAMSUNG to Licensee or any third party. Licensee must also ensure that the embodying of such content in any Application, does not infringe upon any proprietary or intellectual property rights of any third party. Licensee should be solely responsible for such third party contents embodied in Licensee¡¯s Application and Licensee agree and acknowledge that Samsung has no responsibility or liability relating to such third party contents.
+
+(i) Applications may be rejected if they contain content or materials of any kind (including, but not limited to, text, graphics, images, photographs, sounds, etc.) that SAMSUNG reasonably determines to be objectionable (for example, materials that may be considered obscene, pornographic or defamatory).
+
+(j) Applications must not contain any material, component or code which could damage, destroy, unduly burden or adversely affect software, firmware, hardware, data, systems, services, or networks.
+
+(k) If an Application includes any Open Source Software, Licensee must comply with all licensing terms applicable to such Open Source Software. However, Licensee shall separate the portion of the Open Source Software from the portion of the SDK in Licensee¡¯s Application and shall not cause the portion of the SDK in Licensee¡¯s Application to be subject to the licensing terms applicable to such Open Source Software.
+(l) Prior to distribution, public release or public demonstration of the Application, Licensee shall obtain prior written approval of Samsung. 
+
+
+
+4. Licensee¡¯s Responsibilities
+
+4.1 Licensee represents and warrants to SAMSUNG and agrees that:
+
+(a) Licensee has the requisite corporate authority to enter into this Agreement and perform its obligations under this Agreement, and this Agreement does not conflict with any other agreement or obligation by which it is bound; 
+(b) all information that Licensee provides to SAMSUNG is and will be accurate, current, complete and true; 
+
+(c) Licensee is and will be responsible for the Authorized Users¡¯ use of the SDK and their compliance with this Agreement; and
+
+(d) Licensee will be solely responsible for all activities Licensee and the Authorized Users undertake in connection with the SDK, the Applications and the development of Applications. 
+
+4.2 Licensee agrees that Licensee¡¯s use of the SDK subject to the following conditions:
+
+(a) Licensee will only use the SDK for the purposes and in the manner expressly permitted under this Agreement;
+
+(b) Licensee will comply with all applicable laws and regulations;
+
+(c) Licensee will not use the SDK for any unlawful or illegal activity;
+
+(d) Licensee will not develop any Application that would constitute or facilitate the commission of any crime, or any tortious, unlawful, or illegal act;
+
+(e) Licensee will develop Applications in compliance with the Documentation and all other requirements set out in this Agreement;
+
+(f) Licensee will not create or enable others to create, whether by using the SDK or otherwise, any Application or other program that would disable, hack or otherwise interfere with any authentication, content protection, digital signing, digital rights management, security or verification mechanisms implemented in or by the SDK, or other SAMSUNG software, services or technology;
+
+(g) to the best of Licensee¡¯s knowledge and belief, the Applications do not and will not violate, misappropriate, or infringe any copyright, patent, design, trademark, trade secret, privacy or publicity rights, or any proprietary, intellectual property or other legal right of SAMSUNG or any third party; and
+
+(h) Licensee agrees that Licensee is solely responsible (and that SAMSUNG has no liability or responsibility to Licensee or to any third party) for any breach of Licensee¡¯s covenants and obligations under this Agreement or any applicable laws and regulations, or for the consequences of any such breach (including any loss or damage which SAMSUNG or any third party may suffer). 
+5. Confidentiality and Press Release
+
+5.1 Licensee acknowledges and agrees that the SDK (including all test versions of the SDK) constitute "Confidential Information" for the purposes of this Agreement, unless SAMSUNG expressly indicates otherwise or makes the terms and conditions of the SDK publicly available. Notwithstanding the foregoing, Confidential Information does not include: (i) information that is generally and legitimately available to the public through no fault or breach by Licensee, (ii) information that SAMSUNG makes generally made available to the public, (iii) information that Licensee independently develops without use of any Confidential Information, (iv) information that Licensee lawfully obtains from a third party who had the right to transfer or disclose the information to Licensee without limitation, or (v) any Open Source Software included in the SDK, the licensing terms of which do not contain obligations of confidentiality.
+
+5.2 Licensee must protect Confidential Information using a degree of care that is no less than that which Licensee uses to protect Licensee¡¯s own confidential information of the same or similar importance (and in any event, no less than a reasonable degree of care). Licensee may use Confidential Information solely for the purpose of exercising Licensee¡¯s rights and performing Licensee¡¯s obligations under this Agreement and Licensee must not use Confidential Information for any other purpose, or for Licensee¡¯s own or any third party¡¯s benefit, without the prior written consent of SAMSUNG. Licensee may disclose Confidential Information to the extent required by law, provided that Licensee takes reasonable steps to notify SAMSUNG of the relevant requirement prior to disclosing the Confidential Information and Licensee takes reasonable steps to obtain protective treatment against disclosure of the Confidential Information. 
+
+5.3 Licensee must not issue any press releases or make any other public statements relating to this Agreement, its terms and conditions, or Licensee¡¯s relationship with SAMSUNG without the express prior written approval of SAMSUNG.
+
+6. DISCLAIMER OF WARRANTY
+
+SAMSUNG EXPRESSLY DISCLAIMS ANY AND ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES AND CONDITIONS OF MERCHANTIBILITY, FITNESS FOR A PARTICULAR PUPOSE AND NON-INFRINGEMENT. FURTHER, SAMSUNG DOES NOT REPRESENT OR WARRANT THAT ANY PORTION OF THE SDK IS FREE OF INACCURACIES, ERRORS, BUGS OR INTERRUPTIONS, OR IS RELIABLE, ACCURATE, COMPLETE, OR OTHERWISE VALID. THE SDK IS PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT ANY WARRANTY OF ANY KIND FROM SAMSUNG. 
+LICENSEE¡¯S USE OF THE SDK IS AT ITS OWN DISCRETION AND RISK, AND LICENSEE WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE THAT RESULTS FROM THE USE OF THE SDK INCLUDING, BUT NOT LIMITED TO, ANY DAMAGE TO LICENSEE¡¯S COMPUTER SYSTEM OR LOSS OF DATA. 
+
+7. LIMITATION OF LIABILITY
+SUBJECT TO TERMS AND CONDITIONS OF THIS AGREEEMNT AND TO THE FULLEST EXTENT ALLOWED AND PERMITTED BY APPLICABLE LAWS AND REGULATIONS, SAMSUNG SHALL NOT, UNDER ANY CIRCUMSTANCES, BE LIABLE TO LICENSEE OR ANY THIRD PARTY THROUGH LICENSEE FOR PERSONAL INJURY OR ANY CONSEQUENTIAL, EXEMPLARY, INCIDENTAL, INDIRECT, PUNITIVE OR SPECIAL DAMAGES WHATSOEVER, INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF PROFITS, LOSS OF DATA, BUSINESS INTERRUPTION OR ANY OTHER COMMERCIAL DAMAGES OR LOSSES, ARISING OUT OF OR IN RELATION TO THIS AGREEMENT, LICENSEE¡¯S USE OF THE SDK, OR LICENSEE¡¯S DEVELOPMENT OF APPLICATIONS, WHETHER BASED ON BREACH OF CONTRACT, BREACH OF WARRANTY, TORT (INCLUDING NEGLIGENCE), PRODUCT LIABILITY OR OTHERWISE, EVEN IF SAMSUNG HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES AND NOTWITHSTANDING THE FAILURE OF ESSENTIAL PURPOSE OF ANY REMEDY. LICENSEE¡¯S UNDERSTSANDING, ACKNOWLEDGEMENT AND ACCEPTANCE OF THIS AGREEMENT ARE THE LEGAL BASIS AND CONSIDERATION FOR THE LICENSES GRANTED UNDER IT.
+
+
+8. Indemnity
+8.1 To the fullest extent permitted by law, Licensee agrees to indemnify, defend and hold harmless SAMSUNG, its Affiliates, directors, officers, employees, independent contractors and agents (each an "SAMSUNG Indemnified Party") from any and all claims, losses, liabilities, damages, expenses and costs (including without limitation reasonable attorneys fees) (collectively "Losses") incurred by a SAMSUNG Indemnified Party as a result of Licensee¡¯s (or an Authorized User¡¯s) breach of this Agreement, any claims that the Applications violate or infringe any third party intellectual property or proprietary rights, or otherwise related to or arising from Licensee¡¯s (or any Authorized User¡¯s) use of the SDK, the Applications or Licensee¡¯s (or any Authorized User¡¯s) development or distribution of Applications. 
+
+8.2 Licensee acknowledges that the SDK is not intended to be used in the development of any Application where death, personal injury, or severe physical or environmental damage could result from errors or inaccuracies in the content, data or information provided by the Application or the Application failing. To the extent permitted by law, Licensee agrees to indemnify, defend and hold harmless each SAMSUNG Indemnified Party from any Losses incurred by such SAMSUNG Indemnified Party as a result of Licensee¡¯s use of the SDK in the development of any such Applications. 
+
+8.3 Licensee must not enter into a settlement or like agreement with any third party that affects SAMSUNG's rights or binds SAMSUNG in any way related to or arising from Licensee¡¯s (or any Authorized User¡¯s) use of the SDK without the prior written consent of SAMSUNG.
+
+9. Termination
+
+9.1 Right to Terminate. 
+
+This Agreement and all rights granted by SAMSUNG hereunder will automatically terminate without notice: 
+(a) by Licensee if Licensee ceases use of the SDK; 
+
+(b) by SAMSUNG: (i) if Licensee has breached any terms of this Agreement; or (ii) if SAMSUNG is required by law to terminate this Agreement or the rights granted by SAMSUNG; 
+
+(c) by either party for any reason or no reason upon thirty (30) days prior written notice to the other party. 
+
+SAMSUNG will have no liability to pay compensation or damages, or to provide an indemnity, of any kind as a result of terminating this Agreement in accordance with its terms, and termination of this Agreement is without prejudice to any other right or remedy that SAMSUNG may have, now or at any time in the future.
+9.2 Consequences of Termination
+
+Upon the termination of this Agreement: (a) all rights granted in this Agreement will terminate; (b) Licensee shall promptly stop using the SDK and return the SDK to SAMSUNG or destroy all electronic copies of the SDK and, at SAMSUNG¡¯s request, provide written certification of such destruction to SAMSUNG. The provisions of Clauses 1, 2.4, 2.5, 2.6, 2.7, 2.8, 3, 4, 5, 6, 7, 8, 9 and 10 will survive the expiration or termination of this Agreement.
+
+10. General 
+
+10.1 Assignment. 
+Licensee may not assign the Agreement, in whole or in part, without SAMSUNG¡¯s prior written consent, and any attempt to do so without such consent shall be void. SAMSUNG may assign this Agreement without Assignee¡¯s consent. This Agreement shall be binding upon and shall inure to the benefit of the parties hereto and their respective successors and permitted assigns.
+10.2 Relationship of Between Licensee and SAMSUNG. 
+This Agreement will not be construed as creating an agency, partnership, joint venture, fiduciary duty, or any other form of legal relationship between Licensee and SAMSUNG, and Licensee must not represent the existence of any such relationship, whether expressly, by implication or otherwise. 
+10.3 Third Party Rights
+This Agreement is not for the benefit of any third parties.
+10.4 Development by SAMSUNG. 
+Nothing in this Agreement limits or otherwise affects SAMSUNG's right to acquire, develop, license, market, promote, or distribute any product or technology that performs the same or similar functions as the Applications or any other products or technologies that Licensee develops, markets, promotes or distributes, or that otherwise competes with the Applications or such products or technologies.
+10.5 Notices. 
+Any notices or other communication made pursuant to this Agreement must be in writing and will be deemed to have been fully given or made when: (a) personally delivered; or (b) three (3) days after being mailed via commercially reputable overnight delivery service, to the following address: 
+
+SAMSUNG:
+Media Solution Center
+416 Maetan-3dong, Yeongtong-gu, 
+Suwon-si, Gyeonggi-do, 443-742 Korea
+
+Licensee agrees to receive notices and other communications to be made to Licensee pursuant to this Agreement by email and Licensee agrees that any notices that SAMSUNG sends Licensee by email will satisfy any legal communication requirements. 
+
+A party may change its email or mailing address by giving the other party written notice in accordance with this Clause.
+10.6 No Waiver. 
+Failure by SAMSUNG to insist upon strict performance of any of the provisions contained in this Agreement shall in no way constitute a waiver of SAMSUNG¡¯s rights as set forth in this Agreement, at law or in equity, or a waiver of any other provisions or the right to take action in respect of a subsequent default by Licensee in the performance or compliance with any of the terms and conditions set forth in this Agreement. 
+10.7 Remedies.
+Licensee acknowledges that any disclosure, use or misappropriation of Confidential Information of SAMSUNG in violation of this Agreement would cause SAMSUNG irreparable harm for which there may be no adequate remedy at law. Accordingly, Licensee agrees that SAMSUNG shall have the right to apply to any court of competent jurisdiction for injunctive relief and specific performance, without prejudice to any remedies otherwise available to SAMSUNG at law or in equity.
+10.8 Governing Law; Venue. 
+This Agreement shall be governed by and construed in accordance with the laws of the Republic of Korea, without regard to any conflict-of-laws rules. Except the right to seek injunctive relief in any relevant jurisdiction, Licensee and SAMSUNG agree to submit to the exclusive jurisdiction of Seoul Central District Court located in Seoul, Korea to resolve any disputes, controversies or claims between the parties arising out of or in connection with this Agreement (including its existence, validity or termination). 
+10.10 Entire Agreement. 
+This Agreement contains the entire agreement between the parties with respect to the use of the SDK licensed hereunder and supersedes all existing agreements and all other oral, written or other communications between the parties concerning this subject matter. If any provision of this Agreement (or any portion thereof) is invalid, illegal or unenforceable, the validity, legality and enforceability of the remainder of this Agreement shall not be affected or impaired. 
+
+
