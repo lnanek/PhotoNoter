@@ -18,8 +18,8 @@
     	android:gravity="center"
 		android:layout_gravity="center"
 		android:addStatesFromChildren="true"
-	        android:layout_below="@+id/text_view"
-	        android:layout_above="@+id/buttons_panel" 
+	    android:layout_below="@+id/text_view"
+	    android:layout_above="@+id/buttons_panel" 
 		>     
 
 	    <FrameLayout

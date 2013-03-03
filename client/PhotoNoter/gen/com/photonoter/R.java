@@ -22,6 +22,7 @@ public final class R {
         public static final int rgb32=0x7f020008;
         public static final int transparentback=0x7f020009;
         public static final int transparentbackrepeat=0x7f02000a;
+        public static final int white_rounded_and_shadow=0x7f02000b;
     }
     public static final class id {
         public static final int buttons_panel=0x7f050018;

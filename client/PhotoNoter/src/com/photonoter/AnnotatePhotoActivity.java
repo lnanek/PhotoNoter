@@ -358,15 +358,20 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 		
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("side", "back");
+		
+		final String backPath = BitmapUtil.getBackImagePath(this);
+		final File backFile = new File(backPath);
+		if ( !backFile.exists() ) {
+			finish();
+			return;
+		}
 
 		new ImageUpload(AnnotatePhotoActivity.this, new OnImageUploadListener() {
-
 			@Override
 			public void onImageUploaded(Uri uploadLocation) {
 				finish();
 			}
-			
-		}, new File(BitmapUtil.getBackImagePath(this)), params).execute();
+		}, backFile, params).execute();
 		
 	}
 }
