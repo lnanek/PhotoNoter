@@ -186,6 +186,9 @@ public class PickPhotoActivity extends Activity {
 
             final boolean hasNotes = BitmapUtil.hasNotes(PickPhotoActivity.this, imageId);
             
+            final View icon = layout.findViewById(R.id.choose_photos_item_icon);
+            icon.setVisibility(hasNotes? View.VISIBLE : View.GONE);
+            
             final View frame = layout.findViewById(R.id.choose_photos_item_frame);
             if ( hasNotes ) {
             	frame.setBackgroundResource( R.drawable.white_rounded_and_shadow );
