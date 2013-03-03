@@ -10,7 +10,9 @@
 <div id="photo_box" class="well">
     <img class="float-left" src="{{url_for('photos.get_photo',photo_id=photo_id)}}"/>
     <hr>
+    {% if back_id %}
     <img class="float-left" src="{{url_for('photos.get_photo',photo_id=back_id)}}"/>
+    {% endif %}
     <div id="photo_details" class="pull-right">
 
         </div>
