@@ -59,12 +59,39 @@ def upload_form_photos():
                 fs = gridfs.GridFS(mongo.db)
                 thumb_io = StringIO()
                 pil_im = Image.open(f)
+
+                #GPS data seems to be structured like:
+                #'GPSInfo': {1: 'N', 2: ((37, 1), (46, 1), (22, 1)), 3: 'W', 4: ((122, 1), (24, 1), (7, 1)), 7: ((21, 1), (53, 1), (7, 1))
+                #Lat, lon,altitude
                 exif_details = pil_im._getexif()
                 exif_tags={}
                 for tag,value in exif_details.items():
                     decoded = TAGS.get(tag, tag)
                     exif_tags[decoded] = value
-                current_app.logger.error(exif_tags)
+                coordinates = exif_tags['GPSInfo']
+                latitude = coordinates.get(2,None)
+                longitude = coordinates.get(4,None)
+                if(latitude and longitude):
+                    latsign = coordinates.get(1,None)
+                    lonsign = coordinates.get(3,None) 
+                    if latsign=='N':
+                        latsign=1
+                    else:
+                        latsign=-1
+                    if lonsign=='W':
+                        lonsign=-1
+                    else:
+                        lonsign=1
+                    latitude = latsign*(float(latitude[0][0])+float(latitude[1][0])/60.+float(latitude[2][0])/3600)
+                    longitude = lonsign*(float(longitude[0][0])+float(longitude[1][0])/60.+float(longitude[2][0])/3600)
+                    current_app.logger.error("latitude")
+                    current_app.logger.error(latitude)
+                    current_app.logger.error(longitude)
+                    
+
+                current_app.logger.error("GPS info")
+                current_app.logger.error(exif_tags['GPSInfo'])
+
                 #use PIL to detect image type prior to saving since content-type header could be manipulated
                 #FIXME: use Flask-Uploads to handle format detection/validation
                 image_type = 'image/'+pil_im.format
@@ -81,19 +108,13 @@ def upload_form_photos():
                 tmpio =StringIO()
                 tmp.save(tmpio,format='JPEG')
 
-                fid = fs.put(tmpio.getvalue(),filename=f.filename,content_type=image_type,thumbnail_id=thumb_id)
+                fid = fs.put(tmpio.getvalue(),filename=f.filename,content_type=image_type,thumbnail_id=thumb_id,lat=latitude,lon=longitude)
 
                 current_app.logger.error("pushed image to mongo ")
                 current_app.logger.error(fid)
                 current_app.logger.error(fs.exists(fid))
-                #sleep(2)
         current_app.logger.error(filename_values)
-        #fetched['imagenames'] = filename_values
-        #if profiles_fetch:
-        #    profiles.save(fetched)
-        #elif professional_fetched:
-        #    pros.save(fetched)
-    return redirect(url_for("photos.upload_form_photos"))
+    return redirect(url_for("photos.list_photos"))
 
 @blueprint.route('/photos/uploadfp',methods=['GET','POST'])
 #@login_required
@@ -170,7 +191,7 @@ def describe_photo(photo_id):
         the_file = mongo.db.fs.files.find_one({'_id':ObjectId(photo_id)})
         current_app.logger.error(the_file.get('uploadDate'))
         current_app.logger.error(type(the_file))
-        details = {'uploadDate':str(the_file.get('uploadDate')),'contentType':the_file.get('contentType')}
+        details = {'uploadDate':str(the_file.get('uploadDate')),'contentType':the_file.get('contentType'),'latitude':the_file.get('lat'),'longitude':the_file.get('lon')}
         return jsonify(details)
     except NoFile:
         abort(404)

@@ -23,7 +23,7 @@
                     dataType:'json',
                     success: function(results) {
                         console.log(results);
-                        $('#photo_details').html("Uploaded on "+results['uploadDate']);
+                        $('#photo_details').html("Uploaded on "+results['uploadDate']+ " from " +results['latitude']+","+results['longitude']);
                     }
 
                      });
