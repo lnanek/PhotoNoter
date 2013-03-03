@@ -38,10 +38,14 @@ public class PickPhotoActivity extends Activity {
     private Handler mBackgroundHandler;
 
     private OnThumbnailLoadedHandler mUiHandler;
+    
+    private PhotoBackWriterApp app;
 
     @Override
     public void onCreate(final Bundle aSavedInstanceState) {
         super.onCreate(aSavedInstanceState);
+        
+        app = PhotoBackWriterApp.getApp(this);
         
         setContentView(R.layout.choose_photos);
 
