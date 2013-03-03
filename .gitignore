@@ -1,3 +1,8 @@
 bin
 gen
 *.class
+*.pyc
+*.swp
+*.swo
+*credentials.py
+debug.py
