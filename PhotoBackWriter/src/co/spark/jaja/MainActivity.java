@@ -1,8 +1,5 @@
 package co.spark.jaja;
 
-import com.samsung.spen.lib.input.SPenEvent;
-import com.samsung.spen.lib.input.SPenLibrary;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -17,6 +14,8 @@ import android.widget.TextView;
 import co.spark.jajasdk.ConnectionStartedException;
 import co.spark.jajasdk.JajaControlConnection;
 import co.spark.jajasdk.JajaControlListener;
+import de.devmil.common.ui.color.ColorSelectorDialog;
+import de.devmil.common.ui.color.ColorSelectorDialog.OnColorChangedListener;
 
 
 public class MainActivity extends Activity {
@@ -38,6 +37,13 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+	OnColorChangedListener colorListener = new OnColorChangedListener() {
+		@Override
+		public void colorChanged(int color) {
+			surface.setColor(color);
+		}
+	};
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,8 +51,17 @@ public class MainActivity extends Activity {
 		final Button runButton = (Button) findViewById(R.id.run_button);
 		final Button stopButton = (Button) findViewById(R.id.stop_button);
 		final TextView tv = (TextView) findViewById(R.id.text_view);
-		
+
 		surface = (DrawingSurface) findViewById(R.id.drawing_surface);
+		
+		final Button colors = (Button) findViewById(R.id.color_button);
+		colors.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new ColorSelectorDialog(MainActivity.this, colorListener, surface.getColor()).show();
+			}
+		});
+		
 		
 		if ( null != PhotoBackWriterApp.pickedImageId ) {
 			String imagePath = MediaStoreUtil.getImageFilePath(this, PhotoBackWriterApp.pickedImageId);

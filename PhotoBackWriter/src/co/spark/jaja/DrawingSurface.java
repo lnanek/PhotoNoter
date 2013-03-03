@@ -64,6 +64,14 @@ public class DrawingSurface extends View {
 		paint.setStyle(Style.FILL);
 		paint.setAntiAlias(true);
 	}
+	
+	public int getColor() {
+		return paint.getColor();
+	}
+	
+	public void setColor(final int aColor) {
+		paint.setColor(aColor);
+	}
 
 	private Bitmap bitmap;
 
