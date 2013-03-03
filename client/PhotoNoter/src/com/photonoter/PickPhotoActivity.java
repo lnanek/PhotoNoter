@@ -1,9 +1,5 @@
 package com.photonoter;
 
-import com.photonoter.imaging.BackgroundThumbnailLoader;
-import com.photonoter.imaging.BitmapUtil;
-import com.photonoter.imaging.OnThumbnailLoadedHandler;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,14 +10,21 @@ import android.os.Handler;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.photonoter.imaging.BackgroundThumbnailLoader;
+import com.photonoter.imaging.BitmapUtil;
+import com.photonoter.imaging.OnThumbnailLoadedHandler;
 
 public class PickPhotoActivity extends Activity {
 
@@ -204,9 +207,11 @@ public class PickPhotoActivity extends Activity {
             	frame.setBackgroundDrawable(null);
             }
             
-            image.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(final View v) {
+            layout.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+            	Log.i(LOG_TAG, "onClick");
+                	
 	                if (!leaving) {
 	                	PhotoBackWriterApp.pickedImageId = imageId;
 	                	
@@ -214,8 +219,10 @@ public class PickPhotoActivity extends Activity {
 	                    startActivity(i);
                 	}
                     leaving = true;
-                }
-            });
+                    
+                    return true;
+				}
+			});
 
             image.setImageResource(R.drawable.ic_launcher);
             mBackgroundHandler.sendMessage(mBackgroundHandler.obtainMessage(0, imageId, 0,
