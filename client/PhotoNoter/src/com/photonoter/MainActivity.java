@@ -1,10 +1,18 @@
 package com.photonoter;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -18,6 +26,7 @@ import co.spark.jajasdk.ConnectionStartedException;
 import co.spark.jajasdk.JajaControlConnection;
 import co.spark.jajasdk.JajaControlListener;
 
+import com.photonoter.ImageUpload.OnImageUploadListener;
 import com.tekle.oss.android.animation.AnimationFactory;
 import com.tekle.oss.android.animation.AnimationFactory.FlipDirection;
 
@@ -25,9 +34,11 @@ import de.devmil.common.ui.color.ColorSelectorDialog;
 import de.devmil.common.ui.color.ColorSelectorDialog.OnColorChangedListener;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnImageUploadListener {
 	
 	private static final String LOG_TAG = "MainActivity";
+			
+	private static final String FILE_URI_PREFIX = "file://"; //$NON-NLS-1$
 
 	private JajaControlConnection conn;
 
@@ -40,6 +51,10 @@ public class MainActivity extends Activity {
 	private String imagePath;
 	
 	private ImageView photo;
+	
+	private ViewAnimator viewAnimator;
+	
+	private View frontView;
 	
 	private void sendUpdate() {
 		handler.sendMessage(new Message());
@@ -61,9 +76,18 @@ public class MainActivity extends Activity {
 		}
 	};
 	
+	private String getCombinedImagePath() {
+		File ext = Environment.getExternalStorageDirectory();
+		if (!ext.exists()) {
+			return null;
+		}
+		return ext.getPath() 
+				+ "/" + PhotoBackWriterApp.pickedImageId + ".jpg";
+	}
+	
 	private String getFrontImagePath() {
 		return getFilesDir().getPath() 
-				+ PhotoBackWriterApp.pickedImageId + "-front.jpg";
+				+ PhotoBackWriterApp.pickedImageId + "-front.png";
 	}
 	
 	private String getBackImagePath() {
@@ -78,19 +102,44 @@ public class MainActivity extends Activity {
 		final Button runButton = (Button) findViewById(R.id.run_button);
 		final Button stopButton = (Button) findViewById(R.id.stop_button);
 		final TextView tv = (TextView) findViewById(R.id.text_view);
+		
+		frontView = (View) findViewById(R.id.frontView);
 
 		surface = (DrawingSurface) findViewById(R.id.drawing_surface);
 		surface2 = (DrawingSurface) findViewById(R.id.drawing_surface2);
+
+		final Button shareButton = (Button) findViewById(R.id.share_button);
+		shareButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				final Intent intent = createShareIntent();
+				startActivity(intent);
+			}
+		});
 		
 		final Button saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
-				BitmapUtil.saveBitmap(surface.getBitmap(), getFrontImagePath());
-				BitmapUtil.saveBitmap(surface2.getBitmap(), getBackImagePath());
+				BitmapUtil.savePing(surface.getBitmap(), getFrontImagePath());
+				BitmapUtil.saveJpeg(surface2.getBitmap(), getBackImagePath());
 				
-				finish();
+				final Bitmap frontAnnotated = drawToBitmap();				
+				BitmapUtil.saveJpeg(frontAnnotated, getCombinedImagePath());
+				
+				BitmapUtil.copyExif(imagePath, getCombinedImagePath(), 
+						frontAnnotated.getWidth(), frontAnnotated.getHeight());
+				frontAnnotated.recycle();
+				
+				File combinedImage = new File(getCombinedImagePath());
+				
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("side", "front");
+				new ImageUpload(MainActivity.this, MainActivity.this, combinedImage, params).execute();
+				
+				//finish();
 			}
 		});
 		
@@ -102,7 +151,7 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-        final ViewAnimator viewAnimator = (ViewAnimator)this.findViewById(R.id.viewFlipper);
+        viewAnimator = (ViewAnimator)this.findViewById(R.id.viewFlipper);
         final Button flipButton = (Button) findViewById(R.id.flip_button);
         /**
          * Bind a click listener to initiate the flip transitions
@@ -255,5 +304,82 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+    private Intent createShareIntent() {
+    	
+		final Intent share = new Intent(Intent.ACTION_SEND);
+
+		final String screenshot = saveImage();
+		
+		if ( null != screenshot ) {
+				share.setType("image/jpeg");
+		        //share.setType("image/*");
+				share.putExtra(Intent.EXTRA_STREAM,Uri.parse(FILE_URI_PREFIX + screenshot));
+				share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); 
+		} else {
+			share.setType("text/plain");			
+		}
+    					
+		final String shareText = "My Notes";
+		
+		share.putExtra(Intent.EXTRA_TEXT, shareText); 
+		share.putExtra("sms_body", shareText);   
+		share.putExtra(Intent.EXTRA_TITLE, shareText);
+		share.putExtra(Intent.EXTRA_SUBJECT, shareText);
+
+        share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        return share;
+    }
 	
+    public String saveImage() {
+    	Bitmap bitmap = drawToBitmap();
+    	
+    	try {
+
+			BitmapUtil.saveJpeg(bitmap, getCombinedImagePath());
+	        
+	        return getCombinedImagePath();
+	        
+    	} catch (final Exception e) {
+        	Log.e(LOG_TAG, "Error saving image.", e); //$NON-NLS-1$
+        } finally {
+            if ( null != bitmap ) {
+               	bitmap.recycle();
+            }
+        }
+    	
+    	return null;
+    }
+    
+    public Bitmap drawToBitmap() {
+    	
+    	final Bitmap bitmap = Bitmap.createBitmap(
+    			frontView.getWidth(), 
+    			frontView.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        		        
+        frontView.draw(canvas);
+        return bitmap;
+    }
+
+	@Override
+	public void onImageUploaded(Uri uploadLocation) {
+
+		
+		BitmapUtil.copyExif(imagePath, getBackImagePath(), null, null);
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("side", "back");
+
+		new ImageUpload(MainActivity.this, new OnImageUploadListener() {
+
+			@Override
+			public void onImageUploaded(Uri uploadLocation) {
+				finish();
+			}
+			
+		}, new File(getBackImagePath()), params).execute();
+		
+	}
 }
