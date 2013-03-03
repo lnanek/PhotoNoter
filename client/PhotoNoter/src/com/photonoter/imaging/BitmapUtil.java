@@ -178,6 +178,11 @@ public class BitmapUtil {
 	public static String getBackImagePath(final Context aContext) {
 		return getBackImagePath(aContext, PhotoBackWriterApp.pickedImageId);
 	}
+	
+	public static String getBackPingPath(final Context aContext) {
+		return aContext.getFilesDir().getPath() 
+				+ PhotoBackWriterApp.pickedImageId + "-back.png";
+	}
 
 	public static String getCombinedImagePath(final Context aContext, final int aImageId) {
 		File ext = Environment.getExternalStorageDirectory();
@@ -191,6 +196,11 @@ public class BitmapUtil {
 	public static String getFrontImagePath(final Context aContext, final int aImageId) {
 		return aContext.getFilesDir().getPath() 
 				+ aImageId + "-front.png";
+	}
+	
+	public static String getBackPingPath(final Context aContext, final int aImageId) {
+		return aContext.getFilesDir().getPath() 
+				+ aImageId + "-back.png";
 	}
 	
 	public static String getBackImagePath(final Context aContext, final int aImageId) {

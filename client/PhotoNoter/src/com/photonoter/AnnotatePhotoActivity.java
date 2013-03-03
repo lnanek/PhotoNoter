@@ -109,6 +109,8 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 			public void onClick(View v) {
 				
 				BitmapUtil.savePing(surface.getBitmap(), BitmapUtil.getFrontImagePath(AnnotatePhotoActivity.this));
+				BitmapUtil.savePing(surface2.getBitmap(), BitmapUtil.getBackPingPath(AnnotatePhotoActivity.this));
+
 				BitmapUtil.saveJpeg(surface2.getBitmap(), BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this));
 				
 				final Bitmap frontAnnotated = drawToBitmap();		
@@ -166,7 +168,7 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 			surface.setBitmap(front);
 			
 			// Load writing on the back of the image.
-			final String backPath = BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this);
+			final String backPath = BitmapUtil.getBackPingPath(AnnotatePhotoActivity.this);
 			final Bitmap back = ImageUtility.getBitmapFromLocalPath(backPath, 1);
 			surface2.setBitmap(back);
 			
