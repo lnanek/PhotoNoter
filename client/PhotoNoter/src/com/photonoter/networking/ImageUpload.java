@@ -43,7 +43,7 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 
 	private static final Uri SERVER_URL = Uri.parse("http://measrme.com/photos/upload");
 
-	private final File mFile;
+	private final File[] mFile;
 
 	private final Context mContext;
 
@@ -56,7 +56,7 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 	private Map<String, String> mParams;
 	
 	public ImageUpload(final Context aContext, 
-			final OnImageUploadListener aListener, final File aFile, final Map<String, String> aParams) {
+			final OnImageUploadListener aListener, final File[] aFile, final Map<String, String> aParams) {
 		mListener = aListener;
 		mFile = aFile;
 		mContext = aContext;
@@ -77,12 +77,13 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 		});
 		mProgressDialog.show();
 	}
-
-	private ContentBody getUploadImageBytes() throws IOException {
-
-		FileBody bin = new FileBody(mFile);
-		return bin;
-
+	
+	private void addFileParts(SentCountingMultiPartEntity multipartContent) {
+		
+		for(File aFile : mFile) {
+			FileBody bin = new FileBody(aFile);
+			multipartContent.addPart(FILE_FORM_FIELD_NAME, bin);
+		}
 	}
 	
 	public static String encode(String input) {
@@ -104,14 +105,16 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 		final AndroidHttpClient httpClient = AndroidHttpClient.newInstance(USER_AGENT, mContext);
 
 		String url = SERVER_URL.toString();
-		boolean first = true;
-		for(Map.Entry<String, String> param : mParams.entrySet()) {
-			url += first ? "?" : "&";
-			url += param.getKey();
-			url += "=";
-			url += param.getValue();
-			
-			first = false;
+		if ( null != mParams ) {
+			boolean first = true;
+			for(Map.Entry<String, String> param : mParams.entrySet()) {
+				url += first ? "?" : "&";
+				url += param.getKey();
+				url += "=";
+				url += param.getValue();
+				
+				first = false;
+			}
 		}
 		
 		Log.i(LOG_TAG, "using url = " + url);
@@ -126,11 +129,13 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 				}
 			});
 
-			for(Map.Entry<String, String> param : mParams.entrySet()) {
-				multipartContent.addPart(param.getKey(), new StringBody(param.getValue()));
+			if ( null != mParams ) {
+				for(Map.Entry<String, String> param : mParams.entrySet()) {
+					multipartContent.addPart(param.getKey(), new StringBody(param.getValue()));
+				}
 			}
 			
-			multipartContent.addPart(FILE_FORM_FIELD_NAME, getUploadImageBytes());
+			addFileParts(multipartContent);
 
 			mTotalSize = multipartContent.getContentLength();
 
@@ -153,21 +158,6 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 			httpClient.close();
 		}
 	}
-	
-	/*
-	public void getInputStream(AndroidHttpClient client, HttpUriRequest request) {
-		
-	    InputStream in = null;
-	    try {
-	        HttpResponse response = client.execute(request);
-	        new ByteArrayInputStream(EntityUtils.toByteArray(response.getEntity()));
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    } finally {
-	        client.close();
-	    }
-	}	
-	*/
 
 	@Override
 	protected void onProgressUpdate(final Integer... aProgressAmounts) {

@@ -120,11 +120,16 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 				
 				File combinedImage = new File(BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this));
 				
-				Map<String, String> params = new HashMap<String, String>();
-				params.put("side", "front");
-				new ImageUpload(AnnotatePhotoActivity.this, AnnotatePhotoActivity.this, combinedImage, params).execute();
+				File backFile = getBackUploadFile();
 				
-				//finish();
+				if ( null == backFile ) {
+					new ImageUpload(AnnotatePhotoActivity.this, AnnotatePhotoActivity.this, 
+							new File[] {combinedImage}, null).execute();
+				} else {
+					new ImageUpload(AnnotatePhotoActivity.this, AnnotatePhotoActivity.this, 
+							new File[] {combinedImage, backFile}, null).execute();
+					
+				}
 			}
 		});
 		
@@ -350,29 +355,24 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
         frontView.draw(canvas);
         return bitmap;
     }
-
-	@Override
-	public void onImageUploaded(Uri uploadLocation) {
-
-		
+    
+    private File getBackUploadFile() {
 		BitmapUtil.copyExif(imagePath, BitmapUtil.getBackImagePath(this), null, null);
-		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("side", "back");
 		
 		final String backPath = BitmapUtil.getBackImagePath(this);
 		final File backFile = new File(backPath);
 		if ( !backFile.exists() ) {
-			finish();
-			return;
-		}
+			return null;
+		}    	
+		
+		return backFile;
+    }
 
-		new ImageUpload(AnnotatePhotoActivity.this, new OnImageUploadListener() {
-			@Override
-			public void onImageUploaded(Uri uploadLocation) {
-				finish();
-			}
-		}, backFile, params).execute();
+	@Override
+	public void onImageUploaded(Uri uploadLocation) {
+
+		finish();
+
 		
 	}
 }
