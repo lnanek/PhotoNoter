@@ -14,4 +14,4 @@ blueprint = Blueprint('general',__name__,template_folder='templates')
 
 @blueprint.route('/',methods=['GET'])
 def welcome():
-    return "Hi there"
+    return render_template('welcome.html')

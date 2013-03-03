@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{%block title %}Home{% endblock %}
+{%block header_block %}
+ {%endblock%}
+ 
+{%block top_right_menu %}
+ <ul class="nav pull-right">
+     <li id="login_link"><a href="/login/">Login</a></li>
+     <li id="signup_link"><a href="/signup/">Signup</a></li>
+ </ul>
+{% endblock %}
+
+{%block content %}
+<h1>Remember moments in your life with natural handwritten notes</h1>
+<div class="row-fluid">
+<ul class="thumbnails">
+  <li class="span6">
+  <div class="thumbnail">
+    <a href="#" class="thumbnail">
+      <img src="http://placehold.it/300x200" alt="A youtube video">
+    </a>
+    <h3>Handwritten postcards</h3>
+    <p>Share your postcards </p>
+    </div>
+  </li>
+  <li class="span6">
+  <div class="thumbnail">
+    <a href="#" class="thumbnail">
+      <img src="http://placehold.it/300x200" alt="A youtube video">
+    </a>
+    <h3>Do some other stuff</h3>
+    <p>Blah blah ipsum lorem</p>
+    </div>
+  </li>
+</ul><!--/thumbnails-->
+</div><!--/row-fluid-->
+{% endblock %}
+
+{%block jquery_block %}
+     <script type="text/javascript">
+         $(document).ready(function(){
+
+                 });
+             </script>
+{%endblock%}
