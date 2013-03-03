@@ -1,10 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    
-    <string name="app_name">JaJa Sample appication</string>
-    <string name="initial_label_text">Pressure: ---\nFirst button:false\nSecond button:false</string>
-    <string name="run">Run</string>
-    <string name="stop">Stop</string>
-    <string name="clear">Clear</string>
-
-</resources>
