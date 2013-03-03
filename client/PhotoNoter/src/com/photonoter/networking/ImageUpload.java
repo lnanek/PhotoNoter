@@ -11,6 +11,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.util.EntityUtils;
 
 import android.app.AlertDialog;
@@ -122,6 +123,10 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 				}
 			});
 
+			for(Map.Entry<String, String> param : mParams.entrySet()) {
+				multipartContent.addPart(param.getKey(), new StringBody(param.getValue()));
+			}
+			
 			multipartContent.addPart(FILE_FORM_FIELD_NAME, getUploadImageBytes());
 
 			mTotalSize = multipartContent.getContentLength();

@@ -25,42 +25,42 @@ public final class R {
         public static final int white_rounded_and_shadow=0x7f02000b;
     }
     public static final class id {
-        public static final int buttons_panel=0x7f050018;
-        public static final int choose_photos_empty=0x7f050001;
-        public static final int choose_photos_grid=0x7f050000;
-        public static final int choose_photos_item_pen_icon=0x7f050003;
-        public static final int choose_photos_item_thumbnail=0x7f050002;
-        public static final int clear_button=0x7f05001f;
-        public static final int color_button=0x7f050020;
-        public static final int color_hex_btnSave=0x7f050006;
-        public static final int color_hex_edit=0x7f050005;
-        public static final int color_hex_txtError=0x7f050007;
-        public static final int color_hsv_alpha=0x7f050008;
-        public static final int color_hsv_hue=0x7f05000a;
-        public static final int color_hsv_value=0x7f050009;
-        public static final int color_rgb_imgpreview=0x7f05000b;
-        public static final int color_rgb_seekAlpha=0x7f050013;
-        public static final int color_rgb_seekBlue=0x7f050011;
-        public static final int color_rgb_seekGreen=0x7f05000f;
-        public static final int color_rgb_seekRed=0x7f05000d;
-        public static final int color_rgb_tvAlpha=0x7f050012;
-        public static final int color_rgb_tvBlue=0x7f050010;
-        public static final int color_rgb_tvGreen=0x7f05000e;
-        public static final int color_rgb_tvRed=0x7f05000c;
-        public static final int colorview_tabColors=0x7f050004;
-        public static final int drawing_surface=0x7f05001b;
-        public static final int drawing_surface2=0x7f05001c;
-        public static final int flip_button=0x7f050021;
-        public static final int frontView=0x7f050019;
-        public static final int imgColorView=0x7f050015;
-        public static final int llColorView=0x7f050014;
-        public static final int photo=0x7f05001a;
-        public static final int run_button=0x7f05001d;
-        public static final int save_button=0x7f050023;
-        public static final int share_button=0x7f050022;
-        public static final int stop_button=0x7f05001e;
-        public static final int text_view=0x7f050016;
-        public static final int viewFlipper=0x7f050017;
+        public static final int buttons_panel=0x7f060018;
+        public static final int choose_photos_empty=0x7f060001;
+        public static final int choose_photos_grid=0x7f060000;
+        public static final int choose_photos_item_pen_icon=0x7f060003;
+        public static final int choose_photos_item_thumbnail=0x7f060002;
+        public static final int clear_button=0x7f06001f;
+        public static final int color_button=0x7f060020;
+        public static final int color_hex_btnSave=0x7f060006;
+        public static final int color_hex_edit=0x7f060005;
+        public static final int color_hex_txtError=0x7f060007;
+        public static final int color_hsv_alpha=0x7f060008;
+        public static final int color_hsv_hue=0x7f06000a;
+        public static final int color_hsv_value=0x7f060009;
+        public static final int color_rgb_imgpreview=0x7f06000b;
+        public static final int color_rgb_seekAlpha=0x7f060013;
+        public static final int color_rgb_seekBlue=0x7f060011;
+        public static final int color_rgb_seekGreen=0x7f06000f;
+        public static final int color_rgb_seekRed=0x7f06000d;
+        public static final int color_rgb_tvAlpha=0x7f060012;
+        public static final int color_rgb_tvBlue=0x7f060010;
+        public static final int color_rgb_tvGreen=0x7f06000e;
+        public static final int color_rgb_tvRed=0x7f06000c;
+        public static final int colorview_tabColors=0x7f060004;
+        public static final int drawing_surface=0x7f06001b;
+        public static final int drawing_surface2=0x7f06001c;
+        public static final int flip_button=0x7f060021;
+        public static final int frontView=0x7f060019;
+        public static final int imgColorView=0x7f060015;
+        public static final int llColorView=0x7f060014;
+        public static final int photo=0x7f06001a;
+        public static final int run_button=0x7f06001d;
+        public static final int save_button=0x7f060023;
+        public static final int share_button=0x7f060022;
+        public static final int stop_button=0x7f06001e;
+        public static final int text_view=0x7f060016;
+        public static final int viewFlipper=0x7f060017;
     }
     public static final class layout {
         public static final int choose_photos=0x7f030000;
@@ -83,5 +83,11 @@ public final class R {
         public static final int prefOK=0x7f040005;
         public static final int run=0x7f040007;
         public static final int stop=0x7f040008;
+    }
+    public static final class style {
+        /**  Any customizations for your app running on devices with Theme.Holo here 
+ Any customizations for your app running on pre-3.0 devices here 
+         */
+        public static final int MyTheme=0x7f050000;
     }
 }

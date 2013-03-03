@@ -51,8 +51,6 @@ public class PickPhotoActivity extends Activity {
         
         Toast.makeText(this, instructions, Toast.LENGTH_LONG).show();
 
-        setTitle("");
-
         mImageGrid = (GridView)findViewById(R.id.choose_photos_grid);
         mUiHandler = new OnThumbnailLoadedHandler();
         mBackgroundHandler = new BackgroundThumbnailLoader(getApplicationContext(), mUiHandler);
