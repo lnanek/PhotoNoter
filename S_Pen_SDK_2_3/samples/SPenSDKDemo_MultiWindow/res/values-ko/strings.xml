@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+<!--Settings -->
+    <string name="pen_settings">펜 설정</string>
+    <string name="pen_settings_preset_empty">기본 설정 없음</string>
+    <string name="pen_settings_preset_delete_title">삭제</string>
+    <string name="pen_settings_preset_delete_msg">선택된 펜 기본 설정이 영구적으로 삭제됩니다.</string>
+    <string name="pen_settings_preset_exist">이미 저장되어 있습니다</string>
+    <string name="pen_settings_preset_maximum_msg">프리셋 최대 등록 갯수(12개)에 도달했습니다.</string>
+    <string name="eraser_settings">지우개 설정</string>
+    <string name="clear_all">모두 삭제</string>
+    <string name="text_settings">텍스트 설정</string>
+    <string name="text_settings_tab_font">서체</string>
+    <string name="text_settings_tab_paragraph">단락</string>
+    <string name="text_settings_tab_paragraph_align">정렬</string>
+    <string name="textbox_hint">텍스트 입력</string>    
+    <string name="settingview_close_btn_desc">종료</string>
+    
+ <!-- User font -->
+    <string name="user_font_name1">초코쿠키</string>
+    <string name="user_font_name2">로즈마리</string>  
+</resources>

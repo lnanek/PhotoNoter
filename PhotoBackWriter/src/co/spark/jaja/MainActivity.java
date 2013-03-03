@@ -1,5 +1,8 @@
 package co.spark.jaja;
 
+import com.samsung.spen.lib.input.SPenEvent;
+import com.samsung.spen.lib.input.SPenLibrary;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -68,11 +71,13 @@ public class MainActivity extends Activity {
 						+ Boolean.toString(conn.isFirstButtonPressed())
 						+ "\nSecond button:"
 						+ Boolean.toString(conn.isSecondButtonPressed());
+				
 				if (conn.getSignalValue() > 0)
 					surface.setRadius((int) Math.max(1,
 							Math.round(conn.getSignalValue() * 20)));
 				else
 					surface.setRadius(0);
+				
 				//Log.i("UI", text);
 				tv.setText(text);
 			}

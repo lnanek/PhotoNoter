@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.samsung.spensdk.multiwindow" android:versionCode="1"
+    android:versionName="1.0" >
+    <uses-sdk android:minSdkVersion="14" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:largeHeap="true">    
+        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true"/>
+        <activity android:name=".SPenSDK_Demo" android:configChanges="locale|orientation|keyboard|screenSize"
+			android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+       <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W" android:resource="@dimen/app_defaultsize_w"/>
+       <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H" android:resource="@dimen/app_defaultsize_h"/>
+       <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W" android:resource="@dimen/app_minimumsize_w"/>
+       <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H" android:resource="@dimen/app_minimumsize_h"/>
+        
+    
+<!--  General MultiWindow Example -->					
+		<activity android:name=".example.Example_MultiWindow"
+		    android:configChanges="locale|orientation|keyboard|screenSize|keyboardHidden"/>		
+<!--  SPen & MultiWindow Example -->					
+		<activity android:name=".example.Example_SPen_MultiWindow"
+		 android:windowSoftInputMode="adjustPan"
+		 android:configChanges="locale|orientation|keyboard|screenSize|keyboardHidden"/>  
+<!--  Tools  -->		
+		<activity android:name=".example.tools.ToolListActivity"
+		 android:configChanges="locale|orientation|keyboard|screenSize|keyboardHidden"/>  
+		<activity android:name=".example.tools.ToolFileListView"
+		 android:configChanges="locale|orientation|keyboard|screenSize|keyboardHidden"/>  
+    </application>
+</manifest>

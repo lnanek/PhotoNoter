@@ -1,5 +1,8 @@
 package co.spark.jaja;
 
+import com.samsung.spen.lib.input.SPenEvent;
+import com.samsung.spen.lib.input.SPenLibrary;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,41 +16,12 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class DrawingSurface extends View {
+	
+	private static final String LOG_TAG = "DrawingSurface";
 
 	public DrawingSurface(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
-	}
-
-	private class Circle {
-		private float radius;
-		private int x;
-		private int y;
-
-		public float getRadius() {
-
-			return radius;
-		}
-
-		public void setRadius(float radius) {
-			this.radius = radius;
-		}
-
-		public int getX() {
-			return x;
-		}
-
-		public void setX(int x) {
-			this.x = x;
-		}
-
-		public int getY() {
-			return y;
-		}
-
-		public void setY(int y) {
-			this.y = y;
-		}
 	}
 
 	Paint paint;
@@ -97,9 +71,25 @@ public class DrawingSurface extends View {
 		return (int) Math.round(Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2)
 				* (y1 - y2)));
 	}
-	
+
+	public Float getPressure(MotionEvent event) {
+		final SPenEvent penEvent = SPenLibrary.getEvent(event);
+		if ( !penEvent.isPen() && !penEvent.isEraserPen() ) {
+			return null;
+		}
+		
+		return penEvent.getPressure();
+	}
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		
+		Float spenPressure = getPressure(event);
+		if ( null != spenPressure ) {
+			Log.i(LOG_TAG, "Setting pressure by SPen: " + spenPressure);
+			setRadius((int) Math.max(1,
+					Math.round(spenPressure * 20)));
+		}
 
 		if (bitmap == null) {
 
@@ -157,9 +147,7 @@ public class DrawingSurface extends View {
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas)// ����� OnDraw ��������� ���������
-										// �����, ����� ����� ���������� ������
-										// View
+	protected void onDraw(Canvas canvas)
 	{
 
 		/*
@@ -172,11 +160,7 @@ public class DrawingSurface extends View {
 				synchronized (bitmap) {
 					canvas.drawBitmap(bitmap, new Matrix(), paint);
 				}
-			invalidate();// invalidate() ����� ��� ����, ����� ����������
-							// Android,
-							// ��� ����� ��������� ����� OnDraw �����, ��� ����
-							// View
-							// �� ����� ������c���������.
+			invalidate();
 		}
 	}
 
