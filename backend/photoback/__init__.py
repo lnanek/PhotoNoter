@@ -24,6 +24,7 @@ def create_app(config_objects):
     from photoback.auth import views as auth
     from photoback.general import views as general
     from photoback.photos import views as photos
+    from photoback.opentok import views as opentok
     from photoback.calendar import views as calendar
     from photoback.settings import views as settings
 
@@ -31,6 +32,7 @@ def create_app(config_objects):
     app.register_blueprint(auth.blueprint)
     app.register_blueprint(general.blueprint)
     app.register_blueprint(photos.blueprint)
+    app.register_blueprint(opentok.blueprint)
     app.register_blueprint(calendar.blueprint)
     app.register_blueprint(settings.blueprint)
     return app

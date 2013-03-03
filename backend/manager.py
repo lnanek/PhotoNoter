@@ -3,11 +3,17 @@
 import sys
 from flask.ext.script import Manager,prompt,prompt_bool,prompt_pass
 from photoback import create_app,mongo
-#from init_db import services
 
 #Debug settings are distinct from test settings
 #use simple database, debugger enabled,etc
 app = create_app(['photoback.config.debug'])
+#Figure out why SysLogHandler doesnt seem to write
+#anything out
+#import logging
+#from logging.handlers import SysLogHandler
+#log_handler=SysLogHandler(address="/dev/log")
+#log_handler.setLevel(logging.WARNING)
+#app.logger.addHandler(log_handler)
 manager = Manager(app)
 
 #In case you mainly want to use development settings but

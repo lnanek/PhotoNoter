@@ -9,6 +9,8 @@
 {%block content %}
 <div id="photo_box" class="well">
     <img class="float-left" src="{{url_for('photos.get_photo',photo_id=photo_id)}}"/>
+    <hr>
+    <img class="float-left" src="{{url_for('photos.get_photo',photo_id=back_id)}}"/>
     <div id="photo_details" class="pull-right">
 
         </div>

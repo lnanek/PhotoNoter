@@ -1,0 +1,41 @@
+{% extends "logged_in.html" %}
+{%block title %}Discuss your photos live{% endblock %}
+{%block header_block %}
+<script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js" ></script>
+ {%endblock%}
+
+{%block content %}
+{% endblock %}
+
+{%block jquery_block %}
+     <script type="text/javascript">
+         $(document).ready(function(){
+                var session = TB.initSession("1_MX4yMzEyODA0Mn4xMjcuMC4wLjF-U3VuIE1hciAwMyAxMTozNTowNiBQU1QgMjAxM34wLjg5Mjk1Nzl-"); 
+                function sessionConnectedHandler (event) {
+                    subscribeToStreams(event.streams);
+                    session.publish();
+                }
+
+                function subscribeToStreams(streams) {
+                    for (i = 0; i < streams.length; i++) {
+                    var stream = streams[i];
+                    if (stream.connection.connectionId != session.connection.connectionId) {
+                    session.subscribe(stream);
+                    }
+                }
+                }
+
+                function streamCreatedHandler(event) {
+                    subscribeToStreams(event.streams);
+                }
+
+                session.addEventListener("sessionConnected", sessionConnectedHandler);
+                session.addEventListener("streamCreated", streamCreatedHandler);
+                
+
+                var apiKey='{{tokbox_key}}';
+                var token='T1==cGFydG5lcl9pZD0yMzEyODA0MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz1hNDRiY2FlZDUwYzkyYjVlMjZmNDYzYzk5N2RhMGI5M2ZmMTVmZGJiOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9MV9NWDR5TXpFeU9EQTBNbjR4TWpjdU1DNHdMakYtVTNWdUlFMWhjaUF3TXlBeE1Ub3pOVG93TmlCUVUxUWdNakF4TTM0d0xqZzVNamsxTnpsLSZjcmVhdGVfdGltZT0xMzYyMzM5MzExJm5vbmNlPTAuNjI3NDg5NDQ4MjE4Nzk0JmV4cGlyZV90aW1lPTEzNjI0MjU3MTAmY29ubmVjdGlvbl9kYXRhPQ=='
+                session.connect(apiKey, token);
+                 });
+             </script>
+{%endblock%}

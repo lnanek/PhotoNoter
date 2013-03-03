@@ -22,11 +22,11 @@ blueprint = Blueprint('photos',__name__,template_folder='templates')
 #@blueprint.route('/photos/list/<user>') ?
 @blueprint.route('/photos/names/')
 #@login_required
-#return only names of fullsize/non-thumbnail photos
+#return only names of front side of fullsize/non-thumbnail photos
 def index():
     file_list={}
     file_list['files']=[]
-    for pic in mongo.db.fs.files.find({'size':{'$ne':'thumb'}}):
+    for pic in mongo.db.fs.files.find({'size':{'$ne':'thumb'},'side':'front'}):
         fid = pic.get('_id')
         file_list['files'].append((str(fid)))
     current_app.logger.error(file_list)
@@ -48,8 +48,12 @@ def upload_form_photos():
     elif request.method=='POST':
         current_app.logger.error("image tags are ")
         image_tags = request.form.get('tags',None)
-        side = request.form.get('side',None)
+        #side = request.form.get('side',None)
         #filename_values = []
+        #FIXME: assume that the first image is the front
+        #and the second image is the back
+        image_index=0
+        photo_id=""
         for f in request.files.getlist('file'):
              if f and allowed_file(f.filename):
                 current_app.logger.error("type of f is ******") 
@@ -114,12 +118,20 @@ def upload_form_photos():
                 tmp = pil_im.copy()
                 tmpio =StringIO()
                 tmp.save(tmpio,format='JPEG')
-
-                fid = fs.put(tmpio.getvalue(),filename=f.filename,content_type=image_type,thumbnail_id=thumb_id,lat=latitude,lon=longitude,side=side,hashtags=image_tags)
+                #use an extra identifier(photo_id) to associate the two sides of a photo with each other
+                if(image_index==0):
+                    side='front'
+                    fid = fs.put(tmpio.getvalue(),filename=f.filename,content_type=image_type,thumbnail_id=thumb_id,lat=latitude,lon=longitude,side=side,hashtags=image_tags)
+                    photo_id=fid
+                else:
+                    side='back'
+                    fid = fs.put(tmpio.getvalue(),filename=f.filename,content_type=image_type,thumbnail_id=thumb_id,lat=latitude,lon=longitude,side=side,hashtags=image_tags,photo_id=photo_id)
+                
 
                 current_app.logger.error("pushed image to mongo ")
                 current_app.logger.error(fid)
                 current_app.logger.error(fs.exists(fid))
+                image_index+=1
     return redirect(url_for("photos.list_photos"))
 
 @blueprint.route('/photos/uploadfp',methods=['GET','POST'])
@@ -216,7 +228,9 @@ def get_thumb(photo_id):
 @blueprint.route('/photos/detail_view/<photo_id>/',methods=['GET','POST'])
 #@login_required
 def show_photo(photo_id):
-    return render_template('show_photo.html',photo_id=photo_id)
+    back_id = mongo.db.fs.files.find_one({'photo_id':ObjectId(photo_id)})
+    back_id = back_id.get('_id',None)
+    return render_template('show_photo.html',photo_id=photo_id,back_id=back_id)
 
 @blueprint.route('/photos/details/<photo_id>/',methods=['GET','POST'])
 #@login_required
