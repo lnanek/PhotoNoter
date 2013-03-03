@@ -229,7 +229,8 @@ def get_thumb(photo_id):
 #@login_required
 def show_photo(photo_id):
     back_id = mongo.db.fs.files.find_one({'photo_id':ObjectId(photo_id)})
-    back_id = back_id.get('_id',None)
+    if back_id:
+        back_id = back_id.get('_id',None)
     return render_template('show_photo.html',photo_id=photo_id,back_id=back_id)
 
 @blueprint.route('/photos/details/<photo_id>/',methods=['GET','POST'])
