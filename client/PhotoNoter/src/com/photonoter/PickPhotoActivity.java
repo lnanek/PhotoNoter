@@ -178,15 +178,21 @@ public class PickPhotoActivity extends Activity {
             } else {
                 layout = (ViewGroup)convertView;
             }
-            final ImageView image = (ImageView)layout.getChildAt(0);
+            final ImageView image = (ImageView)layout.findViewById(R.id.choose_photos_item_thumbnail);
 
             final int imageId = (int)getItemId(position);
             image.setTag(imageId);
             image.setVisibility(View.VISIBLE);
 
-            final ImageView icon = (ImageView) layout.findViewById(R.id.choose_photos_item_pen_icon);
             final boolean hasNotes = BitmapUtil.hasNotes(PickPhotoActivity.this, imageId);
-            icon.setVisibility( hasNotes ? View.VISIBLE : View.GONE);
+            
+            final View frame = layout.findViewById(R.id.choose_photos_item_frame);
+            if ( hasNotes ) {
+            	frame.setBackgroundResource( R.drawable.white_rounded_and_shadow );
+            	frame.setPadding(10, 10, 10, 40);
+            } else {
+            	frame.setBackgroundDrawable(null);
+            }
             
             image.setOnClickListener(new OnClickListener() {
                 @Override

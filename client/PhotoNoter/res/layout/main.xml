@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="#FFF"
+    android:layout_height="match_parent"
     >
 
     <TextView
@@ -10,42 +9,50 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/initial_label_text" />
-    
-	<ViewFlipper
-		android:id="@+id/viewFlipper" 
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content" 
-    	android:gravity="center"
-		android:layout_gravity="center"
-		android:addStatesFromChildren="true"
-	    android:layout_below="@+id/text_view"
-	    android:layout_above="@+id/buttons_panel" 
-		>     
 
-	    <FrameLayout
-	        android:id="@+id/frontView"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" >
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttons_panel"
+        android:layout_below="@+id/text_view"
+        android:layout_gravity="center"
+        android:addStatesFromChildren="true"
+        android:gravity="center" >
 
-		    <ImageView
-		        android:id="@+id/photo"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        />
-		    <com.photonoter.view.DrawingSurface
-		        android:id="@+id/drawing_surface"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:background="@android:color/transparent"
-		       />
-		</FrameLayout>
-		    <com.photonoter.view.DrawingSurface
-		        android:id="@+id/drawing_surface2"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:background="@android:color/transparent"
-		       />
-	</ViewFlipper>
+        <FrameLayout
+            android:id="@+id/frontView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_rounded_and_shadow"
+            android:padding="20dp" 
+            android:gravity="top"
+            android:layout_margin="30dp"
+            >
+            <ImageView
+                android:id="@+id/photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" 
+                android:layout_gravity="top" 
+                android:adjustViewBounds="true"
+                
+                />
+            <com.photonoter.view.DrawingSurface
+                android:id="@+id/drawing_surface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent" />
+        </FrameLayout>
+
+        <com.photonoter.view.DrawingSurface
+            android:id="@+id/drawing_surface2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_rounded_and_shadow"
+            android:padding="20dp" 
+            android:layout_margin="30dp"
+            />
+    </ViewFlipper>
 
     <LinearLayout
         android:id="@+id/buttons_panel"
@@ -58,50 +65,51 @@
             android:id="@+id/run_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="JaJa On"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="JaJa On" />
 
         <Button
             android:id="@+id/stop_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Off"
-            android:layout_weight="1" 
-            android:enabled="false"/>
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="Off" />
 
         <Button
             android:id="@+id/clear_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="✗"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="✗" />
 
         <Button
             android:id="@+id/color_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="✎"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="✎" />
+
         <Button
             android:id="@+id/flip_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="↶"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="↶" />
+
         <Button
             android:id="@+id/share_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="↶↷"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="↶↷" />
+
         <Button
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="✓"
-            android:layout_weight="1" />
-        
-        
+            android:layout_weight="1"
+            android:text="✓" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -28,8 +28,8 @@ public final class R {
         public static final int buttons_panel=0x7f060018;
         public static final int choose_photos_empty=0x7f060001;
         public static final int choose_photos_grid=0x7f060000;
-        public static final int choose_photos_item_pen_icon=0x7f060003;
-        public static final int choose_photos_item_thumbnail=0x7f060002;
+        public static final int choose_photos_item_frame=0x7f060002;
+        public static final int choose_photos_item_thumbnail=0x7f060003;
         public static final int clear_button=0x7f06001f;
         public static final int color_button=0x7f060020;
         public static final int color_hex_btnSave=0x7f060006;
@@ -85,8 +85,8 @@ public final class R {
         public static final int stop=0x7f040008;
     }
     public static final class style {
-        /**  Any customizations for your app running on devices with Theme.Holo here 
- Any customizations for your app running on pre-3.0 devices here 
+        /**  Any customizations for your app running on pre-3.0 devices here 
+ Any customizations for your app running on devices with Theme.Holo here 
          */
         public static final int MyTheme=0x7f050000;
     }
