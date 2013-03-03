@@ -45,7 +45,7 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 			
 	private static final String FILE_URI_PREFIX = "file://"; //$NON-NLS-1$
 
-	private JajaControlConnection jajaConnection;
+	public JajaControlConnection jajaConnection;
 
 	private Handler handler;
 	
@@ -65,7 +65,7 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 	
     private PhotoBackWriterApp app;
     
-    private boolean isJajaStarted;
+    public boolean isJajaStarted;
 	
 	private void sendUpdate() {
 		handler.sendMessage(new Message());
@@ -96,7 +96,7 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 		super.onCreate(savedInstanceState);
         
         app = PhotoBackWriterApp.getApp(this);
-        
+
 		setContentView(R.layout.main);
 		
 		frontView = (View) findViewById(R.id.frontView);

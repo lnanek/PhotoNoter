@@ -40,6 +40,8 @@ public class PickPhotoActivity extends Activity {
     private OnThumbnailLoadedHandler mUiHandler;
     
     private PhotoBackWriterApp app;
+    
+    private boolean leaving;
 
     @Override
     public void onCreate(final Bundle aSavedInstanceState) {
@@ -81,6 +83,7 @@ public class PickPhotoActivity extends Activity {
     protected void onResume() {
         super.onResume();
         loadAdapter();
+        leaving = false;
     }
 
     @Override
@@ -204,11 +207,13 @@ public class PickPhotoActivity extends Activity {
             image.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-
-                	PhotoBackWriterApp.pickedImageId = imageId;
-                	
-                    Intent i = new Intent(PickPhotoActivity.this, AnnotatePhotoActivity.class);
-                    startActivity(i);
+	                if (!leaving) {
+	                	PhotoBackWriterApp.pickedImageId = imageId;
+	                	
+	                    Intent i = new Intent(PickPhotoActivity.this, AnnotatePhotoActivity.class);
+	                    startActivity(i);
+                	}
+                    leaving = true;
                 }
             });
 
