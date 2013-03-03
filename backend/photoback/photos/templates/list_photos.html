@@ -24,11 +24,9 @@ All kinds of photos with selectable layout: calendar view, data mashup view, tra
                         $.each(results['files'],function(index,value){
                             //FIXME: you are stupidly mixing server side templating with a client-side each loop. wtf
                             //"{{url_for('photos.show_photo',photo_id='')}}";
-                            //FIXME: serve up thumbnails at image_path+value+"thumb"
-                            //right now youre serving the full images shrunk down which is super slow
                             var image_path = '/photos/detail_view/';
                             console.log(image_path);
-                            var image_link = '<li class="span4"><a class="thumbnail" href="'+image_path+value+'">' + '<img src="'+'/photos/'+value+'"/>'+'</a></li>';
+                            var image_link = '<li class="span4"><a class="thumbnail" href="'+image_path+value+'">' + '<img src="'+'/photos/'+value+'/thumb"/>'+'</a></li>';
                             items_html+=image_link;
                             console.log(image_link);
                         });

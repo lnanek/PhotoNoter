@@ -22,10 +22,11 @@ blueprint = Blueprint('photos',__name__,template_folder='templates')
 #@blueprint.route('/photos/list/<user>') ?
 @blueprint.route('/photos/names/')
 #@login_required
+#return only names of fullsize/non-thumbnail photos
 def index():
     file_list={}
     file_list['files']=[]
-    for pic in mongo.db.fs.files.find():
+    for pic in mongo.db.fs.files.find({'size':{'$ne':'thumb'}}):
         fid = pic.get('_id')
         file_list['files'].append((str(fid)))
     current_app.logger.error(file_list)
@@ -48,14 +49,11 @@ def upload_form_photos():
         current_app.logger.error("image tags are ")
         image_tags = request.form.get('tags',None)
         side = request.form.get('side',None)
-        current_app.logger.error(image_tags)
-        filename_values = []
+        #filename_values = []
         for f in request.files.getlist('file'):
              if f and allowed_file(f.filename):
                 current_app.logger.error("type of f is ******") 
                 current_app.logger.error(type(f))
-                filename = secure_filename(f.filename)
-                filename_values.append(filename)
 
                 fs = gridfs.GridFS(mongo.db)
                 thumb_io = StringIO()
@@ -102,11 +100,14 @@ def upload_form_photos():
                 #FIXME: use Flask-Uploads to handle format detection/validation
                 image_type = 'image/'+pil_im.format
 
-                #tmp = pil_im.copy()
-                #tmp.thumbnail((128,128))#move thumbnail size out to app.config
-                #tmp.save(file,format='JPEG')
-                #thumb_id = fs.put(file,filename="",content_type="image/jpg")
-                thumb_id=5
+                thumb_copy = pil_im.copy()
+                thumb_copy.thumbnail((128,128))#move thumbnail size out to app.config
+                thumbio=StringIO()
+                thumb_copy.save(thumbio,format='JPEG')
+                #grab the ObjectId of the thumbnail, so you can associate it 
+                #with the full-size image later
+                thumb_id = fs.put(thumbio.getvalue(),filename="",content_type="image/jpg",size="thumb")
+
                 current_app.logger.error("content-type ")
                 current_app.logger.error(image_type)
 
@@ -119,7 +120,6 @@ def upload_form_photos():
                 current_app.logger.error("pushed image to mongo ")
                 current_app.logger.error(fid)
                 current_app.logger.error(fs.exists(fid))
-        current_app.logger.error(filename_values)
     return redirect(url_for("photos.list_photos"))
 
 @blueprint.route('/photos/uploadfp',methods=['GET','POST'])
@@ -184,6 +184,31 @@ def get_photo(photo_id):
     except NoFile:
         abort(404)
 
+@blueprint.route('/photos/<photo_id>/thumb',methods=['GET','POST'])
+#@login_required
+def get_thumb(photo_id):
+    #FIXME: you actually need to do fs.get_last_version(f) for f in fs.list()]
+    fs = gridfs.GridFS(mongo.db)
+    try:
+        #Two DB queries just to fetch a thumbnail... 
+        the_file = fs.get(ObjectId(photo_id))
+        the_file = fs.get(the_file.thumbnail_id)
+        current_app.logger.error(the_file.content_type)
+        mimetype = the_file.content_type
+        if mimetype is None:
+            #response.mimetype="image/png"
+            mimetype="image/jpg"
+        else:
+            #response.mimetype = the_file.content_type
+            pass
+        #return response
+        #this approach avoids reading the entire file into memory
+        return Response(the_file,mimetype=mimetype,direct_passthrough=True)
+    except NoFile:
+        abort(404)
+
+
+
 #FIXME: what URL should return image metadata and what should return the actual binary data?
 @blueprint.route('/photos/detail_view/<photo_id>/',methods=['GET','POST'])
 #@login_required
@@ -209,6 +234,9 @@ def describe_photo(photo_id):
 def thumbnail(file_obj):
     fs = gridfs.GridFS(mongo.db)#or put in main file?
     pil_im = Image.open(fs.get(fid))
+    #Note: thumbnail preserves aspect ratio, so you
+    #won't necessarily get the size you specify
+    #use pil.resize() if you want to force an exact size
     pil_im.thumbnail((128,128))#this modifies pil_im directly
     thumb_io = StringIO()
     #FIXME figure out how to detect format, or just always use JPG?
