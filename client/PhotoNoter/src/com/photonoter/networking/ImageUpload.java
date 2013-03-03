@@ -1,7 +1,9 @@
 package com.photonoter.networking;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
@@ -40,7 +43,7 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 
 	private static final Uri SERVER_URL = Uri.parse("http://measrme.com/photos/upload");
 
-	private final File mFile;
+	private final File[] mFile;
 
 	private final Context mContext;
 
@@ -53,7 +56,7 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 	private Map<String, String> mParams;
 	
 	public ImageUpload(final Context aContext, 
-			final OnImageUploadListener aListener, final File aFile, final Map<String, String> aParams) {
+			final OnImageUploadListener aListener, final File[] aFile, final Map<String, String> aParams) {
 		mListener = aListener;
 		mFile = aFile;
 		mContext = aContext;
@@ -74,12 +77,13 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 		});
 		mProgressDialog.show();
 	}
-
-	private ContentBody getUploadImageBytes() throws IOException {
-
-		FileBody bin = new FileBody(mFile);
-		return bin;
-
+	
+	private void addFileParts(SentCountingMultiPartEntity multipartContent) {
+		
+		for(File aFile : mFile) {
+			FileBody bin = new FileBody(aFile);
+			multipartContent.addPart(FILE_FORM_FIELD_NAME, bin);
+		}
 	}
 	
 	public static String encode(String input) {
@@ -98,17 +102,19 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 	@Override
 	protected HttpResult doInBackground(Void... unused) {
 		
-		final HttpClient httpClient = AndroidHttpClient.newInstance(USER_AGENT, mContext);
+		final AndroidHttpClient httpClient = AndroidHttpClient.newInstance(USER_AGENT, mContext);
 
 		String url = SERVER_URL.toString();
-		boolean first = true;
-		for(Map.Entry<String, String> param : mParams.entrySet()) {
-			url += first ? "?" : "&";
-			url += param.getKey();
-			url += "=";
-			url += param.getValue();
-			
-			first = false;
+		if ( null != mParams ) {
+			boolean first = true;
+			for(Map.Entry<String, String> param : mParams.entrySet()) {
+				url += first ? "?" : "&";
+				url += param.getKey();
+				url += "=";
+				url += param.getValue();
+				
+				first = false;
+			}
 		}
 		
 		Log.i(LOG_TAG, "using url = " + url);
@@ -123,11 +129,13 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 				}
 			});
 
-			for(Map.Entry<String, String> param : mParams.entrySet()) {
-				multipartContent.addPart(param.getKey(), new StringBody(param.getValue()));
+			if ( null != mParams ) {
+				for(Map.Entry<String, String> param : mParams.entrySet()) {
+					multipartContent.addPart(param.getKey(), new StringBody(param.getValue()));
+				}
 			}
 			
-			multipartContent.addPart(FILE_FORM_FIELD_NAME, getUploadImageBytes());
+			addFileParts(multipartContent);
 
 			mTotalSize = multipartContent.getContentLength();
 
@@ -140,12 +148,15 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 			Log.i(LOG_TAG, "***status code = " + responseCode);
 			Log.i(LOG_TAG, "***serverResponse = " + serverResponse);
 			
+			
 			return new HttpResult(responseCode, serverResponse);
 			
 		} catch (Exception e) {
 			Log.i(LOG_TAG, "Error uploading image: ", e);
 			return null;
-		}		
+		}		finally {
+			httpClient.close();
+		}
 	}
 
 	@Override

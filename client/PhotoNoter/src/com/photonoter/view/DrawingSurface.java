@@ -45,13 +45,15 @@ public class DrawingSurface extends View {
 		paint.setAntiAlias(true);
 	}
 
-	public void clear() {
-		if (mBitmap == null)
+	public synchronized void clear() {
+		if (mBitmap == null) {
+			invalidate();
 			return;
-		synchronized (mBitmap) {
-			mBitmap = null;
-			lastCircle = null;
 		}
+		
+		mBitmap = null;
+		lastCircle = null;
+		invalidate();
 	}
 	
 	public Bitmap getBitmap() {

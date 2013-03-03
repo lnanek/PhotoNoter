@@ -4,18 +4,55 @@
     android:layout_height="match_parent"
     >
 
-    <TextView
-        android:id="@+id/text_view"
+
+    <LinearLayout
+        android:id="@+id/buttons_panel"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/initial_label_text" />
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="✗" />
+
+        <Button
+            android:id="@+id/color_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="✎" />
+        
+        <Button
+            android:id="@+id/flip_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="↷" />        
+
+        <Button
+            android:id="@+id/share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="✉" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="✓" />
+    </LinearLayout>    
 
     <ViewFlipper
         android:id="@+id/viewFlipper"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/buttons_panel"
-        android:layout_below="@+id/text_view"
+        android:layout_below="@+id/buttons_panel"
         android:layout_gravity="center"
         android:addStatesFromChildren="true"
         android:gravity="center" >
@@ -53,63 +90,5 @@
             android:layout_margin="30dp"
             />
     </ViewFlipper>
-
-    <LinearLayout
-        android:id="@+id/buttons_panel"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/run_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="JaJa On" />
-
-        <Button
-            android:id="@+id/stop_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:enabled="false"
-            android:text="Off" />
-
-        <Button
-            android:id="@+id/clear_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="✗" />
-
-        <Button
-            android:id="@+id/color_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="✎" />
-
-        <Button
-            android:id="@+id/flip_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="↷" />
-
-        <Button
-            android:id="@+id/share_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="+" />
-
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="✓" />
-    </LinearLayout>
 
 </RelativeLayout>
