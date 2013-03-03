@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -81,6 +82,18 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 	};
 	
 	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		Log.i(LOG_TAG, "Touch event reached activity. Flipping.");
+		
+		if ( MotionEvent.ACTION_DOWN == event.getAction() ) {
+			flip();
+			return false;
+		}
+		
+		return super.onTouchEvent(event);
+	}
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
@@ -143,15 +156,10 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 		
         viewAnimator = (ViewAnimator)this.findViewById(R.id.viewFlipper);
         final Button flipButton = (Button) findViewById(R.id.flip_button);
-        /**
-         * Bind a click listener to initiate the flip transitions
-         */
         flipButton.setOnClickListener(new OnClickListener() { 
 			@Override
 			public void onClick(View v) { 
-				// This is all you need to do to 3D flip
-				AnimationFactory.flipTransition(viewAnimator, FlipDirection.LEFT_RIGHT);
-				showingFront = !showingFront;
+				flip();
 			}
         	
         });
@@ -220,6 +228,12 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 			}
 		});
 
+	}
+	
+	private void flip() {
+		// This is all you need to do to 3D flip
+		AnimationFactory.flipTransition(viewAnimator, FlipDirection.LEFT_RIGHT);
+		showingFront = !showingFront;	
 	}
 	
 	private void stopJaja() {
