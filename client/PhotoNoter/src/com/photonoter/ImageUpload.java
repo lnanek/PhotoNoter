@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -48,11 +49,14 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 	
 	private OnImageUploadListener mListener;
 	
+	private Map<String, String> mParams;
+	
 	public ImageUpload(final Context aContext, 
-			final OnImageUploadListener aListener, final File aFile) {
+			final OnImageUploadListener aListener, final File aFile, final Map<String, String> aParams) {
 		mListener = aListener;
 		mFile = aFile;
 		mContext = aContext;
+		mParams = aParams;
 	}
 
 	@Override
@@ -95,9 +99,20 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 		
 		final HttpClient httpClient = AndroidHttpClient.newInstance(USER_AGENT, mContext);
 
-		Log.i(LOG_TAG, "using url = " + SERVER_URL);
+		String url = SERVER_URL.toString();
+		boolean first = true;
+		for(Map.Entry<String, String> param : mParams.entrySet()) {
+			url += first ? "?" : "&";
+			url += param.getKey();
+			url += "=";
+			url += param.getValue();
+			
+			first = false;
+		}
 		
-		final HttpPost httpPost = new HttpPost(SERVER_URL.toString());
+		Log.i(LOG_TAG, "using url = " + url);
+		
+		final HttpPost httpPost = new HttpPost(url);
 
 		try {
 			SentCountingMultiPartEntity multipartContent = new SentCountingMultiPartEntity(new SentCountListener() {

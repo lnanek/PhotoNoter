@@ -51,7 +51,7 @@ public class BitmapUtil {
 	}
 
 	public static void copyExif(final String sourcePath, final String destPath,
-			final int newWidth, final int newHeight) {
+			final Integer newWidth, final Integer newHeight) {
 		try {
 			// copy paste exif information from original file to new
 			// file
@@ -129,8 +129,12 @@ public class BitmapUtil {
 						oldexif.getAttribute("GPSLongitudeRef"));
 			}
 			// Need to update it, with your new height width
-			newexif.setAttribute("ImageLength", Integer.toString(newHeight));
-			newexif.setAttribute("ImageWidth", Integer.toString(newWidth));
+			if ( null != newHeight ) {
+				newexif.setAttribute("ImageLength", Integer.toString(newHeight));
+			}
+			if ( null != newWidth ) {				
+				newexif.setAttribute("ImageWidth", Integer.toString(newWidth));
+			}
 
 			if (oldexif.getAttribute("Make") != null) {
 				newexif.setAttribute("Make", oldexif.getAttribute("Make"));

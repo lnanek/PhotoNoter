@@ -28,8 +28,8 @@ public final class R {
         public static final int choose_photos_empty=0x7f050001;
         public static final int choose_photos_grid=0x7f050000;
         public static final int choose_photos_item_thumbnail=0x7f050002;
-        public static final int clear_button=0x7f05001d;
-        public static final int color_button=0x7f05001e;
+        public static final int clear_button=0x7f05001e;
+        public static final int color_button=0x7f05001f;
         public static final int color_hex_btnSave=0x7f050005;
         public static final int color_hex_edit=0x7f050004;
         public static final int color_hex_txtError=0x7f050006;
@@ -46,16 +46,17 @@ public final class R {
         public static final int color_rgb_tvGreen=0x7f05000d;
         public static final int color_rgb_tvRed=0x7f05000b;
         public static final int colorview_tabColors=0x7f050003;
-        public static final int drawing_surface=0x7f050019;
-        public static final int drawing_surface2=0x7f05001a;
-        public static final int flip_button=0x7f05001f;
+        public static final int drawing_surface=0x7f05001a;
+        public static final int drawing_surface2=0x7f05001b;
+        public static final int flip_button=0x7f050020;
+        public static final int frontView=0x7f050018;
         public static final int imgColorView=0x7f050014;
         public static final int llColorView=0x7f050013;
-        public static final int photo=0x7f050018;
-        public static final int run_button=0x7f05001b;
-        public static final int save_button=0x7f050021;
-        public static final int share_button=0x7f050020;
-        public static final int stop_button=0x7f05001c;
+        public static final int photo=0x7f050019;
+        public static final int run_button=0x7f05001c;
+        public static final int save_button=0x7f050022;
+        public static final int share_button=0x7f050021;
+        public static final int stop_button=0x7f05001d;
         public static final int text_view=0x7f050015;
         public static final int viewFlipper=0x7f050016;
     }

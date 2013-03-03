@@ -1,6 +1,8 @@
 package com.photonoter;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -52,6 +54,8 @@ public class MainActivity extends Activity implements OnImageUploadListener {
 	
 	private ViewAnimator viewAnimator;
 	
+	private View frontView;
+	
 	private void sendUpdate() {
 		handler.sendMessage(new Message());
 	}
@@ -98,6 +102,8 @@ public class MainActivity extends Activity implements OnImageUploadListener {
 		final Button runButton = (Button) findViewById(R.id.run_button);
 		final Button stopButton = (Button) findViewById(R.id.stop_button);
 		final TextView tv = (TextView) findViewById(R.id.text_view);
+		
+		frontView = (View) findViewById(R.id.frontView);
 
 		surface = (DrawingSurface) findViewById(R.id.drawing_surface);
 		surface2 = (DrawingSurface) findViewById(R.id.drawing_surface2);
@@ -128,8 +134,10 @@ public class MainActivity extends Activity implements OnImageUploadListener {
 				frontAnnotated.recycle();
 				
 				File combinedImage = new File(getCombinedImagePath());
-
-				new ImageUpload(MainActivity.this, MainActivity.this, combinedImage).execute();
+				
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("side", "front");
+				new ImageUpload(MainActivity.this, MainActivity.this, combinedImage, params).execute();
 				
 				//finish();
 			}
@@ -346,17 +354,32 @@ public class MainActivity extends Activity implements OnImageUploadListener {
     public Bitmap drawToBitmap() {
     	
     	final Bitmap bitmap = Bitmap.createBitmap(
-    			viewAnimator.getWidth(), 
-    			viewAnimator.getHeight(),
+    			frontView.getWidth(), 
+    			frontView.getHeight(),
                 Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(bitmap);
         		        
-        viewAnimator.draw(canvas);
+        frontView.draw(canvas);
         return bitmap;
     }
 
 	@Override
 	public void onImageUploaded(Uri uploadLocation) {
-		finish();
+
+		
+		BitmapUtil.copyExif(imagePath, getBackImagePath(), null, null);
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("side", "back");
+
+		new ImageUpload(MainActivity.this, new OnImageUploadListener() {
+
+			@Override
+			public void onImageUploaded(Uri uploadLocation) {
+				finish();
+			}
+			
+		}, new File(getBackImagePath()), params).execute();
+		
 	}
 }
