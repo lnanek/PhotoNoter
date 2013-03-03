@@ -4,6 +4,7 @@ from flask import (Blueprint,request,render_template,
 from werkzeug import Response
 from flask.ext.login import (login_user,logout_user,current_user,login_required)
 from PIL import Image
+from PIL.ExifTags import TAGS
 from StringIO import StringIO
 
 from photoback.config.javascript_credentials import aviary_key,filepicker_key
@@ -58,6 +59,12 @@ def upload_form_photos():
                 fs = gridfs.GridFS(mongo.db)
                 thumb_io = StringIO()
                 pil_im = Image.open(f)
+                exif_details = pil_im._getexif()
+                exif_tags={}
+                for tag,value in exif_details.items():
+                    decoded = TAGS.get(tag, tag)
+                    exif_tags[decoded] = value
+                current_app.logger.error(exif_tags)
                 #use PIL to detect image type prior to saving since content-type header could be manipulated
                 #FIXME: use Flask-Uploads to handle format detection/validation
                 image_type = 'image/'+pil_im.format
