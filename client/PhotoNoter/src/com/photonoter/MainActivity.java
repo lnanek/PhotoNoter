@@ -1,10 +1,9 @@
 package com.photonoter;
 
-import com.tekle.oss.android.animation.AnimationFactory;
-import com.tekle.oss.android.animation.AnimationFactory.FlipDirection;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,18 +17,30 @@ import android.widget.ViewAnimator;
 import co.spark.jajasdk.ConnectionStartedException;
 import co.spark.jajasdk.JajaControlConnection;
 import co.spark.jajasdk.JajaControlListener;
+
+import com.tekle.oss.android.animation.AnimationFactory;
+import com.tekle.oss.android.animation.AnimationFactory.FlipDirection;
+
 import de.devmil.common.ui.color.ColorSelectorDialog;
 import de.devmil.common.ui.color.ColorSelectorDialog.OnColorChangedListener;
 
 
 public class MainActivity extends Activity {
-	/** Called when the activity is first created. */
+	
+	private static final String LOG_TAG = "MainActivity";
+
 	private JajaControlConnection conn;
 
 	private Handler handler;
+	
 	private DrawingSurface surface;
+	
 	private DrawingSurface surface2;
 
+	private String imagePath;
+	
+	private ImageView photo;
+	
 	private void sendUpdate() {
 		handler.sendMessage(new Message());
 	}
@@ -50,6 +61,16 @@ public class MainActivity extends Activity {
 		}
 	};
 	
+	private String getFrontImagePath() {
+		return getFilesDir().getPath() 
+				+ PhotoBackWriterApp.pickedImageId + "-front.jpg";
+	}
+	
+	private String getBackImagePath() {
+		return getFilesDir().getPath() 
+				+ PhotoBackWriterApp.pickedImageId + "-back.jpg";
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,6 +81,18 @@ public class MainActivity extends Activity {
 
 		surface = (DrawingSurface) findViewById(R.id.drawing_surface);
 		surface2 = (DrawingSurface) findViewById(R.id.drawing_surface2);
+		
+		final Button saveButton = (Button) findViewById(R.id.save_button);
+		saveButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				BitmapUtil.saveBitmap(surface.getBitmap(), getFrontImagePath());
+				BitmapUtil.saveBitmap(surface2.getBitmap(), getBackImagePath());
+				
+				finish();
+			}
+		});
 		
 		final Button colors = (Button) findViewById(R.id.color_button);
 		colors.setOnClickListener(new OnClickListener() {
@@ -85,12 +118,23 @@ public class MainActivity extends Activity {
 		
 		
 		if ( null != PhotoBackWriterApp.pickedImageId ) {
-			String imagePath = MediaStoreUtil.getImageFilePath(this, PhotoBackWriterApp.pickedImageId);
-			final ImageView photo = (ImageView) findViewById(R.id.photo);
-			
+			photo = (ImageView) findViewById(R.id.photo);
+
+			// Load image we are writing on.
+			imagePath = MediaStoreUtil.getImageFilePath(this, PhotoBackWriterApp.pickedImageId);
 			Bitmap bitmap = ImageUtility.getBitmapFromLocalPath(imagePath, 1);
-			
 			photo.setImageBitmap(bitmap);
+			
+			// Load writing on the face of the image.
+			final String frontPath = getFrontImagePath();
+			final Bitmap front = ImageUtility.getBitmapFromLocalPath(frontPath, 1);
+			surface.setBitmap(front);
+			
+			// Load writing on the back of the image.
+			final String backPath = getBackImagePath();
+			final Bitmap back = ImageUtility.getBitmapFromLocalPath(backPath, 1);
+			surface2.setBitmap(back);
+			
 		}
 		
 		Button clearButton = (Button) findViewById(R.id.clear_button);
@@ -152,23 +196,17 @@ public class MainActivity extends Activity {
 					@Override
 					public void jajaControlSignalLost() {
 						Log.e("UI","jajaControlSignalLost");
-						sendUpdate();
-						// TODO Auto-generated method stub
-						
+						sendUpdate();						
 					}
 
 					@Override
 					public void jajaControlSignalRestored() {
-						Log.e("UI","jajaControlSignalRestored");
-						// TODO Auto-generated method stub
-						
+						Log.e("UI","jajaControlSignalRestored");						
 					}
 
 					@Override
 					public void jajaControlError() {
-						Log.e("UI","jajaControlError");
-						// TODO Auto-generated method stub
-						
+						Log.e("UI","jajaControlError");						
 					}
 				});
 				runButton.setEnabled(false);
@@ -176,7 +214,6 @@ public class MainActivity extends Activity {
 				try {
 					conn.start();
 				} catch (ConnectionStartedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -201,4 +238,22 @@ public class MainActivity extends Activity {
 		});
 
 	}
+
+	@Override
+	protected void onDestroy() {
+		Log.i(LOG_TAG, "onDestroy - cleaning up bitmaps");
+		
+		super.onDestroy();
+		surface.setBitmap(null);
+		surface2.setBitmap(null);
+		
+		Drawable drawable = photo.getDrawable();
+		if (drawable instanceof BitmapDrawable) {
+		    BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+		    Bitmap bitmap = bitmapDrawable.getBitmap();
+		    bitmap.recycle();
+		}
+	}
+	
+	
 }

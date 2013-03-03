@@ -56,14 +56,14 @@
             android:id="@+id/run_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/run"
+            android:text="JaJa On"
             android:layout_weight="1" />
 
         <Button
             android:id="@+id/stop_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/stop"
+            android:text="Off"
             android:layout_weight="1" 
             android:enabled="false"/>
 
@@ -71,21 +71,29 @@
             android:id="@+id/clear_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/clear"
+            android:text="✗"
             android:layout_weight="1" />
 
         <Button
             android:id="@+id/color_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Colors..."
+            android:text="✎"
             android:layout_weight="1" />
         <Button
             android:id="@+id/flip_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Flip"
+            android:text="↶"
             android:layout_weight="1" />
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="✓"
+            android:layout_weight="1" />
+        
+        
     </LinearLayout>
 
 </RelativeLayout>

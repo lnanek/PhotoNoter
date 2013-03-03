@@ -53,6 +53,7 @@ public final class R {
         public static final int llColorView=0x7f050013;
         public static final int photo=0x7f050018;
         public static final int run_button=0x7f05001b;
+        public static final int save_button=0x7f050020;
         public static final int stop_button=0x7f05001c;
         public static final int text_view=0x7f050015;
         public static final int viewFlipper=0x7f050016;
