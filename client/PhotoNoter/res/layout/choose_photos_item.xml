@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="512px" 
-	android:layout_height="384px"
-	>
-	<ImageView
-	    android:id="@+id/choose_photos_item_thumbnail" 
-		android:layout_width="512px" 
-		android:layout_height="384px"
-		android:scaleType="centerInside"
-		android:layout_centerInParent="true"
-		/>
-</RelativeLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+
+    <RelativeLayout
+        android:id="@+id/choose_photos_item_frame"
+        android:layout_width="match_parent"
+        android:layout_height="384px"
+        android:background="@drawable/white_rounded_and_shadow"
+        android:paddingBottom="20dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp" >
+
+        <ImageView
+            android:id="@+id/choose_photos_item_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="top"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
+    </RelativeLayout>
+
+</FrameLayout>

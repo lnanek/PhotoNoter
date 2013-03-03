@@ -1,5 +1,9 @@
 package com.photonoter;
 
+import com.photonoter.imaging.BackgroundThumbnailLoader;
+import com.photonoter.imaging.BitmapUtil;
+import com.photonoter.imaging.OnThumbnailLoadedHandler;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -46,8 +50,6 @@ public class PickPhotoActivity extends Activity {
         String instructions = "Pick a photo to write on the back of. Store your memories!";
         
         Toast.makeText(this, instructions, Toast.LENGTH_LONG).show();
-
-        setTitle("");
 
         mImageGrid = (GridView)findViewById(R.id.choose_photos_grid);
         mUiHandler = new OnThumbnailLoadedHandler();
@@ -176,19 +178,29 @@ public class PickPhotoActivity extends Activity {
             } else {
                 layout = (ViewGroup)convertView;
             }
-            final ImageView image = (ImageView)layout.getChildAt(0);
+            final ImageView image = (ImageView)layout.findViewById(R.id.choose_photos_item_thumbnail);
 
             final int imageId = (int)getItemId(position);
             image.setTag(imageId);
             image.setVisibility(View.VISIBLE);
 
+            final boolean hasNotes = BitmapUtil.hasNotes(PickPhotoActivity.this, imageId);
+            
+            final View frame = layout.findViewById(R.id.choose_photos_item_frame);
+            if ( hasNotes ) {
+            	frame.setBackgroundResource( R.drawable.white_rounded_and_shadow );
+            	frame.setPadding(10, 10, 10, 40);
+            } else {
+            	frame.setBackgroundDrawable(null);
+            }
+            
             image.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(final View v) {
 
                 	PhotoBackWriterApp.pickedImageId = imageId;
                 	
-                    Intent i = new Intent(PickPhotoActivity.this, MainActivity.class);
+                    Intent i = new Intent(PickPhotoActivity.this, AnnotatePhotoActivity.class);
                     startActivity(i);
                 }
             });
