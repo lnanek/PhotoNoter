@@ -12,6 +12,8 @@ import requests
 import gridfs
 from gridfs.errors import NoFile
 from bson import ObjectId
+from werkzeug import secure_filename
+import os
 
 blueprint = Blueprint('photos',__name__,template_folder='templates')
 
@@ -33,8 +35,60 @@ def index():
 def list_photos():
     return render_template('list_photos.html')
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.',1)[1] in ['jpg'] 
+
 #FIXME: Unless we switch to filepicker, you'll need basic form based upload
 @blueprint.route('/photos/upload',methods=['GET','POST'])
+def upload_form_photos():
+    if request.method=='GET':
+        return render_template('upload_photos.html',aviary_key=aviary_key,filepicker_key=filepicker_key)
+    elif request.method=='POST':
+        current_app.logger.error("image tags are ")
+        image_tags = request.form.get('tags',None)
+        current_app.logger.error(image_tags)
+        filename_values = []
+        for f in request.files.getlist('file'):
+             if f and allowed_file(f.filename):
+                current_app.logger.error("type of f is ******") 
+                current_app.logger.error(type(f))
+                filename = secure_filename(f.filename)
+                filename_values.append(filename)
+
+                fs = gridfs.GridFS(mongo.db)
+                thumb_io = StringIO()
+                pil_im = Image.open(f)
+                #use PIL to detect image type prior to saving since content-type header could be manipulated
+                #FIXME: use Flask-Uploads to handle format detection/validation
+                image_type = 'image/'+pil_im.format
+
+                #tmp = pil_im.copy()
+                #tmp.thumbnail((128,128))#move thumbnail size out to app.config
+                #tmp.save(file,format='JPEG')
+                #thumb_id = fs.put(file,filename="",content_type="image/jpg")
+                thumb_id=5
+                current_app.logger.error("content-type ")
+                current_app.logger.error(image_type)
+
+                tmp = pil_im.copy()
+                tmpio =StringIO()
+                tmp.save(tmpio,format='JPEG')
+
+                fid = fs.put(tmpio.getvalue(),filename=f.filename,content_type=image_type,thumbnail_id=thumb_id)
+
+                current_app.logger.error("pushed image to mongo ")
+                current_app.logger.error(fid)
+                current_app.logger.error(fs.exists(fid))
+                #sleep(2)
+        current_app.logger.error(filename_values)
+        #fetched['imagenames'] = filename_values
+        #if profiles_fetch:
+        #    profiles.save(fetched)
+        #elif professional_fetched:
+        #    pros.save(fetched)
+    return redirect(url_for("photos.upload_form_photos"))
+
+@blueprint.route('/photos/uploadfp',methods=['GET','POST'])
 #@login_required
 def upload_photos():
     if request.method=='GET':
@@ -86,7 +140,7 @@ def get_photo(photo_id):
         mimetype = the_file.content_type
         if mimetype is None:
             #response.mimetype="image/png"
-            mimetype="image/png"
+            mimetype="image/jpg"
         else:
             #response.mimetype = the_file.content_type
             pass
