@@ -1,4 +1,4 @@
-package com.photonoter;
+package com.photonoter.networking;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.photonoter.SentCountingMultiPartEntity.SentCountListener;
+import com.photonoter.networking.SentCountingMultiPartEntity.SentCountListener;
 
 public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 	

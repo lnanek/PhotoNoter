@@ -1,5 +1,5 @@
 
-package com.photonoter;
+package com.photonoter.imaging;
 
 import android.os.Handler;
 import android.os.Message;

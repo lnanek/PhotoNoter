@@ -1,4 +1,4 @@
-package com.photonoter;
+package com.photonoter.imaging;
 
 import android.graphics.Bitmap;
 import android.widget.ImageView;

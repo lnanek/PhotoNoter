@@ -1,5 +1,9 @@
 package com.photonoter;
 
+import com.photonoter.imaging.BackgroundThumbnailLoader;
+import com.photonoter.imaging.BitmapUtil;
+import com.photonoter.imaging.OnThumbnailLoadedHandler;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -182,13 +186,17 @@ public class PickPhotoActivity extends Activity {
             image.setTag(imageId);
             image.setVisibility(View.VISIBLE);
 
+            final ImageView icon = (ImageView) layout.findViewById(R.id.choose_photos_item_pen_icon);
+            final boolean hasNotes = BitmapUtil.hasNotes(PickPhotoActivity.this, imageId);
+            icon.setVisibility( hasNotes ? View.VISIBLE : View.GONE);
+            
             image.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(final View v) {
 
                 	PhotoBackWriterApp.pickedImageId = imageId;
                 	
-                    Intent i = new Intent(PickPhotoActivity.this, MainActivity.class);
+                    Intent i = new Intent(PickPhotoActivity.this, AnnotatePhotoActivity.class);
                     startActivity(i);
                 }
             });

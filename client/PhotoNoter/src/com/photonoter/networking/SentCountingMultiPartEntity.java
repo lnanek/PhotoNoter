@@ -1,4 +1,4 @@
-package com.photonoter;
+package com.photonoter.networking;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;

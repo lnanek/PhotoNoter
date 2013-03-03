@@ -1,5 +1,5 @@
 
-package com.photonoter;
+package com.photonoter.imaging;
 
 import java.io.File;
 import java.util.LinkedList;

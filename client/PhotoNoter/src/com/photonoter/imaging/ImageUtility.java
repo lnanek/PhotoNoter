@@ -1,4 +1,4 @@
-package com.photonoter;
+package com.photonoter.imaging;
 /*
 Copyright (c) 2010, Sungjin Han <meinside@gmail.com>
 All rights reserved.
@@ -56,7 +56,7 @@ import android.view.View;
 * last update 10.11.05.
 *
 */
-final  class ImageUtility
+public  class ImageUtility
 {
  public static final int READ_BUFFER_SIZE = 32 * 1024;  //32KB
 

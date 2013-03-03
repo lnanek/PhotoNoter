@@ -1,10 +1,15 @@
-package com.photonoter;
+package com.photonoter.imaging;
 
+import java.io.File;
 import java.io.FileOutputStream;
 
+import com.photonoter.PhotoBackWriterApp;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 public class BitmapUtil {
@@ -160,4 +165,49 @@ public class BitmapUtil {
 
 	}
 
+	public static String getCombinedImagePath(final Context aContext) {
+		return getCombinedImagePath(aContext, PhotoBackWriterApp.pickedImageId);
+	}
+	
+	public static String getFrontImagePath(final Context aContext) {
+		return getFrontImagePath(aContext, PhotoBackWriterApp.pickedImageId);
+	}
+	
+	public static String getBackImagePath(final Context aContext) {
+		return getBackImagePath(aContext, PhotoBackWriterApp.pickedImageId);
+	}
+
+	public static String getCombinedImagePath(final Context aContext, final int aImageId) {
+		File ext = Environment.getExternalStorageDirectory();
+		if (!ext.exists()) {
+			return null;
+		}
+		return ext.getPath() 
+				+ "/" + aImageId + ".jpg";
+	}
+	
+	public static String getFrontImagePath(final Context aContext, final int aImageId) {
+		return aContext.getFilesDir().getPath() 
+				+ aImageId + "-front.png";
+	}
+	
+	public static String getBackImagePath(final Context aContext, final int aImageId) {
+		return aContext.getFilesDir().getPath() 
+				+ aImageId + "-back.jpg";
+	}
+	
+	public static boolean hasNotes(final Context aContext, final int aImageId) {
+		final String frontImage = getFrontImagePath(aContext, aImageId);
+		if ( new File(frontImage).exists() ) {
+			return true;
+		}
+		
+		final String backImage = getBackImagePath(aContext, aImageId);
+		if ( new File(backImage).exists() ) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 }

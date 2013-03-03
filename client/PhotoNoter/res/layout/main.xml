@@ -32,14 +32,14 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        />
-		    <com.photonoter.DrawingSurface
+		    <com.photonoter.view.DrawingSurface
 		        android:id="@+id/drawing_surface"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:background="@android:color/transparent"
 		       />
 		</FrameLayout>
-		    <com.photonoter.DrawingSurface
+		    <com.photonoter.view.DrawingSurface
 		        android:id="@+id/drawing_surface2"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"

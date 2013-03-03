@@ -1,4 +1,4 @@
-package com.photonoter;
+package com.photonoter.networking;
 
 public class HttpResult {
 	

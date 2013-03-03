@@ -1,4 +1,4 @@
-package com.photonoter;
+package com.photonoter.view;
 
 class Circle {
 	private float radius;

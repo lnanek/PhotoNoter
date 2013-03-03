@@ -1,4 +1,4 @@
-package com.photonoter;
+package com.photonoter.view;
 
 import com.samsung.spen.lib.input.SPenEvent;
 import com.samsung.spen.lib.input.SPenLibrary;

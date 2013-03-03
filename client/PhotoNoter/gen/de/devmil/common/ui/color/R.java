@@ -8,24 +8,24 @@ package de.devmil.common.ui.color;
 
 public final class R {
 	public static final class id {
-		public static final int llColorView = 0x7f050013;
-		public static final int color_hex_btnSave = 0x7f050005;
-		public static final int color_hsv_alpha = 0x7f050007;
-		public static final int color_rgb_seekAlpha = 0x7f050012;
-		public static final int color_hex_txtError = 0x7f050006;
-		public static final int color_rgb_tvAlpha = 0x7f050011;
-		public static final int color_rgb_tvGreen = 0x7f05000d;
-		public static final int color_hsv_value = 0x7f050008;
-		public static final int color_rgb_seekGreen = 0x7f05000e;
-		public static final int color_rgb_seekRed = 0x7f05000c;
-		public static final int color_hex_edit = 0x7f050004;
-		public static final int color_rgb_seekBlue = 0x7f050010;
-		public static final int color_rgb_tvRed = 0x7f05000b;
-		public static final int colorview_tabColors = 0x7f050003;
-		public static final int color_rgb_imgpreview = 0x7f05000a;
-		public static final int imgColorView = 0x7f050014;
-		public static final int color_rgb_tvBlue = 0x7f05000f;
-		public static final int color_hsv_hue = 0x7f050009;
+		public static final int llColorView = 0x7f050014;
+		public static final int color_hex_btnSave = 0x7f050006;
+		public static final int color_hsv_alpha = 0x7f050008;
+		public static final int color_rgb_seekAlpha = 0x7f050013;
+		public static final int color_hex_txtError = 0x7f050007;
+		public static final int color_rgb_tvAlpha = 0x7f050012;
+		public static final int color_rgb_tvGreen = 0x7f05000e;
+		public static final int color_hsv_value = 0x7f050009;
+		public static final int color_rgb_seekGreen = 0x7f05000f;
+		public static final int color_rgb_seekRed = 0x7f05000d;
+		public static final int color_hex_edit = 0x7f050005;
+		public static final int color_rgb_seekBlue = 0x7f050011;
+		public static final int color_rgb_tvRed = 0x7f05000c;
+		public static final int colorview_tabColors = 0x7f050004;
+		public static final int color_rgb_imgpreview = 0x7f05000b;
+		public static final int imgColorView = 0x7f050015;
+		public static final int color_rgb_tvBlue = 0x7f050010;
+		public static final int color_hsv_hue = 0x7f05000a;
 	}
 	public static final class string {
 		public static final int prefOK = 0x7f040005;

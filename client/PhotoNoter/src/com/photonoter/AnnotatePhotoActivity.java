@@ -12,7 +12,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -26,7 +25,12 @@ import co.spark.jajasdk.ConnectionStartedException;
 import co.spark.jajasdk.JajaControlConnection;
 import co.spark.jajasdk.JajaControlListener;
 
-import com.photonoter.ImageUpload.OnImageUploadListener;
+import com.photonoter.imaging.BitmapUtil;
+import com.photonoter.imaging.ImageUtility;
+import com.photonoter.imaging.MediaStoreUtil;
+import com.photonoter.networking.ImageUpload;
+import com.photonoter.networking.ImageUpload.OnImageUploadListener;
+import com.photonoter.view.DrawingSurface;
 import com.tekle.oss.android.animation.AnimationFactory;
 import com.tekle.oss.android.animation.AnimationFactory.FlipDirection;
 
@@ -34,7 +38,7 @@ import de.devmil.common.ui.color.ColorSelectorDialog;
 import de.devmil.common.ui.color.ColorSelectorDialog.OnColorChangedListener;
 
 
-public class MainActivity extends Activity implements OnImageUploadListener {
+public class AnnotatePhotoActivity extends Activity implements OnImageUploadListener {
 	
 	private static final String LOG_TAG = "MainActivity";
 			
@@ -76,24 +80,7 @@ public class MainActivity extends Activity implements OnImageUploadListener {
 		}
 	};
 	
-	private String getCombinedImagePath() {
-		File ext = Environment.getExternalStorageDirectory();
-		if (!ext.exists()) {
-			return null;
-		}
-		return ext.getPath() 
-				+ "/" + PhotoBackWriterApp.pickedImageId + ".jpg";
-	}
-	
-	private String getFrontImagePath() {
-		return getFilesDir().getPath() 
-				+ PhotoBackWriterApp.pickedImageId + "-front.png";
-	}
-	
-	private String getBackImagePath() {
-		return getFilesDir().getPath() 
-				+ PhotoBackWriterApp.pickedImageId + "-back.jpg";
-	}
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -123,21 +110,21 @@ public class MainActivity extends Activity implements OnImageUploadListener {
 			@Override
 			public void onClick(View v) {
 				
-				BitmapUtil.savePing(surface.getBitmap(), getFrontImagePath());
-				BitmapUtil.saveJpeg(surface2.getBitmap(), getBackImagePath());
+				BitmapUtil.savePing(surface.getBitmap(), BitmapUtil.getFrontImagePath(AnnotatePhotoActivity.this));
+				BitmapUtil.saveJpeg(surface2.getBitmap(), BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this));
 				
 				final Bitmap frontAnnotated = drawToBitmap();				
-				BitmapUtil.saveJpeg(frontAnnotated, getCombinedImagePath());
+				BitmapUtil.saveJpeg(frontAnnotated, BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this));
 				
-				BitmapUtil.copyExif(imagePath, getCombinedImagePath(), 
+				BitmapUtil.copyExif(imagePath, BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this), 
 						frontAnnotated.getWidth(), frontAnnotated.getHeight());
 				frontAnnotated.recycle();
 				
-				File combinedImage = new File(getCombinedImagePath());
+				File combinedImage = new File(BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this));
 				
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("side", "front");
-				new ImageUpload(MainActivity.this, MainActivity.this, combinedImage, params).execute();
+				new ImageUpload(AnnotatePhotoActivity.this, AnnotatePhotoActivity.this, combinedImage, params).execute();
 				
 				//finish();
 			}
@@ -147,7 +134,7 @@ public class MainActivity extends Activity implements OnImageUploadListener {
 		colors.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new ColorSelectorDialog(MainActivity.this, colorListener, surface.getColor()).show();
+				new ColorSelectorDialog(AnnotatePhotoActivity.this, colorListener, surface.getColor()).show();
 			}
 		});
 		
@@ -175,12 +162,12 @@ public class MainActivity extends Activity implements OnImageUploadListener {
 			photo.setImageBitmap(bitmap);
 			
 			// Load writing on the face of the image.
-			final String frontPath = getFrontImagePath();
+			final String frontPath = BitmapUtil.getFrontImagePath(AnnotatePhotoActivity.this);
 			final Bitmap front = ImageUtility.getBitmapFromLocalPath(frontPath, 1);
 			surface.setBitmap(front);
 			
 			// Load writing on the back of the image.
-			final String backPath = getBackImagePath();
+			final String backPath = BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this);
 			final Bitmap back = ImageUtility.getBitmapFromLocalPath(backPath, 1);
 			surface2.setBitmap(back);
 			
@@ -336,9 +323,9 @@ public class MainActivity extends Activity implements OnImageUploadListener {
     	
     	try {
 
-			BitmapUtil.saveJpeg(bitmap, getCombinedImagePath());
+			BitmapUtil.saveJpeg(bitmap, BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this));
 	        
-	        return getCombinedImagePath();
+	        return BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this);
 	        
     	} catch (final Exception e) {
         	Log.e(LOG_TAG, "Error saving image.", e); //$NON-NLS-1$
@@ -367,19 +354,19 @@ public class MainActivity extends Activity implements OnImageUploadListener {
 	public void onImageUploaded(Uri uploadLocation) {
 
 		
-		BitmapUtil.copyExif(imagePath, getBackImagePath(), null, null);
+		BitmapUtil.copyExif(imagePath, BitmapUtil.getBackImagePath(this), null, null);
 		
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("side", "back");
 
-		new ImageUpload(MainActivity.this, new OnImageUploadListener() {
+		new ImageUpload(AnnotatePhotoActivity.this, new OnImageUploadListener() {
 
 			@Override
 			public void onImageUploaded(Uri uploadLocation) {
 				finish();
 			}
 			
-		}, new File(getBackImagePath()), params).execute();
+		}, new File(BitmapUtil.getBackImagePath(this)), params).execute();
 		
 	}
 }
