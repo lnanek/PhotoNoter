@@ -1,7 +1,9 @@
 package com.photonoter.networking;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
@@ -98,7 +101,7 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 	@Override
 	protected HttpResult doInBackground(Void... unused) {
 		
-		final HttpClient httpClient = AndroidHttpClient.newInstance(USER_AGENT, mContext);
+		final AndroidHttpClient httpClient = AndroidHttpClient.newInstance(USER_AGENT, mContext);
 
 		String url = SERVER_URL.toString();
 		boolean first = true;
@@ -140,13 +143,31 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 			Log.i(LOG_TAG, "***status code = " + responseCode);
 			Log.i(LOG_TAG, "***serverResponse = " + serverResponse);
 			
+			
 			return new HttpResult(responseCode, serverResponse);
 			
 		} catch (Exception e) {
 			Log.i(LOG_TAG, "Error uploading image: ", e);
 			return null;
-		}		
+		}		finally {
+			httpClient.close();
+		}
 	}
+	
+	/*
+	public void getInputStream(AndroidHttpClient client, HttpUriRequest request) {
+		
+	    InputStream in = null;
+	    try {
+	        HttpResponse response = client.execute(request);
+	        new ByteArrayInputStream(EntityUtils.toByteArray(response.getEntity()));
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } finally {
+	        client.close();
+	    }
+	}	
+	*/
 
 	@Override
 	protected void onProgressUpdate(final Integer... aProgressAmounts) {

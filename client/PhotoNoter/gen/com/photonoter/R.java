@@ -25,13 +25,13 @@ public final class R {
         public static final int white_rounded_and_shadow=0x7f02000b;
     }
     public static final class id {
-        public static final int buttons_panel=0x7f060018;
+        public static final int buttons_panel=0x7f060016;
         public static final int choose_photos_empty=0x7f060001;
         public static final int choose_photos_grid=0x7f060000;
         public static final int choose_photos_item_frame=0x7f060002;
         public static final int choose_photos_item_thumbnail=0x7f060003;
-        public static final int clear_button=0x7f06001f;
-        public static final int color_button=0x7f060020;
+        public static final int clear_button=0x7f060017;
+        public static final int color_button=0x7f060018;
         public static final int color_hex_btnSave=0x7f060006;
         public static final int color_hex_edit=0x7f060005;
         public static final int color_hex_txtError=0x7f060007;
@@ -48,19 +48,16 @@ public final class R {
         public static final int color_rgb_tvGreen=0x7f06000e;
         public static final int color_rgb_tvRed=0x7f06000c;
         public static final int colorview_tabColors=0x7f060004;
-        public static final int drawing_surface=0x7f06001b;
-        public static final int drawing_surface2=0x7f06001c;
-        public static final int flip_button=0x7f060021;
-        public static final int frontView=0x7f060019;
+        public static final int drawing_surface=0x7f06001f;
+        public static final int drawing_surface2=0x7f060020;
+        public static final int flip_button=0x7f060019;
+        public static final int frontView=0x7f06001d;
         public static final int imgColorView=0x7f060015;
         public static final int llColorView=0x7f060014;
-        public static final int photo=0x7f06001a;
-        public static final int run_button=0x7f06001d;
-        public static final int save_button=0x7f060023;
-        public static final int share_button=0x7f060022;
-        public static final int stop_button=0x7f06001e;
-        public static final int text_view=0x7f060016;
-        public static final int viewFlipper=0x7f060017;
+        public static final int photo=0x7f06001e;
+        public static final int save_button=0x7f06001b;
+        public static final int share_button=0x7f06001a;
+        public static final int viewFlipper=0x7f06001c;
     }
     public static final class layout {
         public static final int choose_photos=0x7f030000;

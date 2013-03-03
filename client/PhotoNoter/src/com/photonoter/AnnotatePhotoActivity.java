@@ -40,17 +40,17 @@ import de.devmil.common.ui.color.ColorSelectorDialog.OnColorChangedListener;
 
 public class AnnotatePhotoActivity extends Activity implements OnImageUploadListener {
 	
-	private static final String LOG_TAG = "MainActivity";
+	private static final String LOG_TAG = "AnnotatePhotoActivity";
 			
 	private static final String FILE_URI_PREFIX = "file://"; //$NON-NLS-1$
 
-	private JajaControlConnection conn;
+	private JajaControlConnection jajaConnection;
 
 	private Handler handler;
 	
-	private DrawingSurface surface;
+	private DrawingSurface photoFrontDrawingSurface;
 	
-	private DrawingSurface surface2;
+	private DrawingSurface photoBackDrawingSurface;
 
 	private String imagePath;
 	
@@ -60,6 +60,8 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 	
 	private View frontView;
 	
+	private boolean showingFront = true;
+	
 	private void sendUpdate() {
 		handler.sendMessage(new Message());
 	}
@@ -67,16 +69,14 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 	@Override
 	public void onStop() {
 		super.onStop();
-		if(conn != null) {
-			conn.stop();
-		}
+		stopJaja();
 	}
 	
 	OnColorChangedListener colorListener = new OnColorChangedListener() {
 		@Override
 		public void colorChanged(int color) {
-			surface.setColor(color);
-			surface2.setColor(color);
+			photoFrontDrawingSurface.setColor(color);
+			photoBackDrawingSurface.setColor(color);
 		}
 	};
 	
@@ -84,14 +84,11 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		final Button runButton = (Button) findViewById(R.id.run_button);
-		final Button stopButton = (Button) findViewById(R.id.stop_button);
-		final TextView tv = (TextView) findViewById(R.id.text_view);
 		
 		frontView = (View) findViewById(R.id.frontView);
 
-		surface = (DrawingSurface) findViewById(R.id.drawing_surface);
-		surface2 = (DrawingSurface) findViewById(R.id.drawing_surface2);
+		photoFrontDrawingSurface = (DrawingSurface) findViewById(R.id.drawing_surface);
+		photoBackDrawingSurface = (DrawingSurface) findViewById(R.id.drawing_surface2);
 
 		final Button shareButton = (Button) findViewById(R.id.share_button);
 		shareButton.setOnClickListener(new OnClickListener() {
@@ -108,10 +105,10 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 			@Override
 			public void onClick(View v) {
 				
-				BitmapUtil.savePing(surface.getBitmap(), BitmapUtil.getFrontImagePath(AnnotatePhotoActivity.this));
-				BitmapUtil.savePing(surface2.getBitmap(), BitmapUtil.getBackPingPath(AnnotatePhotoActivity.this));
+				BitmapUtil.savePing(photoFrontDrawingSurface.getBitmap(), BitmapUtil.getFrontImagePath(AnnotatePhotoActivity.this));
+				BitmapUtil.savePing(photoBackDrawingSurface.getBitmap(), BitmapUtil.getBackPingPath(AnnotatePhotoActivity.this));
 
-				BitmapUtil.saveJpeg(surface2.getBitmap(), BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this));
+				BitmapUtil.saveJpeg(photoBackDrawingSurface.getBitmap(), BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this));
 				
 				final Bitmap frontAnnotated = drawToBitmap();		
 				BitmapUtil.createNonmediaFile();
@@ -135,7 +132,7 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 		colors.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new ColorSelectorDialog(AnnotatePhotoActivity.this, colorListener, surface.getColor()).show();
+				new ColorSelectorDialog(AnnotatePhotoActivity.this, colorListener, photoFrontDrawingSurface.getColor()).show();
 			}
 		});
 		
@@ -149,6 +146,7 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 			public void onClick(View v) { 
 				// This is all you need to do to 3D flip
 				AnimationFactory.flipTransition(viewAnimator, FlipDirection.LEFT_RIGHT);
+				showingFront = !showingFront;
 			}
         	
         });
@@ -165,115 +163,117 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 			// Load writing on the face of the image.
 			final String frontPath = BitmapUtil.getFrontImagePath(AnnotatePhotoActivity.this);
 			final Bitmap front = ImageUtility.getBitmapFromLocalPath(frontPath, 1);
-			surface.setBitmap(front);
+			photoFrontDrawingSurface.setBitmap(front);
 			
 			// Load writing on the back of the image.
 			final String backPath = BitmapUtil.getBackPingPath(AnnotatePhotoActivity.this);
 			final Bitmap back = ImageUtility.getBitmapFromLocalPath(backPath, 1);
-			surface2.setBitmap(back);
+			photoBackDrawingSurface.setBitmap(back);
 			
 		}
 		
 		Button clearButton = (Button) findViewById(R.id.clear_button);
 		
-		surface.setRadius(0);
-		surface2.setRadius(0);
+		photoFrontDrawingSurface.setRadius(0);
+		photoBackDrawingSurface.setRadius(0);
 
 		handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 
 				String text = "Pressure: "
-						+ (conn.isSignalAvailable() ? Double.toString(conn.getSignalValue()) : "---") 
+						+ (jajaConnection.isSignalAvailable() ? Double.toString(jajaConnection.getSignalValue()) : "---") 
 						+ "\nFirst button:"
-						+ Boolean.toString(conn.isFirstButtonPressed())
+						+ Boolean.toString(jajaConnection.isFirstButtonPressed())
 						+ "\nSecond button:"
-						+ Boolean.toString(conn.isSecondButtonPressed());
+						+ Boolean.toString(jajaConnection.isSecondButtonPressed());
 				
-				if (conn.getSignalValue() > 0) {
+				if (jajaConnection.getSignalValue() > 0) {
 					int newRadius = (int) Math.max(1,
-							Math.round(conn.getSignalValue() * 20));
-					surface.setRadius(newRadius);
-					surface2.setRadius(newRadius);
+							Math.round(jajaConnection.getSignalValue() * 20));
+					photoFrontDrawingSurface.setRadius(newRadius);
+					photoBackDrawingSurface.setRadius(newRadius);
 				} else {
-					surface.setRadius(0);
-					surface2.setRadius(0);
+					photoFrontDrawingSurface.setRadius(0);
+					photoBackDrawingSurface.setRadius(0);
 				}
 				
-				//Log.i("UI", text);
-				tv.setText(text);
+				Log.i("UI", text);
+				//tv.setText(text);
 			}
 		};
 
-		runButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-				conn = new JajaControlConnection();
-				conn.setJajaControlListener(new JajaControlListener() {
-
-					@Override
-					public void signalValueChanged(double value) {
-						
-						sendUpdate();
-					}
-
-					@Override
-					public void secondButtonValueChanged(boolean isPressed) {
-						Log.i("UI","secondButtonValueChanged: "+isPressed);
-						sendUpdate();
-					}
-
-					@Override
-					public void firstButtonValueChanged(boolean isPressed) {
-						Log.i("UI","firstButtonValueChanged: "+isPressed);
-						sendUpdate();
-					}
-
-					@Override
-					public void jajaControlSignalLost() {
-						Log.e("UI","jajaControlSignalLost");
-						sendUpdate();						
-					}
-
-					@Override
-					public void jajaControlSignalRestored() {
-						Log.e("UI","jajaControlSignalRestored");						
-					}
-
-					@Override
-					public void jajaControlError() {
-						Log.e("UI","jajaControlError");						
-					}
-				});
-				runButton.setEnabled(false);
-				stopButton.setEnabled(true);
-				try {
-					conn.start();
-				} catch (ConnectionStartedException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		stopButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				conn.stop();
-				runButton.setEnabled(true);
-				stopButton.setEnabled(false);
-
-			}
-		});
 		clearButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				surface.clear();
-
+				if ( showingFront ) {
+					photoFrontDrawingSurface.clear();
+				} else {
+					photoBackDrawingSurface.clear();
+				}
 			}
 		});
 
+	}
+	
+	private void stopJaja() {
+		if(jajaConnection != null) {
+			jajaConnection.stop();
+		}
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		stopJaja();
+		startJaja();
+	}
+	
+	private void startJaja() {
+
+		jajaConnection = new JajaControlConnection();
+		jajaConnection.setJajaControlListener(new JajaControlListener() {
+
+			@Override
+			public void signalValueChanged(double value) {
+				
+				sendUpdate();
+			}
+
+			@Override
+			public void secondButtonValueChanged(boolean isPressed) {
+				Log.i("UI","secondButtonValueChanged: "+isPressed);
+				sendUpdate();
+			}
+
+			@Override
+			public void firstButtonValueChanged(boolean isPressed) {
+				Log.i("UI","firstButtonValueChanged: "+isPressed);
+				sendUpdate();
+			}
+
+			@Override
+			public void jajaControlSignalLost() {
+				Log.e("UI","jajaControlSignalLost");
+				sendUpdate();						
+			}
+
+			@Override
+			public void jajaControlSignalRestored() {
+				Log.e("UI","jajaControlSignalRestored");						
+			}
+
+			@Override
+			public void jajaControlError() {
+				Log.e("UI","jajaControlError");						
+			}
+		});
+		try {
+			jajaConnection.start();
+		} catch (ConnectionStartedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -281,8 +281,8 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 		Log.i(LOG_TAG, "onDestroy - cleaning up bitmaps");
 		
 		super.onDestroy();
-		surface.setBitmap(null);
-		surface2.setBitmap(null);
+		photoFrontDrawingSurface.setBitmap(null);
+		photoBackDrawingSurface.setBitmap(null);
 		
 		Drawable drawable = photo.getDrawable();
 		if (drawable instanceof BitmapDrawable) {
