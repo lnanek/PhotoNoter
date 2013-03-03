@@ -47,6 +47,7 @@ def upload_form_photos():
     elif request.method=='POST':
         current_app.logger.error("image tags are ")
         image_tags = request.form.get('tags',None)
+        side = request.form.get('side',None)
         current_app.logger.error(image_tags)
         filename_values = []
         for f in request.files.getlist('file'):
@@ -65,32 +66,37 @@ def upload_form_photos():
                 #Lat, lon,altitude
                 exif_details = pil_im._getexif()
                 exif_tags={}
-                for tag,value in exif_details.items():
-                    decoded = TAGS.get(tag, tag)
-                    exif_tags[decoded] = value
-                coordinates = exif_tags['GPSInfo']
-                latitude = coordinates.get(2,None)
-                longitude = coordinates.get(4,None)
-                if(latitude and longitude):
-                    latsign = coordinates.get(1,None)
-                    lonsign = coordinates.get(3,None) 
-                    if latsign=='N':
-                        latsign=1
-                    else:
-                        latsign=-1
-                    if lonsign=='W':
-                        lonsign=-1
-                    else:
-                        lonsign=1
-                    latitude = latsign*(float(latitude[0][0])+float(latitude[1][0])/60.+float(latitude[2][0])/3600)
-                    longitude = lonsign*(float(longitude[0][0])+float(longitude[1][0])/60.+float(longitude[2][0])/3600)
-                    current_app.logger.error("latitude")
-                    current_app.logger.error(latitude)
-                    current_app.logger.error(longitude)
-                    
+                if exif_details:
+                    for tag,value in exif_details.items():
+                        decoded = TAGS.get(tag, tag)
+                        exif_tags[decoded] = value
 
-                current_app.logger.error("GPS info")
-                current_app.logger.error(exif_tags['GPSInfo'])
+                if 'GPSInfo' in exif_tags: 
+                    coordinates = exif_tags['GPSInfo']
+                    latitude = coordinates.get(2,None)
+                    longitude = coordinates.get(4,None)
+                    if(latitude and longitude):
+                        latsign = coordinates.get(1,None)
+                        lonsign = coordinates.get(3,None) 
+                        if latsign=='N':
+                            latsign=1
+                        else:
+                            latsign=-1
+                        if lonsign=='W':
+                            lonsign=-1
+                        else:
+                            lonsign=1
+                        latitude = latsign*(float(latitude[0][0])+float(latitude[1][0])/60.+float(latitude[2][0])/3600)
+                        longitude = lonsign*(float(longitude[0][0])+float(longitude[1][0])/60.+float(longitude[2][0])/3600)
+                        current_app.logger.error("latitude")
+                        current_app.logger.error(latitude)
+                        current_app.logger.error(longitude)
+                        current_app.logger.error("GPS info")
+                        current_app.logger.error(exif_tags['GPSInfo'])
+                else:
+                    latitude=None
+                    longitude=None
+
 
                 #use PIL to detect image type prior to saving since content-type header could be manipulated
                 #FIXME: use Flask-Uploads to handle format detection/validation
@@ -108,7 +114,7 @@ def upload_form_photos():
                 tmpio =StringIO()
                 tmp.save(tmpio,format='JPEG')
 
-                fid = fs.put(tmpio.getvalue(),filename=f.filename,content_type=image_type,thumbnail_id=thumb_id,lat=latitude,lon=longitude)
+                fid = fs.put(tmpio.getvalue(),filename=f.filename,content_type=image_type,thumbnail_id=thumb_id,lat=latitude,lon=longitude,side=side,hashtags=image_tags)
 
                 current_app.logger.error("pushed image to mongo ")
                 current_app.logger.error(fid)
@@ -191,7 +197,11 @@ def describe_photo(photo_id):
         the_file = mongo.db.fs.files.find_one({'_id':ObjectId(photo_id)})
         current_app.logger.error(the_file.get('uploadDate'))
         current_app.logger.error(type(the_file))
-        details = {'uploadDate':str(the_file.get('uploadDate')),'contentType':the_file.get('contentType'),'latitude':the_file.get('lat'),'longitude':the_file.get('lon')}
+        details = {'uploadDate':str(the_file.get('uploadDate')),
+                'contentType':the_file.get('contentType'),
+                'latitude':the_file.get('lat'),
+                'longitude':the_file.get('lon'),
+                'side':the_file.get('side')}
         return jsonify(details)
     except NoFile:
         abort(404)

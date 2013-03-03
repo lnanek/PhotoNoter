@@ -1,6 +1,9 @@
 {% extends "logged_in.html" %}
 {%block title %}Photo detail{% endblock %}
 {%block header_block %}
+<style>
+
+</style>
  {%endblock%}
 
 {%block content %}
@@ -10,10 +13,18 @@
 
         </div>
     </div>
+<div id="map"></div>
 {% endblock %}
 
 {%block jquery_block %}
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+
      <script type="text/javascript">
+            var locations = [ ];
+            //set map width with respect to size of containing tab
+            //$("#map").css('width',$('#parent').innerWidth-1);
+            //$("#map").css('height',$('#parent').innerHeight-1);
+
          $(document).ready(function(){
                  //FIXME: if we can preserve EXIF info, do something cool with it here
                  $.ajax({
@@ -23,10 +34,52 @@
                     dataType:'json',
                     success: function(results) {
                         console.log(results);
-                        $('#photo_details').html("Uploaded on "+results['uploadDate']+ " from " +results['latitude']+","+results['longitude']);
+                        $('#photo_details').html("Uploaded on "+results['uploadDate']+ " from " +results['latitude']+","+results['longitude']+ " side "+ results["side"]);
+
+                        if(results['latitude']!=null && results['longitude']!=null){
+                        $("#map").css('width',500);
+                        $("#map").css('height',400);
+                        drawMap(results['latitude'],results['longitude']);
+                        }
+
                     }
 
                      });
-                 });
+function drawMap(latitude,longitude){
+        //center: new google.maps.LatLng(map_center_lat, map_center_lng),
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 7,
+        center: new google.maps.LatLng(latitude, longitude),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    console.log("should have drawn a map");
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+    //FIXME: this should be in list_photos.html- show markers
+    //for all uploaded photos there
+    //console.log(locations);
+    locations=[["holy cow",latitude,longitude]]
+    for (i = 0; i < locations.length; i++) {  
+        marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map
+      });
+        
+        //maybe have the tooltip itself show a small thumb of the image?
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+ }
+
+
+
+
+                 });//document.ready
              </script>
 {%endblock%}
