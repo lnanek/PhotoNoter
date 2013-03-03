@@ -6,9 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -27,6 +24,7 @@ import co.spark.jajasdk.ConnectionStartedException;
 import co.spark.jajasdk.JajaControlConnection;
 import co.spark.jajasdk.JajaControlListener;
 
+import com.photonoter.ImageUpload.OnImageUploadListener;
 import com.tekle.oss.android.animation.AnimationFactory;
 import com.tekle.oss.android.animation.AnimationFactory.FlipDirection;
 
@@ -34,7 +32,7 @@ import de.devmil.common.ui.color.ColorSelectorDialog;
 import de.devmil.common.ui.color.ColorSelectorDialog.OnColorChangedListener;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnImageUploadListener {
 	
 	private static final String LOG_TAG = "MainActivity";
 			
@@ -85,7 +83,7 @@ public class MainActivity extends Activity {
 	
 	private String getFrontImagePath() {
 		return getFilesDir().getPath() 
-				+ PhotoBackWriterApp.pickedImageId + "-front.jpg";
+				+ PhotoBackWriterApp.pickedImageId + "-front.png";
 	}
 	
 	private String getBackImagePath() {
@@ -119,10 +117,21 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				BitmapUtil.saveBitmap(surface.getBitmap(), getFrontImagePath());
-				BitmapUtil.saveBitmap(surface2.getBitmap(), getBackImagePath());
+				BitmapUtil.savePing(surface.getBitmap(), getFrontImagePath());
+				BitmapUtil.saveJpeg(surface2.getBitmap(), getBackImagePath());
 				
-				finish();
+				final Bitmap frontAnnotated = drawToBitmap();				
+				BitmapUtil.saveJpeg(frontAnnotated, getCombinedImagePath());
+				
+				BitmapUtil.copyExif(imagePath, getCombinedImagePath(), 
+						frontAnnotated.getWidth(), frontAnnotated.getHeight());
+				frontAnnotated.recycle();
+				
+				File combinedImage = new File(getCombinedImagePath());
+
+				new ImageUpload(MainActivity.this, MainActivity.this, combinedImage).execute();
+				
+				//finish();
 			}
 		});
 		
@@ -319,7 +328,7 @@ public class MainActivity extends Activity {
     	
     	try {
 
-			BitmapUtil.saveBitmap(bitmap, getCombinedImagePath());
+			BitmapUtil.saveJpeg(bitmap, getCombinedImagePath());
 	        
 	        return getCombinedImagePath();
 	        
@@ -345,4 +354,9 @@ public class MainActivity extends Activity {
         viewAnimator.draw(canvas);
         return bitmap;
     }
+
+	@Override
+	public void onImageUploaded(Uri uploadLocation) {
+		finish();
+	}
 }
