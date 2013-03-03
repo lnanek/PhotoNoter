@@ -18,9 +18,10 @@ public final class R {
         public static final int hsv32=0x7f020004;
         public static final int ic_launcher=0x7f020005;
         public static final int icon=0x7f020006;
-        public static final int rgb32=0x7f020007;
-        public static final int transparentback=0x7f020008;
-        public static final int transparentbackrepeat=0x7f020009;
+        public static final int pen_icon=0x7f020007;
+        public static final int rgb32=0x7f020008;
+        public static final int transparentback=0x7f020009;
+        public static final int transparentbackrepeat=0x7f02000a;
     }
     public static final class id {
         public static final int buttons_panel=0x7f050017;

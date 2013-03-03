@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
 
 	private Handler handler;
 	private DrawingSurface surface;
+	private DrawingSurface surface2;
 
 	private void sendUpdate() {
 		handler.sendMessage(new Message());
@@ -45,6 +46,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void colorChanged(int color) {
 			surface.setColor(color);
+			surface2.setColor(color);
 		}
 	};
 	
@@ -57,6 +59,7 @@ public class MainActivity extends Activity {
 		final TextView tv = (TextView) findViewById(R.id.text_view);
 
 		surface = (DrawingSurface) findViewById(R.id.drawing_surface);
+		surface2 = (DrawingSurface) findViewById(R.id.drawing_surface2);
 		
 		final Button colors = (Button) findViewById(R.id.color_button);
 		colors.setOnClickListener(new OnClickListener() {
@@ -93,6 +96,7 @@ public class MainActivity extends Activity {
 		Button clearButton = (Button) findViewById(R.id.clear_button);
 		
 		surface.setRadius(0);
+		surface2.setRadius(0);
 
 		handler = new Handler() {
 			@Override
@@ -105,11 +109,15 @@ public class MainActivity extends Activity {
 						+ "\nSecond button:"
 						+ Boolean.toString(conn.isSecondButtonPressed());
 				
-				if (conn.getSignalValue() > 0)
-					surface.setRadius((int) Math.max(1,
-							Math.round(conn.getSignalValue() * 20)));
-				else
+				if (conn.getSignalValue() > 0) {
+					int newRadius = (int) Math.max(1,
+							Math.round(conn.getSignalValue() * 20));
+					surface.setRadius(newRadius);
+					surface2.setRadius(newRadius);
+				} else {
 					surface.setRadius(0);
+					surface2.setRadius(0);
+				}
 				
 				//Log.i("UI", text);
 				tv.setText(text);
