@@ -38,7 +38,8 @@ int id imgColorView 0x7f050014
 int id llColorView 0x7f050013
 int id photo 0x7f050018
 int id run_button 0x7f05001b
-int id save_button 0x7f050020
+int id save_button 0x7f050021
+int id share_button 0x7f050020
 int id stop_button 0x7f05001c
 int id text_view 0x7f050015
 int id viewFlipper 0x7f050016

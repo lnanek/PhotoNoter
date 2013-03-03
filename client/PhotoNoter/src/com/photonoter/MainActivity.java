@@ -1,10 +1,19 @@
 package com.photonoter;
 
+import java.io.File;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -28,6 +37,8 @@ import de.devmil.common.ui.color.ColorSelectorDialog.OnColorChangedListener;
 public class MainActivity extends Activity {
 	
 	private static final String LOG_TAG = "MainActivity";
+			
+	private static final String FILE_URI_PREFIX = "file://"; //$NON-NLS-1$
 
 	private JajaControlConnection conn;
 
@@ -40,6 +51,8 @@ public class MainActivity extends Activity {
 	private String imagePath;
 	
 	private ImageView photo;
+	
+	private ViewAnimator viewAnimator;
 	
 	private void sendUpdate() {
 		handler.sendMessage(new Message());
@@ -61,6 +74,15 @@ public class MainActivity extends Activity {
 		}
 	};
 	
+	private String getCombinedImagePath() {
+		File ext = Environment.getExternalStorageDirectory();
+		if (!ext.exists()) {
+			return null;
+		}
+		return ext.getPath() 
+				+ "/" + PhotoBackWriterApp.pickedImageId + ".jpg";
+	}
+	
 	private String getFrontImagePath() {
 		return getFilesDir().getPath() 
 				+ PhotoBackWriterApp.pickedImageId + "-front.jpg";
@@ -81,6 +103,16 @@ public class MainActivity extends Activity {
 
 		surface = (DrawingSurface) findViewById(R.id.drawing_surface);
 		surface2 = (DrawingSurface) findViewById(R.id.drawing_surface2);
+
+		final Button shareButton = (Button) findViewById(R.id.share_button);
+		shareButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				final Intent intent = createShareIntent();
+				startActivity(intent);
+			}
+		});
 		
 		final Button saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setOnClickListener(new OnClickListener() {
@@ -102,7 +134,7 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-        final ViewAnimator viewAnimator = (ViewAnimator)this.findViewById(R.id.viewFlipper);
+        viewAnimator = (ViewAnimator)this.findViewById(R.id.viewFlipper);
         final Button flipButton = (Button) findViewById(R.id.flip_button);
         /**
          * Bind a click listener to initiate the flip transitions
@@ -255,5 +287,62 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+    private Intent createShareIntent() {
+    	
+		final Intent share = new Intent(Intent.ACTION_SEND);
+
+		final String screenshot = saveImage();
+		
+		if ( null != screenshot ) {
+				share.setType("image/jpeg");
+		        //share.setType("image/*");
+				share.putExtra(Intent.EXTRA_STREAM,Uri.parse(FILE_URI_PREFIX + screenshot));
+				share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); 
+		} else {
+			share.setType("text/plain");			
+		}
+    					
+		final String shareText = "My Notes";
+		
+		share.putExtra(Intent.EXTRA_TEXT, shareText); 
+		share.putExtra("sms_body", shareText);   
+		share.putExtra(Intent.EXTRA_TITLE, shareText);
+		share.putExtra(Intent.EXTRA_SUBJECT, shareText);
+
+        share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        return share;
+    }
 	
+    public String saveImage() {
+    	Bitmap bitmap = drawToBitmap();
+    	
+    	try {
+
+			BitmapUtil.saveBitmap(bitmap, getCombinedImagePath());
+	        
+	        return getCombinedImagePath();
+	        
+    	} catch (final Exception e) {
+        	Log.e(LOG_TAG, "Error saving image.", e); //$NON-NLS-1$
+        } finally {
+            if ( null != bitmap ) {
+               	bitmap.recycle();
+            }
+        }
+    	
+    	return null;
+    }
+    
+    public Bitmap drawToBitmap() {
+    	
+    	final Bitmap bitmap = Bitmap.createBitmap(
+    			viewAnimator.getWidth(), 
+    			viewAnimator.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        		        
+        viewAnimator.draw(canvas);
+        return bitmap;
+    }
 }
