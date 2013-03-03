@@ -29,7 +29,7 @@ public class DrawingSurface extends View {
 
 	float oldR;
 
-	private Bitmap bitmap;
+	private Bitmap mBitmap;
 
 	private Matrix matrix = new Matrix();
 
@@ -46,16 +46,35 @@ public class DrawingSurface extends View {
 	}
 
 	public void clear() {
-		if (bitmap == null)
+		if (mBitmap == null)
 			return;
-		synchronized (bitmap) {
-			bitmap = null;
+		synchronized (mBitmap) {
+			mBitmap = null;
 			lastCircle = null;
 		}
 	}
 	
 	public Bitmap getBitmap() {
-		return bitmap;
+		return mBitmap;
+	}
+	
+	public synchronized void setBitmap(final Bitmap aBitmap) {
+			if ( null != mBitmap ) {
+				mBitmap.recycle();
+				mBitmap = null;
+			}
+	
+			
+			if ( null == aBitmap ) {
+				return;
+			}
+			
+			Bitmap bitmapResult = aBitmap.createBitmap(aBitmap.getWidth(), aBitmap.getHeight(), android.graphics.Bitmap.Config.ARGB_8888);
+	        Canvas c = new Canvas(bitmapResult);
+	        c.drawBitmap(aBitmap, 0, 0, new Paint());
+	        aBitmap.recycle();
+	        
+			mBitmap = bitmapResult;
 	}
 
 	public float getRadius() {
@@ -96,7 +115,7 @@ public class DrawingSurface extends View {
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public synchronized boolean onTouchEvent(MotionEvent event) {
 
 		Float spenPressure = getPressure(event);
 		if (null != spenPressure) {
@@ -104,12 +123,11 @@ public class DrawingSurface extends View {
 			setRadius((int) Math.max(1, Math.round(spenPressure * 20)));
 		}
 
-		if (bitmap == null) {
+		if (mBitmap == null) {
 
-			bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(),
+			mBitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(),
 					android.graphics.Bitmap.Config.ARGB_8888);
 		}
-		synchronized (bitmap) {
 
 			float currentRadius = this.getRadius();
 			if (currentRadius <= 0)
@@ -117,7 +135,7 @@ public class DrawingSurface extends View {
 			;
 			int newX = (int) event.getX();
 			int newY = (int) event.getY();
-			Canvas canvas = new Canvas(bitmap);
+			Canvas canvas = new Canvas(mBitmap);
 			if (lastCircle != null) {
 				int distance = getDistance(newX, newY, lastCircle.getX(),
 						lastCircle.getY());
@@ -151,18 +169,15 @@ public class DrawingSurface extends View {
 				lastCircle = null;
 			}
 
-		}
 		invalidate();
 		return true;
 
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas) {
-		if (bitmap != null) {
-			synchronized (bitmap) {
-				canvas.drawBitmap(bitmap, matrix, paint);
-			}
+	protected synchronized void onDraw(Canvas canvas) {
+		if (mBitmap != null) {
+				canvas.drawBitmap(mBitmap, matrix, paint);
 		}
 	}
 
