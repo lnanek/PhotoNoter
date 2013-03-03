@@ -1,0 +1,32 @@
+{% extends "logged_in.html" %}
+{%block title %}Photo detail{% endblock %}
+{%block header_block %}
+ {%endblock%}
+
+{%block content %}
+<div id="photo_box" class="well">
+    <img class="float-left" src="{{url_for('photos.get_photo',photo_id=photo_id)}}"/>
+    <div id="photo_details" class="pull-right">
+
+        </div>
+    </div>
+{% endblock %}
+
+{%block jquery_block %}
+     <script type="text/javascript">
+         $(document).ready(function(){
+                 //FIXME: if we can preserve EXIF info, do something cool with it here
+                 $.ajax({
+                    crossDomain: false,
+                    type:'get',
+                    url:'/photos/details/{{photo_id}}',
+                    dataType:'json',
+                    success: function(results) {
+                        console.log(results);
+                        $('#photo_details').html("Uploaded on "+results['uploadDate']);
+                    }
+
+                     });
+                 });
+             </script>
+{%endblock%}

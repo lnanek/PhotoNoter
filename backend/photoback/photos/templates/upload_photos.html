@@ -1,0 +1,96 @@
+{% extends "logged_in.html" %}
+{%block title %}Upload photos{% endblock %}
+{%block header_block %}
+ {%endblock%}
+
+
+{%block content %}
+Edit a single picture:
+<div id='web_demo_preview'> </div>
+<div id='web_demo_pane'> </div>
+<button id="unmodified_file" class="btn btn-large btn-primary">Upload an Image</button>
+<button id="start_web_demo" class="btn btn-large btn-primary">Edit an Image</button>
+{% endblock %}
+
+{%block jquery_block %}
+<script src='http://feather.aviary.com/js/feather.js'></script>
+<script src='//api.filepicker.io/v1/filepicker.js'></script>
+<!--Your application-->
+<script type='text/javascript'>
+    //Setup Filepicker.io - to get an apikey, go to https://developers.filepicker.io/register/
+    filepicker.setKey('{{filepicker_key}}');
+
+    //Setup Aviary
+    var featherEditor = new Aviary.Feather({
+        //Get an api key for Aviary at http://www.aviary.com/web-key
+        apiKey: '{{aviary_key}}',
+        apiVersion: 2,
+        onSave: function(imageID, newURL) {
+            //Export the photo to the cloud using Filepicker.io!
+            //filepicker.export(newURL, {extension:'.png'});
+
+            //imageID is 'web_demo_preview'
+            //newURL looks like: http://featherfiles.aviary.com/2012-12-25/1ionsnetos/16onetos.png
+            //edited image is then available at newURL
+            console.log("imageID "+imageID);
+            console.log("newURL "+newURL);
+            $.ajax({
+                crossDomain:false,
+                type:'post',
+                url: "{{ url_for('photos.upload_photos')}}",
+                dataType:'json',
+                data: {'url':newURL},
+                success: function(results){
+                    console.log('URL '+newURL+' submitted to server');
+                }
+                });
+        },
+        appendTo: 'web_demo_pane'
+    });
+
+    //Giving a placeholder image while Aviary loads
+    var preview = document.getElementById('web_demo_preview');
+
+    //When the user clicks the button, import a file using Filepicker.io
+    var editPane = document.getElementById('start_web_demo');
+    editPane.onclick = function(){
+        filepicker.pick({mimetype: 'image/*'}, function(fpfile) {
+            //Showing the preview
+            preview.src = fpfile.url;
+
+            //Launching the Aviary Editor
+            featherEditor.launch({
+                image: preview,
+                url: fpfile.url
+            });
+        });
+    };
+
+    $('#unmodified_file').click(function(){
+        filepicker.pickMultiple({mimetype: 'image/*'}, function(fpfiles) {
+        console.log(JSON.stringify(fpfiles))
+
+        for(var i=0;i<fpfiles.length;i++){
+            $.ajax({
+                    crossDomain:false,
+                    type:'post',
+                    url: "{{ url_for('photos.upload_photos')}}",
+                    dataType:'json',
+                    data: {'url':fpfiles[i].url},
+                    success: function(results){
+                        console.log('URL '+fpfiles[i].url+' submitted to server');
+                    }
+                    });
+                }
+
+        });
+    });
+
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+});//end document.ready
+</script>
+{%endblock%}
