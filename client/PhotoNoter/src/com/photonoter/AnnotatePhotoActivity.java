@@ -80,8 +80,6 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 		}
 	};
 	
-
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -113,7 +111,8 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 				BitmapUtil.savePing(surface.getBitmap(), BitmapUtil.getFrontImagePath(AnnotatePhotoActivity.this));
 				BitmapUtil.saveJpeg(surface2.getBitmap(), BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this));
 				
-				final Bitmap frontAnnotated = drawToBitmap();				
+				final Bitmap frontAnnotated = drawToBitmap();		
+				BitmapUtil.createNonmediaFile();
 				BitmapUtil.saveJpeg(frontAnnotated, BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this));
 				
 				BitmapUtil.copyExif(imagePath, BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this), 

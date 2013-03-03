@@ -1,9 +1,9 @@
 package com.photonoter.imaging;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-
-import com.photonoter.PhotoBackWriterApp;
+import java.io.IOException;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,6 +11,8 @@ import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+
+import com.photonoter.PhotoBackWriterApp;
 
 public class BitmapUtil {
 
@@ -183,7 +185,7 @@ public class BitmapUtil {
 			return null;
 		}
 		return ext.getPath() 
-				+ "/" + aImageId + ".jpg";
+				+ "/.photonoter/" + aImageId + ".jpg";
 	}
 	
 	public static String getFrontImagePath(final Context aContext, final int aImageId) {
@@ -208,6 +210,37 @@ public class BitmapUtil {
 		}
 		
 		return false;
+	}
+	
+	public static boolean createNonmediaFile() {
+	    String path = Environment.getExternalStorageDirectory().getPath() + "/.photonoter/.nonmedia";
+	    String f = Environment.getExternalStorageDirectory().getPath() + "/.photonoter";
+	    FileOutputStream fos;
+	    try {
+	        File folder = new File(f);
+	        boolean success=false;
+	        if (!folder.exists()) {
+	            success = folder.mkdir();
+	        }
+	        if (true==success) {
+	            File yourFile = new File(path);
+	            if(!yourFile.exists()) {
+	                yourFile.createNewFile();
+	            } 
+	        } else {
+	        	return false;
+	        }
+	        fos = new FileOutputStream(path);
+	        fos.write("NONEMEDIA".getBytes());
+	        fos.close();
+        	return true;
+	    } catch (FileNotFoundException e) {
+	        e.printStackTrace();
+        	return false;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+        	return false;
+	    }
 	}
 	
 }
