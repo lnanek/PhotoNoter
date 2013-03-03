@@ -6,5 +6,7 @@
     <string name="run">Use Jaja</string>
     <string name="stop">Stop</string>
     <string name="clear">Clear</string>
+    
+    <string name="share">&#x1f30f;</string>
 
 </resources>

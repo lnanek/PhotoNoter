@@ -82,6 +82,7 @@ public final class R {
         public static final int initial_label_text=0x7f040006;
         public static final int prefOK=0x7f040005;
         public static final int run=0x7f040007;
+        public static final int share=0x7f04000a;
         public static final int stop=0x7f040008;
     }
     public static final class style {

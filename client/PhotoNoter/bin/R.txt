@@ -63,5 +63,6 @@ int string color_select_color 0x7f040000
 int string initial_label_text 0x7f040006
 int string prefOK 0x7f040005
 int string run 0x7f040007
+int string share 0x7f04000a
 int string stop 0x7f040008
 int style MyTheme 0x7f050000
