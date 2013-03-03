@@ -191,8 +191,11 @@ def get_thumb(photo_id):
     fs = gridfs.GridFS(mongo.db)
     try:
         #Two DB queries just to fetch a thumbnail... 
-        the_file = fs.get(ObjectId(photo_id))
-        the_file = fs.get(the_file.thumbnail_id)
+        #the_file = fs.get(ObjectId(photo_id))
+        #the_file = fs.get(the_file.thumbnail_id)
+        #is this any better?
+        thumbnail_id = mongo.db.fs.files.find_one({"_id":ObjectId(photo_id)},{"thumbnail_id":1})['thumbnail_id']
+        the_file = fs.get(thumbnail_id)
         current_app.logger.error(the_file.content_type)
         mimetype = the_file.content_type
         if mimetype is None:
