@@ -6,8 +6,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,11 +43,7 @@ public class SampleActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sample);
-	}
-	
-	@Override
-	protected void onStart() {
-		super.onStart();
+		
 		
 		//dialog = ProgressDialog.show(this, "Scanning...", "");
 
@@ -66,6 +63,14 @@ public class SampleActivity extends Activity {
 		List<NARule> currentRules = NARule.getAll(this);
 		if ( currentRules.isEmpty() ) {
 			dialog = ProgressDialog.show(this, "Scanning...", "");
+			dialog.setCancelable(true);
+			dialog.setOnCancelListener(new OnCancelListener() {
+				
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					finish();
+				}
+			});
 		}
 		adapter.addAll(currentRules);
 
@@ -172,8 +177,8 @@ public class SampleActivity extends Activity {
 				*/
 			}
 
-		});
-
+		});		
+		
 	}
 
 }

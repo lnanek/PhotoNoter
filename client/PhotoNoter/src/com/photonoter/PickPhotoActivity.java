@@ -71,15 +71,27 @@ public class PickPhotoActivity extends Activity {
 	    }
 	}
 	
+	
+	
     @Override
+	public void onBackPressed() {
+
+    	app.mCheckedIfHome = false;
+
+    	super.onBackPressed();
+	}
+
+	@Override
     public void onCreate(final Bundle aSavedInstanceState) {
         super.onCreate(aSavedInstanceState);
         
         app = PhotoBackWriterApp.getApp(this);
         
-        //app.mPrefs.setHomeNetwork("doesn't exist!");
+        if ( null == app.mPrefs.getHomeNetwork() ) {
+        	app.mPrefs.setHomeNetwork("doesn't exist!");
+        }
         
-        if ( null != app.mPrefs.getHomeNetwork() /*&&  !app.mCheckedIfHome*/) {
+        if ( null != app.mPrefs.getHomeNetwork() && !app.mCheckedIfHome ) {
         	
             Intent i = new Intent(PickPhotoActivity.this, CheckIfHomeActivity.class);
             startActivity(i);

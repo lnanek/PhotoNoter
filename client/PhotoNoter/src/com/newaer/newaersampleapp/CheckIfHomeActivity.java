@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -64,19 +66,13 @@ public class CheckIfHomeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.check_if_home);
-	}
-	
-	@Override
-	protected void onStart() {
-		super.onStart();
 		
+
 		app = PhotoBackWriterApp.getApp(CheckIfHomeActivity.this);
 		app.mPrefs.setHome(false);
 		homeNetwork = app.mPrefs.getHomeNetwork();
+		
 
-		
-		
-		
 		service = Executors.newScheduledThreadPool(1);
 		adapter = new ArrayAdapter<NARule>(this, 0) {
 			@Override
@@ -106,8 +102,25 @@ public class CheckIfHomeActivity extends Activity {
 				return;
 			}
 		}
+		
 
 		dialog = ProgressDialog.show(this, "Checking if you are home or away using NewAer!", "Scanning...");
+		dialog.setCancelable(true);
+		dialog.setOnCancelListener(new OnCancelListener() {
+			
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				app.mPrefs.setHome(false);
+				finish();
+				
+				Toast.makeText(CheckIfHomeActivity.this, "Assuming away...", Toast.LENGTH_LONG).show();
+				
+				handler.removeCallbacks(runnable);
+				return;
+			}
+		});
+		
+
 		
 		handler.postDelayed(runnable, 5000);
 		
@@ -193,39 +206,7 @@ public class CheckIfHomeActivity extends Activity {
 		ListView listView = (ListView) findViewById(R.id.rules_list);
 		listView.setAdapter(adapter);
 
-		// Setup a click listener on the list.
-		listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-					long id) {
-				
-				Object item = adapter.getItem(position);
-				
-				NARule rule = (NARule) item;
-				
-				List<NADevice> devices = rule.getDevices(CheckIfHomeActivity.this);
-				
-				new AlertDialog.Builder(CheckIfHomeActivity.this)
-					.setMessage(devices.get(0).getName() +  " set as your home network!")
-					.show();
-				
-				final PhotoBackWriterApp app = PhotoBackWriterApp.getApp(CheckIfHomeActivity.this);
-				app.mPrefs.setHomeNetwork(devices.get(0).getId());
-				app.mPrefs.setHome(true);
-
-				/*
-				// Grab all the actions in the rule.
-
-				for (NAAction action : adapter.getItem(position).getActions(SampleActivity.this)) {
-					// Configure the action in the rule when they click.
-					action.configure(SampleActivity.this);
-				}
-				*/
-			}
-
-		});
-
 	}
+
 
 }
