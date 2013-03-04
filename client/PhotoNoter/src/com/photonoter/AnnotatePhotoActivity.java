@@ -157,7 +157,7 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 		colors.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new ColorSelectorDialog(AnnotatePhotoActivity.this, colorListener, photoFrontDrawingSurface.getColor()).show();
+				showColorDialog();
 			}
 		});
 		
@@ -220,10 +220,16 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 							Math.round(jajaConnection.getSignalValue() * 20));
 					photoFrontDrawingSurface.setRadius(newRadius);
 					photoBackDrawingSurface.setRadius(newRadius);
-				} else {
-					photoFrontDrawingSurface.setRadius(0);
-					photoBackDrawingSurface.setRadius(0);
 				}
+
+				if ( jajaConnection.isFirstButtonPressed() ) {
+					showColorDialog();
+				}
+				
+				if ( jajaConnection.isSecondButtonPressed() ) {
+					clear();
+				}
+				
 				
 				Log.i("UI", text);
 				//tv.setText(text);
@@ -469,5 +475,9 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 		} else {
 			photoBackDrawingSurface.clear();
 		}
+	}
+
+	private void showColorDialog() {
+		new ColorSelectorDialog(AnnotatePhotoActivity.this, colorListener, photoFrontDrawingSurface.getColor()).show();
 	}
 }
