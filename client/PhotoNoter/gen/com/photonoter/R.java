@@ -8,85 +8,234 @@
 package com.photonoter;
 
 public final class R {
+    public static final class array {
+        public static final int adjectives=0x7f070001;
+        public static final int alcatel_modes=0x7f070000;
+        public static final int foods=0x7f070002;
+    }
     public static final class attr {
     }
     public static final class drawable {
-        public static final int color_hue=0x7f020000;
-        public static final int color_seekselector=0x7f020001;
-        public static final int color_selector=0x7f020002;
-        public static final int hex32=0x7f020003;
-        public static final int hsv32=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
-        public static final int icon=0x7f020006;
-        public static final int pen_icon=0x7f020007;
-        public static final int rgb32=0x7f020008;
-        public static final int transparentback=0x7f020009;
-        public static final int transparentbackrepeat=0x7f02000a;
-        public static final int white_rounded_and_shadow=0x7f02000b;
+        public static final int app_selector_item_background=0x7f020000;
+        public static final int color_hue=0x7f020001;
+        public static final int color_seekselector=0x7f020002;
+        public static final int color_selector=0x7f020003;
+        public static final int hex32=0x7f020004;
+        public static final int hsv32=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int ic_launcher_app=0x7f020007;
+        public static final int ic_launcher_browser=0x7f020008;
+        public static final int ic_music=0x7f020009;
+        public static final int ic_share_plugin=0x7f02000a;
+        public static final int ic_sms=0x7f02000b;
+        public static final int ic_vibrate=0x7f02000c;
+        public static final int icon=0x7f02000d;
+        public static final int pen_icon=0x7f02000e;
+        public static final int rgb32=0x7f02000f;
+        public static final int transparentback=0x7f020010;
+        public static final int transparentbackrepeat=0x7f020011;
+        public static final int white_rounded_and_shadow=0x7f020012;
     }
     public static final class id {
-        public static final int buttons_panel=0x7f060017;
-        public static final int choose_photos_empty=0x7f060001;
-        public static final int choose_photos_grid=0x7f060000;
-        public static final int choose_photos_item_frame=0x7f060002;
-        public static final int choose_photos_item_icon=0x7f060004;
-        public static final int choose_photos_item_thumbnail=0x7f060003;
-        public static final int clear_button=0x7f060018;
-        public static final int color_button=0x7f060019;
-        public static final int color_hex_btnSave=0x7f060007;
-        public static final int color_hex_edit=0x7f060006;
-        public static final int color_hex_txtError=0x7f060008;
-        public static final int color_hsv_alpha=0x7f060009;
-        public static final int color_hsv_hue=0x7f06000b;
-        public static final int color_hsv_value=0x7f06000a;
-        public static final int color_rgb_imgpreview=0x7f06000c;
-        public static final int color_rgb_seekAlpha=0x7f060014;
-        public static final int color_rgb_seekBlue=0x7f060012;
-        public static final int color_rgb_seekGreen=0x7f060010;
-        public static final int color_rgb_seekRed=0x7f06000e;
-        public static final int color_rgb_tvAlpha=0x7f060013;
-        public static final int color_rgb_tvBlue=0x7f060011;
-        public static final int color_rgb_tvGreen=0x7f06000f;
-        public static final int color_rgb_tvRed=0x7f06000d;
-        public static final int colorview_tabColors=0x7f060005;
-        public static final int drawing_surface=0x7f060020;
-        public static final int drawing_surface2=0x7f060021;
-        public static final int flip_button=0x7f06001a;
-        public static final int frontView=0x7f06001e;
-        public static final int imgColorView=0x7f060016;
-        public static final int llColorView=0x7f060015;
-        public static final int photo=0x7f06001f;
-        public static final int save_button=0x7f06001c;
-        public static final int share_button=0x7f06001b;
-        public static final int viewFlipper=0x7f06001d;
+        public static final int app_display=0x7f0a0003;
+        public static final int app_grid=0x7f0a0001;
+        public static final int app_icon=0x7f0a0004;
+        public static final int app_launcher_title=0x7f0a0002;
+        public static final int app_name=0x7f0a0005;
+        public static final int btnSaveSMS=0x7f0a0031;
+        public static final int btnSaveURL=0x7f0a0034;
+        public static final int buttons_panel=0x7f0a0023;
+        public static final int checkbox=0x7f0a0035;
+        public static final int choose_application=0x7f0a0007;
+        public static final int choose_photos_empty=0x7f0a000d;
+        public static final int choose_photos_grid=0x7f0a000c;
+        public static final int choose_photos_item_frame=0x7f0a000e;
+        public static final int choose_photos_item_icon=0x7f0a0010;
+        public static final int choose_photos_item_thumbnail=0x7f0a000f;
+        public static final int clear_button=0x7f0a0024;
+        public static final int color_button=0x7f0a0025;
+        public static final int color_hex_btnSave=0x7f0a0013;
+        public static final int color_hex_edit=0x7f0a0012;
+        public static final int color_hex_txtError=0x7f0a0014;
+        public static final int color_hsv_alpha=0x7f0a0015;
+        public static final int color_hsv_hue=0x7f0a0017;
+        public static final int color_hsv_value=0x7f0a0016;
+        public static final int color_rgb_imgpreview=0x7f0a0018;
+        public static final int color_rgb_seekAlpha=0x7f0a0020;
+        public static final int color_rgb_seekBlue=0x7f0a001e;
+        public static final int color_rgb_seekGreen=0x7f0a001c;
+        public static final int color_rgb_seekRed=0x7f0a001a;
+        public static final int color_rgb_tvAlpha=0x7f0a001f;
+        public static final int color_rgb_tvBlue=0x7f0a001d;
+        public static final int color_rgb_tvGreen=0x7f0a001b;
+        public static final int color_rgb_tvRed=0x7f0a0019;
+        public static final int colorview_tabColors=0x7f0a0011;
+        public static final int contact_name=0x7f0a000a;
+        public static final int contact_phone=0x7f0a000b;
+        public static final int drawing_surface=0x7f0a002c;
+        public static final int drawing_surface2=0x7f0a002d;
+        public static final int flip_button=0x7f0a0026;
+        public static final int frontView=0x7f0a002a;
+        public static final int grid_item_image=0x7f0a0008;
+        public static final int grid_item_label=0x7f0a0009;
+        public static final int imgColorView=0x7f0a0022;
+        public static final int launcherUrl=0x7f0a0033;
+        public static final int llColorView=0x7f0a0021;
+        public static final int no_app_chosen_text=0x7f0a0006;
+        public static final int photo=0x7f0a002b;
+        public static final int rules_list=0x7f0a0000;
+        public static final int save_button=0x7f0a0028;
+        public static final int set_home=0x7f0a0036;
+        public static final int share_button=0x7f0a0027;
+        public static final int share_message=0x7f0a002e;
+        public static final int txtMessage=0x7f0a0030;
+        public static final int txtPhoneNo=0x7f0a002f;
+        public static final int vid_item=0x7f0a0032;
+        public static final int viewFlipper=0x7f0a0029;
     }
     public static final class layout {
-        public static final int choose_photos=0x7f030000;
-        public static final int choose_photos_item=0x7f030001;
-        public static final int color_colorselectview=0x7f030002;
-        public static final int color_hexview=0x7f030003;
-        public static final int color_hsvview=0x7f030004;
-        public static final int color_rgbview=0x7f030005;
-        public static final int colorview=0x7f030006;
-        public static final int main=0x7f030007;
+        public static final int activity_sample=0x7f030000;
+        public static final int app_chooser_dialog=0x7f030001;
+        public static final int app_launcher=0x7f030002;
+        public static final int app_launcher_grid_item=0x7f030003;
+        public static final int auto_complete_item=0x7f030004;
+        public static final int check_if_home=0x7f030005;
+        public static final int choose_photos=0x7f030006;
+        public static final int choose_photos_item=0x7f030007;
+        public static final int color_colorselectview=0x7f030008;
+        public static final int color_hexview=0x7f030009;
+        public static final int color_hsvview=0x7f03000a;
+        public static final int color_rgbview=0x7f03000b;
+        public static final int colorview=0x7f03000c;
+        public static final int main=0x7f03000d;
+        public static final int share_layout=0x7f03000e;
+        public static final int sms_entry=0x7f03000f;
+        public static final int vid_item=0x7f030010;
+        public static final int web_launcher=0x7f030011;
+    }
+    public static final class menu {
+        public static final int game_menu=0x7f090000;
+    }
+    public static final class raw {
+        public static final int connect=0x7f050000;
+        public static final int disconnect=0x7f050001;
+        public static final int ring_classic_02=0x7f050002;
+        public static final int ring_digital_02=0x7f050003;
+        public static final int ring_synth_04=0x7f050004;
     }
     public static final class string {
-        public static final int app_name=0x7f040004;
-        public static final int clear=0x7f040009;
-        public static final int color_hex_invalid=0x7f040003;
-        public static final int color_new_color=0x7f040002;
-        public static final int color_old_color=0x7f040001;
-        public static final int color_select_color=0x7f040000;
-        public static final int initial_label_text=0x7f040006;
-        public static final int prefOK=0x7f040005;
-        public static final int run=0x7f040007;
-        public static final int share=0x7f04000a;
-        public static final int stop=0x7f040008;
+        /**  alcatel dialogs 
+         */
+        public static final int alcatel_dialog_title=0x7f06002c;
+        public static final int alcatel_mode=0x7f06002d;
+        public static final int alcatel_plugin_name=0x7f060028;
+        /**  rule type 
+         */
+        public static final int all_devices=0x7f06000b;
+        public static final int app_launcher=0x7f060039;
+        public static final int app_launcher_plugin_name=0x7f06002a;
+        public static final int app_name=0x7f060004;
+        public static final int auth_fail_exit=0x7f06001e;
+        /**  device types 
+         */
+        public static final int bluetooth=0x7f06000e;
+        public static final int btnSaveURLText=0x7f060031;
+        public static final int cancel=0x7f06003d;
+        public static final int choose=0x7f060038;
+        public static final int choose_app=0x7f060037;
+        public static final int choose_share=0x7f06003a;
+        public static final int clear=0x7f060009;
+        public static final int color_hex_invalid=0x7f060003;
+        public static final int color_new_color=0x7f060002;
+        public static final int color_old_color=0x7f060001;
+        public static final int color_select_color=0x7f060000;
+        public static final int default_ringtone_text1=0x7f06002f;
+        public static final int default_ringtone_text2=0x7f060030;
+        public static final int error_starting_configuration=0x7f060021;
+        public static final int errorcode=0x7f060020;
+        public static final int every_device=0x7f06000c;
+        public static final int first_last=0x7f06000d;
+        /**   Error dialog titles 
+         */
+        public static final int generic_error_label=0x7f060014;
+        public static final int hello_world=0x7f06003e;
+        public static final int http_error_label=0x7f060017;
+        public static final int in_range=0x7f060012;
+        public static final int initial_label_text=0x7f060006;
+        public static final int launchCheckBox=0x7f060034;
+        public static final int menu_settings=0x7f06003f;
+        public static final int music_plugin_name=0x7f060027;
+        public static final int music_tips=0x7f06002e;
+        public static final int network_error_label=0x7f060015;
+        /**   Error explanations 
+         */
+        public static final int network_fail_exit=0x7f06001c;
+        public static final int newaer_hint_message=0x7f06003b;
+        public static final int newaer_sdk_version_id=0x7f060046;
+        public static final int nfc=0x7f060010;
+        /**  dialog titles 
+         */
+        public static final int notice=0x7f060022;
+        public static final int ok=0x7f06003c;
+        /**   event type 
+         */
+        public static final int on_connect=0x7f060040;
+        public static final int on_disconnect=0x7f060041;
+        public static final int out_of_range=0x7f060013;
+        /**  Notification Strings 
+         */
+        public static final int plugin_executed=0x7f060042;
+        public static final int plugin_failed=0x7f060043;
+        public static final int plugin_in_range=0x7f060044;
+        public static final int plugin_out_of_range=0x7f060045;
+        public static final int prefOK=0x7f060005;
+        public static final int run=0x7f060007;
+        public static final int save=0x7f060036;
+        public static final int server_auth_failed=0x7f060018;
+        public static final int server_communication_failure=0x7f060019;
+        public static final int server_empty_response=0x7f06001a;
+        public static final int server_internal_exception=0x7f06001b;
+        public static final int service_fail_exit=0x7f06001f;
+        public static final int share=0x7f06000a;
+        public static final int share_app_plugin_name=0x7f06002b;
+        public static final int sms_plugin_name=0x7f060026;
+        public static final int stop=0x7f060008;
+        /**  statuses 
+         */
+        public static final int unknown=0x7f060011;
+        public static final int unknown_app_name=0x7f060024;
+        public static final int urlDefaultText=0x7f060033;
+        public static final int urlError=0x7f060035;
+        public static final int vibrate_plugin_name=0x7f060025;
+        public static final int warning=0x7f060023;
+        public static final int web_launcher_plugin_name=0x7f060029;
+        public static final int weblauncherPromptText=0x7f060032;
+        public static final int wifi=0x7f06000f;
+        public static final int wifi_error_label=0x7f060016;
+        public static final int wifi_fail_exit=0x7f06001d;
     }
     public static final class style {
+        /** 
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    
+
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        
+         */
+        public static final int AppBaseTheme=0x7f080000;
+        /**  Application theme. 
+ All customizations that are NOT specific to a particular API-level can go here. 
+         */
+        public static final int AppTheme=0x7f080001;
         /**  Any customizations for your app running on pre-3.0 devices here 
  Any customizations for your app running on devices with Theme.Holo here 
          */
-        public static final int MyTheme=0x7f050000;
+        public static final int MyTheme=0x7f080002;
+    }
+    public static final class xml {
+        public static final int filter_ndef=0x7f040000;
     }
 }

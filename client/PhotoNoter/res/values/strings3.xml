@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+
+		<!--  Error dialog titles -->
+	<string name="generic_error_label">Problem Encountered</string>
+	<string name="network_error_label">No Internet Connection</string>
+	<string name="wifi_error_label">No WiFi Connection</string>
+	<string name="http_error_label">Cannot access NeuAer server</string>
+	<string name="server_auth_failed">Login failed</string>
+	<string name="server_communication_failure">Unable to contact Newaer server</string>
+	<string name="server_empty_response">NeuAer server returned an empty response</string>
+	<string name="server_internal_exception">NeuAer server internal exception</string>
+
+		<!--  Error explanations -->
+	<string name="network_fail_exit">NeuAer requires an Internet connection for this feature.</string>
+		<string name="wifi_fail_exit">To allow NeuAer to connect over your cellular network, enable in settings.</string>
+		<string name="auth_fail_exit">To use NeuAer, please sign in with your email address and password.</string>
+		<string name="service_fail_exit">The NeuAer service is not available right now. Please try again.</string>
+		<string name="errorcode">"Error code mapping not implemented yet"</string>
+	<string name="error_starting_configuration">There was an unknown error configuring this plugin.</string>
+		<!-- dialog titles -->
+		<string name="notice">NOTICE</string>
+		<string name="warning">WARNING</string>
+
+		<string name="unknown_app_name">Unknown App</string>
+</resources>

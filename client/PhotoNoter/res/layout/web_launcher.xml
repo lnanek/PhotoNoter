@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical" >
+
+		<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="5dp"
+				android:textSize="14pt"
+				android:text="@string/weblauncherPromptText"
+				/>
+		<AutoCompleteTextView
+				android:id="@+id/launcherUrl"
+				android:layout_margin="5dp"
+				android:inputType="textUri"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				/>
+		<Button
+				android:id="@+id/btnSaveURL"
+				android:layout_gravity="center_horizontal"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/btnSaveURLText"
+				/>
+
+		<CheckBox
+				android:id="@+id/checkbox"
+				android:layout_marginTop="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="left"
+				android:text="@string/launchCheckBox" />
+</LinearLayout>

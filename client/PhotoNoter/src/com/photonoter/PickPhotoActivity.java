@@ -12,7 +12,9 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -21,6 +23,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.newaer.newaersampleapp.CheckIfHomeActivity;
+import com.newaer.newaersampleapp.SampleActivity;
 import com.photonoter.imaging.BackgroundThumbnailLoader;
 import com.photonoter.imaging.BitmapUtil;
 import com.photonoter.imaging.OnThumbnailLoadedHandler;
@@ -45,19 +49,53 @@ public class PickPhotoActivity extends Activity {
     
     private boolean leaving;
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.game_menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.set_home:
+	            
+	            Intent i = new Intent(PickPhotoActivity.this, SampleActivity.class);
+	            startActivity(i);
+	            
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
     @Override
     public void onCreate(final Bundle aSavedInstanceState) {
         super.onCreate(aSavedInstanceState);
         
         app = PhotoBackWriterApp.getApp(this);
         
+        //app.mPrefs.setHomeNetwork("doesn't exist!");
+        
+        if ( null != app.mPrefs.getHomeNetwork() /*&&  !app.mCheckedIfHome*/) {
+        	
+            Intent i = new Intent(PickPhotoActivity.this, CheckIfHomeActivity.class);
+            startActivity(i);
+        	
+        	app.mCheckedIfHome = true;
+        } else {
+            String instructions = "Pick a photo to write on the back of. Store your memories!";
+            
+            Toast.makeText(this, instructions, Toast.LENGTH_LONG).show();       	
+        }
+        
         setContentView(R.layout.choose_photos);
 
         mEmptyView = findViewById(R.id.choose_photos_empty);
 
-        String instructions = "Pick a photo to write on the back of. Store your memories!";
-        
-        Toast.makeText(this, instructions, Toast.LENGTH_LONG).show();
+
 
         mImageGrid = (GridView)findViewById(R.id.choose_photos_grid);
         mUiHandler = new OnThumbnailLoadedHandler();

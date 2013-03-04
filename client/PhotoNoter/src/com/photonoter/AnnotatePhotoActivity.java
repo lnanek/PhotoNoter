@@ -123,18 +123,18 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 			@Override
 			public void onClick(View v) {
 				
-				BitmapUtil.savePing(photoFrontDrawingSurface.getBitmap(), BitmapUtil.getFrontImagePath(AnnotatePhotoActivity.this));
-				BitmapUtil.savePing(photoBackDrawingSurface.getBitmap(), BitmapUtil.getBackPingPath(AnnotatePhotoActivity.this));
+				BitmapUtil.savePing(photoFrontDrawingSurface.getBitmap(), BitmapUtil.getFrontImagePath(AnnotatePhotoActivity.this), AnnotatePhotoActivity.this);
+				BitmapUtil.savePing(photoBackDrawingSurface.getBitmap(), BitmapUtil.getBackPingPath(AnnotatePhotoActivity.this), AnnotatePhotoActivity.this);
 
 				Bitmap backBitmap = drawBackBitmap();
 				if ( null != backBitmap ) {
-					BitmapUtil.saveJpeg(backBitmap, BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this));
+					BitmapUtil.saveJpeg(backBitmap, BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this), AnnotatePhotoActivity.this);
 					backBitmap.recycle();
 				}
 				
 				final Bitmap frontAnnotated = drawToBitmap();		
 				BitmapUtil.createNonmediaFile();
-				BitmapUtil.saveJpeg(frontAnnotated, BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this));
+				BitmapUtil.saveJpeg(frontAnnotated, BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this), AnnotatePhotoActivity.this);
 				
 				BitmapUtil.copyExif(imagePath, BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this), 
 						frontAnnotated.getWidth(), frontAnnotated.getHeight());
@@ -374,7 +374,7 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
     	
     	try {
 
-			BitmapUtil.saveJpeg(bitmap, BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this));
+			BitmapUtil.saveJpeg(bitmap, BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this), AnnotatePhotoActivity.this);
 	        
 	        return BitmapUtil.getCombinedImagePath(AnnotatePhotoActivity.this);
 	        

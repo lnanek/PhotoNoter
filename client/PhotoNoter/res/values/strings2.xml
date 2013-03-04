@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+		<!-- rule type -->
+		<string name="all_devices">all devices</string>
+		<string name="every_device">every device</string>
+		<string name="first_last">first or last device</string>
+
+		<!-- device types -->
+		<string name="bluetooth">Bluetooth</string>
+		<string name="wifi">WiFi</string>
+		<string name="nfc">NFC</string>
+
+		<!-- statuses -->
+		<string name="unknown">Unknown</string>
+		<string name="in_range">In Range</string>
+		<string name="out_of_range">Out Of Range</string>
+
+</resources>

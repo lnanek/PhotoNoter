@@ -12,15 +12,28 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
+import com.newaer.newaersampleapp.SampleActivity;
 import com.photonoter.PhotoBackWriterApp;
 
 public class BitmapUtil {
 
 	private static final String LOG_TAG = "BitmapUtil";
 
-	private static final int COMPRESSED_QUALITY = 70;
+	private static final int HIGH_QUALITY = 80;
+	
+	private static final int LOW_QUALITY = 70;
+	
+	public static int getCompressionQuality(final Context aContext) {
+		final PhotoBackWriterApp app = PhotoBackWriterApp.getApp(aContext);
+		if ( app.mPrefs.isHome() ) {
+			return HIGH_QUALITY;
+		}
+		
+		return LOW_QUALITY;
 
-	public static void savePing(final Bitmap aBitmap, final String aPath) {
+	}
+
+	public static void savePing(final Bitmap aBitmap, final String aPath, final Context aContext) {
 		if (null == aBitmap || null == aPath) {
 			return;
 		}
@@ -28,7 +41,7 @@ public class BitmapUtil {
 		try {
 
 			FileOutputStream out = new FileOutputStream(aPath);
-			aBitmap.compress(Bitmap.CompressFormat.PNG, COMPRESSED_QUALITY, out);
+			aBitmap.compress(Bitmap.CompressFormat.PNG, getCompressionQuality(aContext), out);
 			out.flush();
 			out.close();
 
@@ -38,7 +51,7 @@ public class BitmapUtil {
 		}
 	}
 
-	public static void saveJpeg(final Bitmap aBitmap, final String aPath) {
+	public static void saveJpeg(final Bitmap aBitmap, final String aPath, final Context aContext) {
 		if (null == aBitmap || null == aPath) {
 			return;
 		}
@@ -46,7 +59,7 @@ public class BitmapUtil {
 		try {
 
 			FileOutputStream out = new FileOutputStream(aPath);
-			aBitmap.compress(Bitmap.CompressFormat.JPEG, COMPRESSED_QUALITY,
+			aBitmap.compress(Bitmap.CompressFormat.JPEG, getCompressionQuality(aContext),
 					out);
 			out.flush();
 			out.close();

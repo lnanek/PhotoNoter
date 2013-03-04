@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+		<array name="alcatel_modes">
+			<item>Place a call</item>
+			<item>Forward call</item>
+			<item>Stop call forward</item>
+		</array>
+
+</resources>
