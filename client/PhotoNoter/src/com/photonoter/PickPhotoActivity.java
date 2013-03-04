@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -207,9 +206,9 @@ public class PickPhotoActivity extends Activity {
             	frame.setBackgroundDrawable(null);
             }
             
-            layout.setOnTouchListener(new OnTouchListener() {
+            layout.setOnClickListener(new OnClickListener() {
 				@Override
-				public boolean onTouch(View v, MotionEvent event) {
+				public void onClick(View v) {
             	Log.i(LOG_TAG, "onClick");
                 	
 	                if (!leaving) {
@@ -219,8 +218,6 @@ public class PickPhotoActivity extends Activity {
 	                    startActivity(i);
                 	}
                     leaving = true;
-                    
-                    return true;
 				}
 			});
 

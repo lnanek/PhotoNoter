@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -388,7 +389,10 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
                 Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(bitmap);
         		        
+        frontView.setBackgroundDrawable(null);
+        frontView.setBackgroundColor(Color.WHITE);
         frontView.draw(canvas);
+        frontView.setBackgroundResource(R.drawable.white_rounded_and_shadow);
         return bitmap;
     }
     
