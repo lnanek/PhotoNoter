@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:weightSum="5.0" >
+
+    <TextView
+        android:id="@+id/app_launcher_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dip"
+        android:text="@string/app_launcher"
+        android:textSize="15pt"
+        android:textStyle="bold"
+        android:layout_weight="1.0" />
+
+    <LinearLayout
+        android:id="@+id/app_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginTop="10dip"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_weight="3.0" >
+
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="175dip"
+            android:layout_height="175dip"
+            android:layout_marginBottom="10dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="5dip" />
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12pt"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/no_app_chosen_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginTop="10dip"
+        android:text="No app chosen"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/choose_application"
+        android:layout_width="wrap_content"
+        android:layout_height="60dip"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/choose"/>
+
+</LinearLayout>
