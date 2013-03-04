@@ -45,7 +45,7 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 			
 	private static final String FILE_URI_PREFIX = "file://"; //$NON-NLS-1$
 
-	private JajaControlConnection jajaConnection;
+	public JajaControlConnection jajaConnection;
 
 	private Handler handler;
 	
@@ -63,14 +63,12 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 	
 	private boolean showingFront = true;
 	
+    private PhotoBackWriterApp app;
+    
+    public boolean isJajaStarted;
+	
 	private void sendUpdate() {
 		handler.sendMessage(new Message());
-	}
-	
-	@Override
-	public void onStop() {
-		super.onStop();
-		stopJaja();
 	}
 	
 	OnColorChangedListener colorListener = new OnColorChangedListener() {
@@ -96,6 +94,9 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        
+        app = PhotoBackWriterApp.getApp(this);
+
 		setContentView(R.layout.main);
 		
 		frontView = (View) findViewById(R.id.frontView);
@@ -237,20 +238,41 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 	}
 	
 	private void stopJaja() {
+		if (!isJajaStarted) {
+			return;
+		}
+		
 		if(jajaConnection != null) {
 			jajaConnection.stop();
+			isJajaStarted = false;
 		}
 	}
 	
 	@Override
-	public void onStart() {
-		super.onStart();
+	public void onWindowFocusChanged(boolean hasFocus) {
+		Log.i(LOG_TAG, "onWindowFocusChanged(). hasFocus = " + hasFocus);
+		super.onWindowFocusChanged(hasFocus);
+		if ( hasFocus ) {
+			if ( app.mPrefs.isJajaEnabled() ) {
+				startJaja();
+			}
+		}
+	}
+
+	@Override
+	public void onPause() {
+		Log.i(LOG_TAG, "onPause()");
+		
+		super.onPause();
 		stopJaja();
-		startJaja();
 	}
 	
 	private void startJaja() {
-
+		Log.i(LOG_TAG, "startJaja()");
+		if ( isJajaStarted ) {
+			return;
+		}
+		isJajaStarted = true;
 		jajaConnection = new JajaControlConnection();
 		jajaConnection.setJajaControlListener(new JajaControlListener() {
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+		<!--  event type -->
+		<string name="on_connect">within range</string>
+		<string name="on_disconnect">out of range</string>
+
+		<!-- Notification Strings -->
+		<string name="plugin_executed">executed</string>
+		<string name="plugin_failed">failed to execute</string>
+		<string name="plugin_in_range">in range</string>
+		<string name="plugin_out_of_range">out of range</string>
+
+</resources>

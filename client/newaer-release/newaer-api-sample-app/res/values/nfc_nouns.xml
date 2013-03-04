@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string-array name="foods">
+
+<item>Rice</item>
+<item>Apple</item>
+<item>Bananas</item>
+<item>Pear</item>
+<item>Peach</item>
+<item>Mango</item>
+<item>Chicken</item>
+<item>Pork</item>
+<item>Chips</item>
+<item>Lasagna</item>
+<item>Cookies</item>
+<item>Cake</item>
+<item>Muffins</item>
+<item>Cupcakes</item>
+<item>Bread</item>
+<item>Butter</item>
+<item>Salad</item>
+<item>Celery</item>
+<item>Cabbage</item>
+<item>Broccoli</item>
+<item>Cucumber</item>
+<item>Tomatoes</item>
+<item>Carrot</item>
+<item>Soup</item>
+<item>Noodles</item>
+<item>Tea</item>
+<item>Soda</item>
+<item>Water</item>
+<item>Zucchini</item>
+<item>Orange</item>
+<item>Lemon</item>
+<item>Lime</item>
+<item>Oats</item>
+<item>Cereal</item>
+<item>Milk</item>
+<item>Fried</item>
+<item>Burger</item>
+<item>Ice Cream</item>
+<item>Waffles</item>
+<item>Pancakes</item>
+<item>French Toast</item>
+<item>Ranch</item>
+<item>Macaroni</item>
+<item>Fish</item>
+<item>Sushi</item>
+<item>Lobster</item>
+<item>Calamari</item>
+<item>Escargo</item>
+<item>Frog Legs</item>
+<item>Pineapple</item>
+<item>Borchts</item>
+<item>Mille-Feuille</item>
+<item>Sio Pao</item>
+<item>Guacomole</item>
+<item>Peas</item>
+<item>Corn</item>
+<item>Turkey</item>
+<item>Ham</item>
+<item>Cheese</item>
+<item>Nachos</item>
+<item>Hot Dog</item>
+<item>Fries</item>
+<item>Milkshakes</item>
+<item>Peppers</item>
+<item>Coconuts</item>
+<item>Cocoa</item>
+<item>Watermelon</item>
+<item>Melon</item>
+<item>Beef</item>
+<item>Nuts</item>
+<item>Peanuts</item>
+<item>Cashews</item>
+<item>Coffee</item>
+<item>Toast</item>
+<item>Lamb</item>
+<item>Carrot</item>
+
+</string-array>
+</resources>

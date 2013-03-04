@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+
+		<string name="vibrate_plugin_name">Vibrate</string>
+		<string name="sms_plugin_name">Send SMS</string>
+		<string name="music_plugin_name">Play Music</string>
+		<string name="alcatel_plugin_name">Alcatel</string>
+		<string name="web_launcher_plugin_name">Launch Website</string>
+		<string name="app_launcher_plugin_name">Launch Application</string>
+		<string name="share_app_plugin_name">Share</string>
+
+		<!-- alcatel dialogs -->
+		<string name="alcatel_dialog_title">Alcatel-Lucent settings</string>
+		<string name="alcatel_mode">Action</string>
+
+		<string name="music_tips">" (press \uff06 hold to set)"</string>
+		<string name="default_ringtone_text1">Default Ringtone (</string>
+		<string name="default_ringtone_text2">)</string>
+
+		<string name="btnSaveURLText">Save URL</string>
+		<string name="weblauncherPromptText">Enter desired URL</string>
+		<string name="urlDefaultText">http://</string>
+		<string name="launchCheckBox">Launch Automatically</string>
+		<string name="urlError">Error: Invalid URL</string>
+
+		<string name="save">Save</string>
+		<string name="choose_app">Choose an application to launch</string>
+		<string name="choose">Choose Application</string>
+		<string name="app_launcher">App Launcher</string>
+		<string name="choose_share">Choose an application to share</string>
+
+		<string name="newaer_hint_message">I\'m using Newaer Proximity Platform to share this automatically!\nCheck it out at <b>www.newaer.com</b></string>
+
+		<string name="ok">OK</string>
+		<string name="cancel">Cancel</string>
+
+</resources>
