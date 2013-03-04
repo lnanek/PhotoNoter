@@ -38,14 +38,15 @@
                     dataType:'json',
                     success: function(results) {
                         console.log(results);
-                        $('#photo_details').html("Uploaded on "+results['uploadDate']+ " from " +results['latitude']+","+results['longitude']+ " side "+ results["side"]);
+                        var details ="Uploaded on "+results['uploadDate'];
 
                         if(results['latitude']!=null && results['longitude']!=null){
                         $("#map").css('width',500);
                         $("#map").css('height',400);
+                        details+= " from " +results['latitude']+","+results['longitude'];
                         drawMap(results['latitude'],results['longitude']);
                         }
-
+                        $('#photo_details').html(details);
                     }
 
                      });
