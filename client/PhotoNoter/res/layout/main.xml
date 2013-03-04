@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/buttons_panel"
@@ -25,13 +23,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="✎" />
-        
+
         <Button
             android:id="@+id/flip_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="↷" />        
+            android:text="↷" />
 
         <Button
             android:id="@+id/share_button"
@@ -46,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="✓" />
-    </LinearLayout>    
+    </LinearLayout>
 
     <ViewFlipper
         android:id="@+id/viewFlipper"
@@ -61,19 +59,19 @@
             android:id="@+id/frontView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_rounded_and_shadow"
-            android:padding="20dp" 
-            android:gravity="top"
             android:layout_margin="30dp"
-            >
+            android:background="@drawable/white_rounded_and_shadow"
+            android:gravity="top" >
+
             <ImageView
                 android:id="@+id/photo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:layout_gravity="top" 
-                android:adjustViewBounds="true"
-                
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:adjustViewBounds="true" 
+            	android:padding="20dp"
                 />
+
             <com.photonoter.view.DrawingSurface
                 android:id="@+id/drawing_surface"
                 android:layout_width="wrap_content"
@@ -85,10 +83,9 @@
             android:id="@+id/drawing_surface2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_rounded_and_shadow"
-            android:padding="20dp" 
             android:layout_margin="30dp"
-            />
+            android:background="@drawable/white_rounded_and_shadow"
+            android:padding="20dp" />
     </ViewFlipper>
 
 </RelativeLayout>

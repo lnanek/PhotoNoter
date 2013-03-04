@@ -19,16 +19,17 @@ import com.samsung.spen.lib.input.SPenLibrary;
 public class DrawingSurface extends View {
 
 	private static final String LOG_TAG = "DrawingSurface";
-	
+
 	private static final int MIN_PAINT_RADIUS = 1;
-	
+
 	private static final int MAX_PAINT_RADIUS = 20;
-	
+
 	private static final int FINGER_PAINT_RADIUS = 7;
-	
+
 	private Paint paint;
 
-	// Last circle, used to interpolate between last sensed location and current.
+	// Last circle, used to interpolate between last sensed location and
+	// current.
 	private Circle lastCircle;
 
 	private float mNextRadiusToDraw = 20;
@@ -38,12 +39,12 @@ public class DrawingSurface extends View {
 	private Bitmap mCachedDrawings;
 
 	private Matrix matrix = new Matrix();
-	
+
 	private AnnotatePhotoActivity activity;
 
 	public DrawingSurface(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		activity= (AnnotatePhotoActivity) context;
+		activity = (AnnotatePhotoActivity) context;
 		paint = new Paint();
 		paint.setColor(Color.GREEN);
 		paint.setStyle(Style.FILL);
@@ -55,33 +56,33 @@ public class DrawingSurface extends View {
 			invalidate();
 			return;
 		}
-		
+
 		mCachedDrawings = null;
 		lastCircle = null;
 		invalidate();
 	}
-	
+
 	public Bitmap getBitmap() {
 		return mCachedDrawings;
 	}
-	
+
 	public synchronized void setBitmap(final Bitmap aBitmap) {
-			if ( null != mCachedDrawings ) {
-				mCachedDrawings.recycle();
-				mCachedDrawings = null;
-			}
-	
-			
-			if ( null == aBitmap ) {
-				return;
-			}
-			
-			Bitmap bitmapResult = aBitmap.createBitmap(aBitmap.getWidth(), aBitmap.getHeight(), android.graphics.Bitmap.Config.ARGB_8888);
-	        Canvas c = new Canvas(bitmapResult);
-	        c.drawBitmap(aBitmap, 0, 0, new Paint());
-	        aBitmap.recycle();
-	        
-			mCachedDrawings = bitmapResult;
+		if (null != mCachedDrawings) {
+			mCachedDrawings.recycle();
+			mCachedDrawings = null;
+		}
+
+		if (null == aBitmap) {
+			return;
+		}
+
+		Bitmap bitmapResult = aBitmap.createBitmap(aBitmap.getWidth(),
+				aBitmap.getHeight(), android.graphics.Bitmap.Config.ARGB_8888);
+		Canvas c = new Canvas(bitmapResult);
+		c.drawBitmap(aBitmap, 0, 0, new Paint());
+		aBitmap.recycle();
+
+		mCachedDrawings = bitmapResult;
 	}
 
 	public void setRadius(int value) {
@@ -111,10 +112,10 @@ public class DrawingSurface extends View {
 		}
 
 		return penEvent.getPressure();
-	}	
-	
+	}
+
 	public void setRadiusByPercent(Float spenPressure) {
-		setRadius((int) Math.max(1, Math.round(spenPressure * 20)));		
+		setRadius((int) Math.max(1, Math.round(spenPressure * 20)));
 	}
 
 	@Override
@@ -125,56 +126,58 @@ public class DrawingSurface extends View {
 		if (null != spenPressure) {
 			Log.i(LOG_TAG, "Setting pressure by SPen: " + spenPressure);
 			setRadiusByPercent(spenPressure);
-		} else if (activity.isJajaStarted && null != activity.jajaConnection && activity.jajaConnection.getSignalValue() > 0 ) {
+		} else if (activity.isJajaStarted && null != activity.jajaConnection
+				&& activity.jajaConnection.getSignalValue() > 0) {
 			// Set by Jaja.
-		} else {				
+		} else {
 			setRadius(FINGER_PAINT_RADIUS);
 		}
 
 		if (mCachedDrawings == null) {
 
-			mCachedDrawings = Bitmap.createBitmap(this.getWidth(), this.getHeight(),
-					android.graphics.Bitmap.Config.ARGB_8888);
+			mCachedDrawings = Bitmap.createBitmap(this.getWidth(),
+					this.getHeight(), android.graphics.Bitmap.Config.ARGB_8888);
 		}
 
-			float currentRadius = mNextRadiusToDraw;
-			if (currentRadius <= 0)
-				return true;
-			;
-			int newX = (int) event.getX();
-			int newY = (int) event.getY();
-			Canvas canvas = new Canvas(mCachedDrawings);
-			if (lastCircle != null) {
-				int distance = getDistance(newX, newY, lastCircle.getX(),
-						lastCircle.getY());
+		float currentRadius = mNextRadiusToDraw;
+		if (currentRadius <= 0)
+			return true;
+		;
+		int newX = (int) event.getX();
+		int newY = (int) event.getY();
+		Canvas canvas = new Canvas(mCachedDrawings);
+		if (lastCircle != null) {
+			int distance = getDistance(newX, newY, lastCircle.getX(),
+					lastCircle.getY());
 
-				if (distance > 0 && currentRadius > 0) {
+			if (distance > 0 && currentRadius > 0) {
 
-					for (int i = 0; i <= distance; i++) {
-						float ratio = 1.0f * i / distance;
-						int x = (int) (newX * ratio + (1 - ratio)
-								* lastCircle.getX());
-						int y = (int) (newY * ratio + (1 - ratio)
-								* lastCircle.getY());
-						canvas.drawCircle(x, y, (mNextRadiusToDraw * i + mLastRadiusDrawn
-								* (distance - i))
-								/ distance, paint);
+				for (int i = 0; i <= distance; i++) {
+					float ratio = 1.0f * i / distance;
+					int x = (int) (newX * ratio + (1 - ratio)
+							* lastCircle.getX());
+					int y = (int) (newY * ratio + (1 - ratio)
+							* lastCircle.getY());
+					canvas.drawCircle(x, y,
+							(mNextRadiusToDraw * i + mLastRadiusDrawn
+									* (distance - i))
+									/ distance, paint);
 
-					}
-					mLastRadiusDrawn = mNextRadiusToDraw;
 				}
+				mLastRadiusDrawn = mNextRadiusToDraw;
 			}
+		}
 
-			Circle circle = new Circle();
-			circle.setX((int) event.getX());
-			circle.setY((int) event.getY());
-			circle.setRadius(currentRadius);
+		Circle circle = new Circle();
+		circle.setX((int) event.getX());
+		circle.setY((int) event.getY());
+		circle.setRadius(currentRadius);
 
-			if (event.getAction() != MotionEvent.ACTION_UP) {
-				lastCircle = circle;
-			} else {
-				lastCircle = null;
-			}
+		if (event.getAction() != MotionEvent.ACTION_UP) {
+			lastCircle = circle;
+		} else {
+			lastCircle = null;
+		}
 
 		invalidate();
 		return true;
@@ -184,7 +187,7 @@ public class DrawingSurface extends View {
 	@Override
 	protected synchronized void onDraw(Canvas canvas) {
 		if (mCachedDrawings != null) {
-				canvas.drawBitmap(mCachedDrawings, matrix, paint);
+			canvas.drawBitmap(mCachedDrawings, matrix, paint);
 		}
 	}
 

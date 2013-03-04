@@ -127,8 +127,10 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 				BitmapUtil.savePing(photoBackDrawingSurface.getBitmap(), BitmapUtil.getBackPingPath(AnnotatePhotoActivity.this));
 
 				Bitmap backBitmap = drawBackBitmap();
-				BitmapUtil.saveJpeg(backBitmap, BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this));
-				backBitmap.recycle();
+				if ( null != backBitmap ) {
+					BitmapUtil.saveJpeg(backBitmap, BitmapUtil.getBackImagePath(AnnotatePhotoActivity.this));
+					backBitmap.recycle();
+				}
 				
 				final Bitmap frontAnnotated = drawToBitmap();		
 				BitmapUtil.createNonmediaFile();
@@ -403,6 +405,9 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
     }
     
     public Bitmap drawBackBitmap() {
+    	if ( 0 == photoBackDrawingSurface.getWidth() || 0 == photoBackDrawingSurface.getHeight() ) {
+    		return null;
+    	}
     	
     	final Bitmap bitmap = Bitmap.createBitmap(
     			photoBackDrawingSurface.getWidth(), 
@@ -413,7 +418,7 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
         photoBackDrawingSurface.setBackgroundDrawable(null);
         photoBackDrawingSurface.setBackgroundColor(Color.WHITE);
         photoBackDrawingSurface.draw(canvas);
-        photoBackDrawingSurface.setBackgroundDrawable(null);
+        photoBackDrawingSurface.setBackgroundResource(R.drawable.white_rounded_and_shadow);
         photoBackDrawingSurface.setBackgroundColor(Color.TRANSPARENT);
         return bitmap;
     }
