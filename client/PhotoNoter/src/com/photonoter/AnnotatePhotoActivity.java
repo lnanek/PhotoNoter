@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -33,6 +34,8 @@ import com.photonoter.imaging.MediaStoreUtil;
 import com.photonoter.networking.ImageUpload;
 import com.photonoter.networking.ImageUpload.OnImageUploadListener;
 import com.photonoter.view.DrawingSurface;
+import com.samsung.spen.lib.input.SPenEvent;
+import com.samsung.spen.lib.input.SPenLibrary;
 import com.tekle.oss.android.animation.AnimationFactory;
 import com.tekle.oss.android.animation.AnimationFactory.FlipDirection;
 
@@ -190,6 +193,13 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 		}
 		
 		Button clearButton = (Button) findViewById(R.id.clear_button);
+		clearButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				clear();
+			}
+		});
 		
 		photoFrontDrawingSurface.setRadius(0);
 		photoBackDrawingSurface.setRadius(0);
@@ -219,18 +229,6 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 				//tv.setText(text);
 			}
 		};
-
-		clearButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if ( showingFront ) {
-					photoFrontDrawingSurface.clear();
-				} else {
-					photoBackDrawingSurface.clear();
-				}
-			}
-		});
 
 	}
 	
@@ -414,6 +412,37 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
         return bitmap;
     }
     
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+    	Log.i(LOG_TAG, "dispatchTouchEvent"); //$NON-NLS-1$
+
+		if ( isPrimaryPenButton(this, getWindow().getDecorView(), ev)
+				|| isEraser(this, getWindow().getDecorView(), ev)
+				) {
+			clear();
+			return true;
+		}
+		return super.dispatchTouchEvent(ev);
+	}
+
+	public static final boolean isPrimaryPenButton(final Context aContext, final View aView, final MotionEvent aEvent) {
+		if ( null != aView ) {
+			aView.getParent().requestDisallowInterceptTouchEvent(true);
+		}
+		
+		final SPenEvent penEvent = SPenLibrary.getEvent(aEvent);
+		return penEvent.isSideButtonPressed();
+	}
+	
+	public static final boolean isEraser(final Context aContext, final View aView, final MotionEvent aEvent) {
+		if ( null != aView ) {
+			aView.getParent().requestDisallowInterceptTouchEvent(true);
+		}
+		
+		final SPenEvent penEvent = SPenLibrary.getEvent(aEvent);
+		return penEvent.isEraserPen();
+	}    
+    
     private File getBackUploadFile() {
 		BitmapUtil.copyExif(imagePath, BitmapUtil.getBackImagePath(this), null, null);
 		
@@ -432,5 +461,13 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 		finish();
 
 		
+	}
+
+	private void clear() {
+		if ( showingFront ) {
+			photoFrontDrawingSurface.clear();
+		} else {
+			photoBackDrawingSurface.clear();
+		}
 	}
 }

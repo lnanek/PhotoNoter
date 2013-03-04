@@ -111,7 +111,7 @@ public class DrawingSurface extends View {
 		}
 
 		return penEvent.getPressure();
-	}
+	}	
 	
 	public void setRadiusByPercent(Float spenPressure) {
 		setRadius((int) Math.max(1, Math.round(spenPressure * 20)));		
