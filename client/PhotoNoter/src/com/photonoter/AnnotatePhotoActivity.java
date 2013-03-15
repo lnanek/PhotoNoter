@@ -483,6 +483,8 @@ public class AnnotatePhotoActivity extends Activity implements OnImageUploadList
 	}
 
 	private void showColorDialog() {
-		new ColorSelectorDialog(AnnotatePhotoActivity.this, colorListener, photoFrontDrawingSurface.getColor()).show();
+		new ColorSelectorDialog(AnnotatePhotoActivity.this, 
+				colorListener, 
+				photoFrontDrawingSurface.getColor()).show();
 	}
 }

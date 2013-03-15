@@ -21,9 +21,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import co.spark.jajasdk.ConnectionStartedException;
+import co.spark.jajasdk.JajaControlConnection;
+import co.spark.jajasdk.JajaControlListener;
 
 import com.htc.pen.PenEvent;
 import com.phonegap.api.Plugin;
@@ -91,6 +96,12 @@ public class PenPlugin extends Plugin {
 	 */
 	public static final String START_PAINTINT_ACTIVITY_ACTION = "startPaintingActivity";
 
+    public boolean isJajaStarted;
+
+	public JajaControlConnection jajaConnection;
+
+	private Handler handler;
+    
 	/*
 	 * (non-Javadoc)
 	 * @see com.phonegap.api.Plugin#execute(java.lang.String,
@@ -123,30 +134,23 @@ public class PenPlugin extends Plugin {
 	            	ctx.startActivity(intent);			
 				} else if (isRegisterAction) {
 					
+					startJaja(callbackId);
+					
 					final View.OnTouchListener penListener = new View.OnTouchListener() {
 						@Override
 						public boolean onTouch(View v, MotionEvent event) {
+							final boolean isPenEvent = PenEvent.isPenEvent(event);
+							final int action = PenEvent.PenButton(event);
+							final boolean isPenButton1 = (PenEvent.PEN_BUTTON1 == action);
+							final boolean isPenButton2 = (PenEvent.PEN_BUTTON2 == action);
+							final float penPressure = event.getPressure();
 											
-							JSONObject penData = new JSONObject();							
-							try {
-								penData.put("isPenEvent", PenEvent.isPenEvent(event));
-
-								final int action = PenEvent.PenButton(event);
-								
-								penData.put("isPenButton1", PenEvent.PEN_BUTTON1 == action);
-								penData.put("isPenButton2", PenEvent.PEN_BUTTON2 == action);
-								penData.put("penPressure", event.getPressure());
-
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-							
-							 PluginResult result = new PluginResult(PluginResult.Status.OK, penData); 
-							    result.setKeepCallback(true); 
-							    success(result, callbackId); 
+							sendPenEventToJavascript(callbackId, isPenEvent,
+									isPenButton1, isPenButton2, penPressure); 
 							
 							return false;
 						}
+
 					};
 					
 					webView.setOnTouchListener(penListener);
@@ -167,6 +171,115 @@ public class PenPlugin extends Plugin {
 
 		return result;
 
+	}
+	
+	private void sendUpdate() {
+		handler.sendMessage(new Message());
+	}
+	
+	private void startJaja(final String callbackId) {
+		Log.i(LOG_TAG, "startJaja()");
+		if ( isJajaStarted ) {
+			return;
+		}
+		isJajaStarted = true;
+		
+		
+
+		handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				
+				String text = "Pressure: "
+						+ (jajaConnection.isSignalAvailable() ? Double.toString(jajaConnection.getSignalValue()) : "---") 
+						+ "\nFirst button:"
+						+ Boolean.toString(jajaConnection.isFirstButtonPressed())
+						+ "\nSecond button:"
+						+ Boolean.toString(jajaConnection.isSecondButtonPressed());				
+				Log.i("PenPlugin JaJa", text);
+				
+				if ( !jajaConnection.isSignalAvailable() ) {
+					sendPenEventToJavascript(callbackId, false,
+							false, false, 0f); 		
+					return;
+				}
+				
+				final boolean isPenButton1 = jajaConnection.isFirstButtonPressed();
+				final boolean isPenButton2 = jajaConnection.isSecondButtonPressed();
+				final float penPressure = (float) jajaConnection.getSignalValue();
+				final boolean isPenEvent = isPenButton1 || isPenButton2 || penPressure > 0;
+								
+				sendPenEventToJavascript(callbackId, isPenEvent,
+						isPenButton1, isPenButton2, penPressure); 
+
+			}
+		};		
+		
+		
+		jajaConnection = new JajaControlConnection();
+		jajaConnection.setJajaControlListener(new JajaControlListener() {
+
+			@Override
+			public void signalValueChanged(double value) {
+				
+				sendUpdate();
+			}
+
+			@Override
+			public void secondButtonValueChanged(boolean isPressed) {
+				Log.i("UI","secondButtonValueChanged: "+isPressed);
+				sendUpdate();
+			}
+
+			@Override
+			public void firstButtonValueChanged(boolean isPressed) {
+				Log.i("UI","firstButtonValueChanged: "+isPressed);
+				sendUpdate();
+			}
+
+			@Override
+			public void jajaControlSignalLost() {
+				Log.e("UI","jajaControlSignalLost");
+				sendUpdate();						
+			}
+
+			@Override
+			public void jajaControlSignalRestored() {
+				Log.e("UI","jajaControlSignalRestored");						
+			}
+
+			@Override
+			public void jajaControlError() {
+				Log.e("UI","jajaControlError");						
+			}
+		});
+		try {
+			jajaConnection.start();
+		} catch (ConnectionStartedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void sendPenEventToJavascript(
+			final String callbackId,
+			final boolean isPenEvent,
+			final boolean isPenButton1,
+			final boolean isPenButton2,
+			final float penPressure) {
+		JSONObject penData = new JSONObject();							
+		try {
+			penData.put("isPenEvent", isPenEvent);
+			penData.put("isPenButton1", isPenButton1);
+			penData.put("isPenButton2", isPenButton2);
+			penData.put("penPressure", penPressure);
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		 PluginResult result = new PluginResult(PluginResult.Status.OK, penData); 
+		    result.setKeepCallback(true); 
+		    success(result, callbackId);
 	}
 
 }
