@@ -3,80 +3,40 @@
 	<head>
 		<title>HtcScribePenAndPhoneGap</title>
 	</head>
-	<body id = "indexBody"
+	<body 
+		id="canvasBody"
 		>
-	
-		<h2 style = " text-align: center ">
-			HTC Scribe Pen and PhoneGap / Capture Sample
+
+		<h2 style = " text-align: center; ">
+			Pen Data in HTML5 Canvas
 		</h2>
 		
 		<br />
 		
 		<p>
-			1) Read Scribe data via JavaScript to enhance your apps! 
+			Have fun and draw something in the area below!
 		</p>
 		
-		<form 
-			style = " text-align: center "
+		<ul id = "penInstructions"  >
+			<li>Pen pressure controls thickness.</li>
+			<li>First button while drawing changes color, second erases.</li>
+			<li>Finger or pen back draw thick black lines.</li>
+		</ul>
+			
+		<div
+			style=" border: 5px solid #00ff00; "	
 			>
-			<input 
-				id = "canvasSubmit"
-				type = "submit" 
-				value = "Start HTML5 Canvas Demo" 
-				/> 
-		</form>
+			<canvas 
+				id="drawingSurface" 
+				width="300" 
+				height="300" 
+				>
+			</canvas>
+		</div>
 		
-		<br />
-
-		<p>
-			2) Use our powerful Android HTC PaintingView and PenMenu controls:
-		</p>
-		
-		<form 
-			style = " text-align: center "
-			>
-			<input 
-				id = "paintingViewSubmit"
-				type = "submit" 
-				value = "Start PaintingView Demo" 
-				disabled="disabled"
-				/> 
-		</form>
-
-		<p 
-			id  = "paintingViewNotSupportedMessage"
-			style = " color: green; display: none "
-			>
-			Run on a tablet with HTC Scribe to try this cool extra!
-		</p>
-		
-		<br />
-
-		<p>
-			3) Use our Android PenEvent API for full control:
-		</p>
-		
-		<form 
-			style = " text-align: center "
-			>
-			<input 
-				id = "eventSubmit"
-				type = "submit" 
-				value = "Start PenEvent Demo" 
-				disabled="disabled"
-				/> 
-		</form>
-
-		<p 
-			id = "penEventNotSupportedMessage"
-			style = " color: green; display: none "
-			>
-			Run on a tablet with HTC Scribe to try this cool extra!
-		</p>
-		
-		<script type = "text/javascript" src = "phonegap-1.3.0.js"></script>
-		<script type = "text/javascript" src = "penPlugin.js"></script>
-		<script type = "text/javascript" src = "index.js"></script>
+		<script type="text/javascript" src="phonegap-1.3.0.js"></script>
+		<script type="text/javascript" src="penPlugin.js"></script>
+		<script type="text/javascript" src="canvas.js"></script>
      </body>
 
 </html>

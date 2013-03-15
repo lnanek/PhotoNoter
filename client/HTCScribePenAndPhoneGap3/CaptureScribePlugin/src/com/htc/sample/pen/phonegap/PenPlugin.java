@@ -133,7 +133,7 @@ public class PenPlugin extends Plugin {
 					Intent intent = new Intent(ctx, DrawSignatureActivity.class);
 	            	ctx.startActivity(intent);			
 				} else if (isRegisterAction) {
-					
+
 					startJaja(callbackId);
 					
 					final View.OnTouchListener penListener = new View.OnTouchListener() {
