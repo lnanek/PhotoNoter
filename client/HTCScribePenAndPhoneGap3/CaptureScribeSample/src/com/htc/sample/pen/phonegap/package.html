@@ -1,0 +1,122 @@
+<html>
+	<head>
+		<title>HTC Scribe Pen and Phone Gap / Capture</title>
+	</head>
+	<body>
+
+<h3><a name="htcscribepenandphonegap"></a>HTC Scribe Pen and Phone Gap / Capture</h3>
+
+<p>
+This sample code demonstrates using the HTC Scribe pen with the Phone Gap, now called Capture.
+Capture is a cross platform app development framework where developers write their apps in HTML and JavaScript.
+In this sample a plugin is used to provide Java code that runs only when the app is being run on Android devices.
+JavaScript in the Capture app can call the plugin to perform these functions:
+</p>
+
+<ol>
+<li>Determine if the device being run on supports the HTC Scribe pen</li>
+<li>Check if a recent JavaScript touchmove event was due to a pen, and if so the buttons that were held down and pressure used</li>
+<li>Launch native Java code to display current pen data</li>
+<li>Launch native Java code to show a painting surface and radial pen menu with many options</li>
+</ol>
+
+<p>
+2) is useful for augmenting an existing Capture app to use pen input data as a shortcut. 
+For example, pressure of the pen can be used to determine the thickness of a line.
+3) uses the OpenSense SDK's low level pen event API to read data in a Java program.
+This approach is the most powerful, because you have access to all Android functionality, 
+and determine the response to every piece of data sent from the pen.
+4) Uses components the SDK provides, already written, for rich painting capability using the 
+pen. It allows implementing painting, mark up, and signature applications quickly.
+</p>
+
+<p>
+The CaptureScribePlugin Eclipse project in the ZIP file is a PhoneGap plugin that provides JavaScript APIs for the above functions.
+The CaptureScribeSample Eclipse project is an example PhoneGap app that uses the above plugin.
+The first button in the app starts an HTML5 Canvas element that uses JavaScript to allow painting.
+It reads in HTC Scribe pen data when available to augment the drawing experience, 
+allowing the first button on the pen to change the color of the line being drawn, for example.
+The next two buttons launch native Java code designed to run only on devices with the OpenSense SDK.
+When run on a different device, like a phone, the buttons are disabled by JavaScript code that checks
+for HTC Scribe pen support using the plugin.
+</p>
+
+<p>
+The application needs to reference the plugin in its res/xml/plugins.xml with a line like this:
+</p>
+
+<pre>
+	&lt;plugin name="PenPlugin" value="com.htc.sample.pen.phonegap.PenPlugin"/&gt;
+</pre>
+
+<p>
+The application can use provided methods from JavaScript like this:
+</p>
+
+<pre>
+document.addEventListener('deviceready', function() {
+
+	var btn = document.getElementById("start-pen-capture");
+
+	btn.onclick = function() {
+		window.plugins.penPlugin.startPenCaptureActivity(
+				function(r){printResult(r)},
+				function(e){console.log(e)}
+		);
+	}
+
+	btn.disabled=false;
+
+}, true);
+</pre>
+
+<p>
+Here is what the sample app looks like when started on a tablet with HTC Scribe pen support:
+</p>
+
+<p>
+<img src="../../../../../../doc/phonegap_screenshot_01_tablet_start.jpg" style="border: 2px solid black;" />
+</p>
+
+<p>
+Here is the HTML5 Canvas sample with line size, color, and erasure capability using the HTC Scribe pen on a tablet:
+</p>
+
+<p>
+<img src="../../../../../../doc/phonegap_screenshot_02_tablet_canvas.jpg" style="border: 2px solid black;" />
+</p>
+
+<p>
+Here is the HTC Scribe pen painting surface sample:
+</p>
+
+<p>
+<img src="../../../../../../doc/phonegap_screenshot_03_tablet_paint.jpg" style="border: 2px solid black;" />
+</p>
+
+<p>
+Here is the HTC Scribe pen event readout sample:
+</p>
+
+<p>
+<img src="../../../../../../doc/phonegap_screenshot_04_tablet_event.jpg" style="border: 2px solid black;" />
+</p>
+
+<p>
+Here is what the sample app looks like when started on a phone:
+</p>
+
+<p>
+<img src="../../../../../../doc/phonegap_screenshot_05_phone_start.jpg" style="border: 2px solid black;" />
+</p>
+
+<p>
+Here is the HTML5 Canvas sample on a phone:
+</p>
+
+<p>
+<img src="../../../../../../doc/phonegap_screenshot_06_phone_canvas.jpg" style="border: 2px solid black;" />
+</p>
+
+	</body>
+</html>

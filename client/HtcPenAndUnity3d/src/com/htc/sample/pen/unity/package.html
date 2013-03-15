@@ -1,0 +1,69 @@
+<html>
+	<head>
+		<title>HTC Pen and Unity 3D</title>
+	</head>
+	<body>
+
+<p>
+This sample code demonstrates using the HTC Scribe pen with the Unity 3D game engine.
+The Unity 3D game engine is a cross platform game engine, enabling quick development
+of high quality, cross platform games. The engine supports running Android specific
+code via a plugin mechanism. This sample code is a plugin that acts on the HTC Scribe
+pen being pressed to the screen with the first button or second button pressed. The
+first button is used to trigger the same action as the menu button on the device. The
+second button is used to trigger the same action as the back button on the device.
+</p>
+
+<p>
+The plugin is installed by placing the HtcPenAndUnity3d.jar and AndroidManifest.xml
+file from the root directory of this project into the Plugins/Android directory in
+the Unity project:
+</p>
+
+<p>
+<img src="../../../../../../doc/HtcPenAndUnity3d_installation.png" style="border: 2px solid black;" />
+</p>
+
+<p>
+The AndroidManifest.xml file specifies that Unity should use an extension to the
+UnityPlayerActivity class that it usually uses to run the game called
+PenUnityActivity, PenNativeUnityActivity is also available to extend UnityPlayerNativeActivity:
+</p>
+
+<pre>
+<font color="P1"><font color="#000000">        </font><font color="#008080">&lt;</font><font color="#3f7f7f">activity</font> <font color="#7f007f">android:name</font><font color="#000000">=</font><font color="#2a00ff">"com.htc.sample.pen.unity.HtcPenAndUnity3dActivity"</font></font>
+<font color="P1">                  <font color="#7f007f">android:label</font><font color="#000000">=</font><font color="#2a00ff">"@string/app_name"</font></font>
+<font color="P1">                  <font color="#7f007f">android:configChanges</font><font color="#000000">=</font><font color="#2a00ff">"keyboard|keyboardHidden|orientation"</font><font color="#008080">&gt;</font></font>
+<font color="P1"><font color="#000000">            </font><font color="#008080">&lt;</font><font color="#3f7f7f">intent-filter</font><font color="#008080">&gt;</font></font>
+<font color="P1"><font color="#000000">                </font><font color="#008080">&lt;</font><font color="#3f7f7f">action</font> <font color="#7f007f">android:name</font><font color="#000000">=</font><font color="#2a00ff">"android.intent.action.MAIN"</font> <font color="#008080">/&gt;</font></font>
+<font color="P1"><font color="#000000">                </font><font color="#008080">&lt;</font><font color="#3f7f7f">category</font> <font color="#7f007f">android:name</font><font color="#000000">=</font><font color="#2a00ff">"android.intent.category.LAUNCHER"</font> <font color="#008080">/&gt;</font></font>
+<font color="P1"><font color="#000000">            </font><font color="#008080">&lt;/</font><font color="#3f7f7f">intent-filter</font><font color="#008080">&gt;</font></font>
+<font color="P2"><font color="#000000">        </font><font color="#008080">&lt;/</font><font color="#3f7f7f">activity</font><font color="#008080">&gt;</font></font>
+</pre>
+
+<p>
+This extension calls classes to detect the presence of pen events and translate
+them into other events:
+</p>
+
+<pre>
+<font color="P1"><font color="#000000">    </font><font color="#646464">@Override</font></font>
+<font color="P1"><font color="#000000">    </font><font color="#7f0055">public</font><font color="#000000"> </font><font color="#7f0055">boolean</font><font color="#000000"> dispatchTouchEvent(MotionEvent ev) {</font></font>
+<font color="P1"><font color="#000000">        </font><font color="#3f7f5f">// If the current device supports the pen feature...</font></font>
+<font color="P1"><font color="#000000">        </font><font color="#7f0055">if</font><font color="#000000"> ( PenFeatureDetector.</font><font color="#000000">hasPenEvent</font><font color="#000000">(</font><font color="#7f0055">this</font><font color="#000000">) ) {</font></font>
+<font color="P1"><font color="#000000">            </font><font color="#3f7f5f">// Then translate it or record its value for scripts to access.</font></font>
+<font color="P1"><font color="#000000">            <font color="#7f0055">return</font> PenLatch.INSTANCE.</font><font color="#000000">dispatchTouchEvent</font><font color="#000000">(</font><font color="#7f0055">this</font><font color="#000000">, ev);</font></font>
+<font color="#000000">        }</font>
+<font color="P1"><font color="#000000">        </font><font color="#3f7f5f">// Otherwise, pass events on.</font></font>
+<font color="P1"><font color="#000000">        </font><font color="#7f0055">return</font><font color="#000000"> </font><font color="#7f0055">super</font><font color="#000000">.dispatchTouchEvent(ev);</font></font>
+<font color="P2"><font color="#000000">    }</font></font>
+</pre>
+
+<p>
+To alter the behavior, import the HtcPenAndUnity3d project into Eclipse, change the Java code,
+and export the compiled classes into a new HtcPenAndUnity3d.jar to be copied into the Unity
+project.
+</p>
+
+	</body>
+</html>

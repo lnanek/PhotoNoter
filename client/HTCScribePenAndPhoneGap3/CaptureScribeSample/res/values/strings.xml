@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HtcScribePenAndPhoneGap</string>
+
+    <string name="sign_here">Sign Here:</string> 
+    <string name="submit">Show Data</string> 
+    <string name="saveImage">Save Image</string> 
+    <string name="uploadImage">Upload Image</string> 
+
+    <string name="showPressure">Show Pressure</string> 
+    <string name="showVelocity">Show Velocity</string> 
+</resources>

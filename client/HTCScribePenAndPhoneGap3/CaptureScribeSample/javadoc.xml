@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" author="true" classpath="libs/CaptureScribePlugin.jar;libs/phonegap-1.3.0.jar" destdir="doc" doctitle="HTC Scribe Pen and Phone Gap / Capture " nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" source="1.6" sourcefiles="src/com/htc/sample/pen/phonegap/App.java" sourcepath="gen;src" splitindex="true" use="true" version="true">
+            <link href="http://developer.android.com/reference/"/>
+            <link href="http://www.htcdev.com/api/pen_api/reference/"/>
+        </javadoc>
+    </target>
+</project>

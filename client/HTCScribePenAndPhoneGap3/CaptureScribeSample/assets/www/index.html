@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>HtcScribePenAndPhoneGap</title>
+	</head>
+	<body id = "indexBody"
+		>
+	
+		<h2 style = " text-align: center ">
+			HTC Scribe Pen and PhoneGap / Capture Sample
+		</h2>
+		
+		<br />
+		
+		<p>
+			1) Read Scribe data via JavaScript to enhance your apps! 
+		</p>
+		
+		<form 
+			style = " text-align: center "
+			>
+			<input 
+				id = "canvasSubmit"
+				type = "submit" 
+				value = "Start HTML5 Canvas Demo" 
+				/> 
+		</form>
+		
+		<br />
+
+		<p>
+			2) Use our powerful Android HTC PaintingView and PenMenu controls:
+		</p>
+		
+		<form 
+			style = " text-align: center "
+			>
+			<input 
+				id = "paintingViewSubmit"
+				type = "submit" 
+				value = "Start PaintingView Demo" 
+				disabled="disabled"
+				/> 
+		</form>
+
+		<p 
+			id  = "paintingViewNotSupportedMessage"
+			style = " color: green; display: none "
+			>
+			Run on a tablet with HTC Scribe to try this cool extra!
+		</p>
+		
+		<br />
+
+		<p>
+			3) Use our Android PenEvent API for full control:
+		</p>
+		
+		<form 
+			style = " text-align: center "
+			>
+			<input 
+				id = "eventSubmit"
+				type = "submit" 
+				value = "Start PenEvent Demo" 
+				disabled="disabled"
+				/> 
+		</form>
+
+		<p 
+			id = "penEventNotSupportedMessage"
+			style = " color: green; display: none "
+			>
+			Run on a tablet with HTC Scribe to try this cool extra!
+		</p>
+		
+		<script type = "text/javascript" src = "phonegap-1.3.0.js"></script>
+		<script type = "text/javascript" src = "penPlugin.js"></script>
+		<script type = "text/javascript" src = "index.js"></script>
+     </body>
+
+</html>
